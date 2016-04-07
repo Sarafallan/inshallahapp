@@ -1,4 +1,43 @@
-h1 {
+body {
+  margin: 0;
   background-color: #ffe082;
+  box-sizing: border-box;
+  font-size: 45px;
+}
+
+h1, p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.main-content {
   color: #e84B0C;
+  text-align: center;
+}
+
+.login-top {
+  padding: 2em;
+}
+
+.screenshot-container {
+  height: 15em;
+  width: 15em;
+  background-color: white;
+  margin: 0 auto 2em auto;
+}
+
+.about-us {
+  background-color: #ffca28;
+  padding: 2em;
+}
+
+/*Buttons*/
+
+.login-button {
+  background-color: #e65100;
+  border: none;
+  border-radius: 2px;
+  padding: 0.7em;
+  color: white;
+  font-size: 1em;
 }

@@ -33,11 +33,12 @@ h1, p {
 
 /*Buttons*/
 
-.login-button {
+.login-button, .contact-button {
   background-color: #e65100;
   border: none;
   border-radius: 2px;
-  padding: 0.7em;
   color: white;
+  cursor: pointer;
   font-size: 1em;
+  padding: 0.7em;
 }

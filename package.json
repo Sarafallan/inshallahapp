@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/katpas/inshallahapp#readme",
   "dependencies": {
+    "firebase": "^2.4.2",
     "hapi": "^13.3.0",
     "inert": "^3.2.0",
     "nodemon": "^1.9.1",

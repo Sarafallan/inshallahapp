@@ -9,19 +9,17 @@
 </head>
 <body>
 
-<div data-role="page" id="signup">
+<!-- SIGNUP PAGE 1 -->
+<div data-role="page" id="signup-1">
   <div data-role="header" class="header">
     <h1>Sign Up</h1>
   </div>
-
   <div data-role="content" class="signup">
     <div class="translation greeting">
       <p>Hi <span id="first-name"></span>, What do you need help with?</p>
       <p>بلا جنوب الواقعة واندونيسيا،, مكن</p>
     </div>
-
     <form id="">
-
       <div class="help ui-grid-a">
         <div class="ui-block-a">
           <div class="translation">
@@ -37,10 +35,8 @@
           </select>
         </div>
       </div>
-
       <div class="skill-box"></div>
-
-      <div class="location ui-grid-a">
+      <div class="location">
         <div class="ui-block-a">
           <div class="translation">
             <p>In...</p>
@@ -54,11 +50,98 @@
           </select>
         </div>
       </div>
-
-      <button>Next</button>
+      <div class="next">
+        <a href="#signup-2"><button>Next</button></a>
+      </div>
     </form>
   </div>
 </div>
+
+<!-- SIGNUP PAGE 2 -->
+<div data-role="page" id="signup-2">
+  <div data-role="header" class="header">
+    <h1>Sign Up</h1>
+  </div>
+  <div data-role="content" class="signup">
+    <div class="translation greeting">
+      <p>And what can you help with?</p>
+      <p>بلا جنوب الواقعة واندونيسيا،, مكن</p>
+    </div>
+    <form id="">
+      <div class="help ui-grid-a">
+        <div class="ui-block-a">
+          <div class="translation">
+            <p>I can help with...</p>
+            <p>بلا جنوب الواقعة وان</p>
+          </div>
+        </div>
+        <div class="ui-block-b">
+          <select>
+            <option>Law / بلا</option>
+            <option>Advice / بلا</option>
+            <option>Asylum / بلا</option>
+          </select>
+        </div>
+      </div>
+      <div class="skill-box"></div>
+      <div class="location">
+        <div class="ui-block-a">
+          <div class="translation">
+            <p>In...</p>
+            <p>بلا </p>
+          </div>
+        </div>
+        <div class="ui-block-b">
+          <select>
+            <option>France / بلا</option>
+            <option>UK / بلا</option>
+          </select>
+        </div>
+      </div>
+      <div class="next">
+        <a href="#signup-3"><button>Next</button></a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- SIGNUP PAGE 3 -->
+<div data-role="page" id="signup-3">
+  <div data-role="header" class="header">
+    <h1>Sign Up</h1>
+  </div>
+  <div data-role="content" class="signup">
+    <div class="share-skills">
+      <div class="translation">
+        <p>Share your skills</p>
+        <p>الواقعة وان</p>
+      </div>
+      <textarea></textarea>
+    </div>
+    <div class="share-story">
+      <div class="translation">
+        <p>Share your story</p>
+        <p>الواقعة وان</p>
+      </div>
+      <textarea></textarea>
+    </div>
+    <div class="phone">
+      <div class="translation">
+        <p>Phone Number</p>
+        <p>الواقعوان</p>
+      </div>
+      <input type="tel"/>
+      <div class="translation">
+        <p class="disclaimer">We will use this to connect you with others</p>
+        <p class="disclaimer">الواقعة وانالواقعة وان</p>
+      </div>
+    </div>
+    <div class="save">
+      <a href="#signup-3"><button class="ui-btn-inline">Save</button></a>
+    </div>
+  </div>
+</div>
+
 
 </body>
 </html>

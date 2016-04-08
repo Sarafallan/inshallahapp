@@ -12,7 +12,23 @@ document.getElementById("login-button").addEventListener('click', function(){
       }
     } else if (authData) {
       console.log('authData',authData);
-      // user authenticated with Firebase
+      var request = new XMLHttpRequest();
+      request.open('POST', '/login');
+      request.send(JSON.stringify(authData));
+      request.onreadystatechange = function(){
+        if (request.readyState === 4) {
+          if (request.status === 200) {
+            var response = JSON.parse(request.responseText);
+            if (response.userSetupComplete){
+              window.location.href = '/search';
+            } else {
+              window.location.href = '/setup';
+            }
+          } else {
+            console.log(request.status);
+          }
+        }
+      }
     }
   });
 })

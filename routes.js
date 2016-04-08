@@ -1,3 +1,5 @@
+var handlers = require('./handlers.js');
+
 var routes = [
   {
     method: 'GET',
@@ -14,15 +16,17 @@ var routes = [
     },
   },
   {
+    method: 'POST',
+    path: '/login',
+    handler: handlers.login
+  },
+  {
     method: 'GET',
-    path: '/firebase',
+    path: '/setup',
     handler: function(req, reply){
-      var Firebase = require('firebase');
-      var myRootRef = new Firebase('https://blazing-torch-7074.firebaseio.com');
-      myRootRef.set({one: {two: 'three'}, two: 'two'});
-      reply('thanks');
+      reply.file(__dirname + '/index.html');
     }
-  }
+  },
 ];
 
 module.exports = routes;

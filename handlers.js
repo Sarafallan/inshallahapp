@@ -11,7 +11,7 @@ module.exports = {
     console.log('our token', token);
     user.authWithCustomToken(token, function(error, authData) {
       if (error) {
-        console.log('error');
+        console.log(error);
       } else {
         console.log('authData');
       }

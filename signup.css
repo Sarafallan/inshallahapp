@@ -1,0 +1,46 @@
+html {
+  font-size: 20px;
+}
+
+.signup {
+  padding-left: 2em;
+  padding-right: 2em;
+}
+
+.help > * {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.location, .greeting, .skill-box {
+  margin-bottom: 2em;
+}
+
+.skill-box {
+  width: 80%;
+  border: solid 1px;
+  height: 5em;
+  margin: auto;
+}
+
+.translation > p:first-child {
+  margin-bottom: 0;
+}
+
+.translation > p:last-child {
+  margin-top: 0;
+  margin-bottom: 0.5em;
+}
+
+.ui-btn-corner-all {
+  border-radius: 0.4em;
+  padding: 0.1em;
+}
+
+.header h1 {
+  text-align: left;
+}
+
+.skill-box {
+  margin-bottom: 2em;
+}

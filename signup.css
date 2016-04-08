@@ -16,6 +16,14 @@ html {
   margin-bottom: 2em;
 }
 
+.location p {
+  margin-right: 2em;
+}
+
+.location > * {
+  display: inline-block;
+}
+
 .skill-box {
   width: 80%;
   border: solid 1px;
@@ -43,4 +51,15 @@ html {
 
 .skill-box {
   margin-bottom: 2em;
+}
+
+.save, .next {
+  position: absolute;
+  width: 40%;
+  bottom: 4.5em;
+  right: 1em;
+}
+
+.disclaimer {
+  font-size: 0.75em;
 }

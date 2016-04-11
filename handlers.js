@@ -13,7 +13,7 @@ module.exports = {
       if (error) {
         console.log(error);
       } else {
-        console.log('authData');
+        console.log('authData', authData);
       }
     });
 

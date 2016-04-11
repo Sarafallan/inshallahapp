@@ -13,8 +13,12 @@ module.exports = {
     var userProfile = users.child(profileKey);
 
     userProfile.update({
-     'tel' : profileObject['tel'],
-     'story': profileObject['story']
+     'tel' : profileObject.tel,
+     'story': profileObject.story,
+     'skillsNeeded': profileObject.skillsNeeded,
+     'hasSkills': profileObject.hasSkills,
+     'helpNeededLocation': profileObject.helpNeededLocation,
+     'shareSkills': profileObject.shareSkills
     });
   },
 

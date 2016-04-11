@@ -1,5 +1,5 @@
 html {
-  font-size: 20px;
+  font-size: 50px;
 }
 
 .signup {
@@ -9,7 +9,10 @@ html {
 
 .help > * {
   display: inline-block;
-  vertical-align: middle;
+}
+
+.help .translation {
+  margin-right: 1.5em;
 }
 
 .location, .greeting, .skill-box {
@@ -40,11 +43,6 @@ html {
   margin-bottom: 0.5em;
 }
 
-.ui-btn-corner-all {
-  border-radius: 0.4em;
-  padding: 0.1em;
-}
-
 .header h1 {
   text-align: left;
 }
@@ -54,12 +52,23 @@ html {
 }
 
 .save, .next {
-  position: absolute;
-  width: 40%;
-  bottom: 4.5em;
-  right: 1em;
+  width: 50%;
+  float: right;
+}
+
+.save button, .next button {
+  font-size: 1em;
+  padding: 0em;
 }
 
 .disclaimer {
   font-size: 0.75em;
+}
+
+.select {
+  font-size: 3em;
+}
+
+.location-select, .skills-select {
+  vertical-align: top;
 }

@@ -27,6 +27,11 @@ var routes = [
       reply.file(__dirname + '/index.html');
     }
   },
+  {
+    method: 'POST',
+    path: '/saveProfile',
+    handler: handlers.saveProfile
+  }
 ];
 
 module.exports = routes;

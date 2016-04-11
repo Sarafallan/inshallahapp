@@ -40,9 +40,9 @@
           <p>بلا </p>
         </div>
         <div class="location-select">
-          <select class="select">
-            <option>France / بلا</option>
-            <option>UK / بلا</option>
+          <select class="select" id="help-needed-location">
+            <option value="France">France / بلا</option>
+            <option value="UK">UK / بلا</option>
           </select>
         </div>
       </div>
@@ -84,9 +84,9 @@
             <p>بلا </p>
           </div>
         <div class="location-select">
-          <select class="select">
-            <option>France / بلا</option>
-            <option>UK / بلا</option>
+          <select class="select" id="can-help-location">
+            <option value="France">France / بلا</option>
+            <option value="UK">UK / بلا</option>
           </select>
         </div>
       </div>
@@ -108,7 +108,7 @@
         <p>Share your skills</p>
         <p>الواقعة وان</p>
       </div>
-      <textarea></textarea>
+      <textarea id="share-skills"></textarea>
     </div>
     <div class="share-story">
       <div class="translation">
@@ -117,12 +117,19 @@
       </div>
       <textarea id="story"></textarea>
     </div>
+    <div class="anything-else">
+      <div class="translation">
+        <p>Is there anything else you need help with that is not listed?</p>
+        <p>الواقعة وانالواقعة وانالواقعة وان</p>
+      </div>
+      <textarea id="anything-else"></textarea>
+    </div>
     <div class="phone">
       <div class="translation">
         <p>Phone Number</p>
         <p>الواقعوان</p>
       </div>
-      <input id='tel' type="tel"/>
+      <input id="country-code" type="tel" maxlength=6 value="+"/><input id='tel' type="tel" maxlength=20/>
       <div class="translation">
         <p class="disclaimer">We will use this to connect you with others</p>
         <p class="disclaimer">الواقعة وانالواقعة وان</p>

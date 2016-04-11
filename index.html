@@ -3,34 +3,145 @@
   <head>
   <title>INshallah</title>
   <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0a1/jquery.mobile-1.0a1.min.css" />
+  <link rel="stylesheet" href="signup.css" />
   <script src="http://code.jquery.com/jquery-1.4.3.min.js"></script>
   <script src="http://code.jquery.com/mobile/1.0a1/jquery.mobile-1.0a1.min.js"></script>
 </head>
 <body>
 
-<div data-role="page" id="home">
-
-  <div data-role="header">
-    <h1>Home</h1>
+<!-- SIGNUP PAGE 1 -->
+<div data-role="page" id="signup-1">
+  <div data-role="header" class="header">
+    <h1>Sign Up</h1>
   </div>
-
-  <div data-role="content">
-    <p><a href="#about" data-transition="none">About this app</a></p>
+  <div data-role="content" class="signup">
+    <div class="translation greeting">
+      <p>Hi <span id="first-name"></span>, What do you need help with?</p>
+      <p>بلا جنوب الواقعة واندونيسيا،, مكن</p>
+    </div>
+    <form id="">
+      <div class="help ui-grid-a">
+        <div class="ui-block-a">
+          <div class="translation">
+            <p>I need help with...</p>
+            <p>بلا جنوب الواقعة وان</p>
+          </div>
+        </div>
+        <div class="ui-block-b">
+          <select>
+            <option>Law / بلا</option>
+            <option>Advice / بلا</option>
+            <option>Asylum / بلا</option>
+          </select>
+        </div>
+      </div>
+      <div class="skill-box"></div>
+      <div class="location">
+        <div class="ui-block-a">
+          <div class="translation">
+            <p>In...</p>
+            <p>بلا </p>
+          </div>
+        </div>
+        <div class="ui-block-b">
+          <select>
+            <option>France / بلا</option>
+            <option>UK / بلا</option>
+          </select>
+        </div>
+      </div>
+      <div class="next">
+        <a href="#signup-2"><button>Next</button></a>
+      </div>
+    </form>
   </div>
-
 </div>
 
-<div data-role="page" id="about">
-
-  <div data-role="header">
-    <h1>About INshallah</h1>
+<!-- SIGNUP PAGE 2 -->
+<div data-role="page" id="signup-2">
+  <div data-role="header" class="header">
+    <h1>Sign Up</h1>
   </div>
-
-  <div data-role="content">
-    <p><a href="#home" data-transition="none">Go home</a></p>
+  <div data-role="content" class="signup">
+    <div class="translation greeting">
+      <p>And what can you help with?</p>
+      <p>بلا جنوب الواقعة واندونيسيا،, مكن</p>
+    </div>
+    <form id="">
+      <div class="help ui-grid-a">
+        <div class="ui-block-a">
+          <div class="translation">
+            <p>I can help with...</p>
+            <p>بلا جنوب الواقعة وان</p>
+          </div>
+        </div>
+        <div class="ui-block-b">
+          <select>
+            <option>Law / بلا</option>
+            <option>Advice / بلا</option>
+            <option>Asylum / بلا</option>
+          </select>
+        </div>
+      </div>
+      <div class="skill-box"></div>
+      <div class="location">
+        <div class="ui-block-a">
+          <div class="translation">
+            <p>In...</p>
+            <p>بلا </p>
+          </div>
+        </div>
+        <div class="ui-block-b">
+          <select>
+            <option>France / بلا</option>
+            <option>UK / بلا</option>
+          </select>
+        </div>
+      </div>
+      <div class="next">
+        <a href="#signup-3"><button>Next</button></a>
+      </div>
+    </form>
   </div>
-
 </div>
+
+<!-- SIGNUP PAGE 3 -->
+<div data-role="page" id="signup-3">
+  <div data-role="header" class="header">
+    <h1>Sign Up</h1>
+  </div>
+  <div data-role="content" class="signup">
+    <div class="share-skills">
+      <div class="translation">
+        <p>Share your skills</p>
+        <p>الواقعة وان</p>
+      </div>
+      <textarea></textarea>
+    </div>
+    <div class="share-story">
+      <div class="translation">
+        <p>Share your story</p>
+        <p>الواقعة وان</p>
+      </div>
+      <textarea></textarea>
+    </div>
+    <div class="phone">
+      <div class="translation">
+        <p>Phone Number</p>
+        <p>الواقعوان</p>
+      </div>
+      <input type="tel"/>
+      <div class="translation">
+        <p class="disclaimer">We will use this to connect you with others</p>
+        <p class="disclaimer">الواقعة وانالواقعة وان</p>
+      </div>
+    </div>
+    <div class="save">
+      <a href="#signup-3"><button class="ui-btn-inline">Save</button></a>
+    </div>
+  </div>
+</div>
+
 
 </body>
 </html>

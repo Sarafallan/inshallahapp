@@ -18,9 +18,13 @@
   },
   "homepage": "https://github.com/katpas/inshallahapp#readme",
   "dependencies": {
+    "firebase": "^2.4.2",
+    "firebase-token-generator": "^2.0.0",
     "hapi": "^13.3.0",
     "inert": "^3.2.0",
     "nodemon": "^1.9.1",
+    "tape": "^4.5.1",
+    "shot": "^3.0.1",
     "twilio": "^2.9.1"
   }
 }

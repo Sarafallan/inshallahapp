@@ -1,0 +1,33 @@
+/*Colours*/
+body {
+  font-family: sans-serif;
+}
+
+.top-nav {
+  background-color: #e84B0C;
+}
+
+
+.nav-welcome {
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.arabic-text {
+  color: #e0e0e0;
+}
+
+.ui-btn-corner-all {
+  padding: 0;
+  display: inline-block;
+  border-radius: 0.4em;
+  text-shadow: none;
+}
+
+.menu-button {
+  position: absolute;
+  top: 0.75em;
+  right: 0.75em;
+
+}

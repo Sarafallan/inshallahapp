@@ -4,6 +4,20 @@ var tokenGenerator = new FirebaseTokenGenerator(process.env.FIREBASESECRET);
 
 module.exports = {
 
+  saveProfile : function(req, reply){
+    var profileObject = JSON.parse(req.payload);
+    console.log('back end', profileObject);
+    var profileKey = profileObject['uid'];
+
+    var users = new Firebase('https://blazing-torch-7074.firebaseio.com/users/');
+    var userProfile = users.child(profileKey);
+
+    userProfile.update({
+     'tel' : profileObject['tel'],
+     'story': profileObject['story']
+    });
+  },
+
   login : function(req, reply) {
     var userDetails = JSON.parse(req.payload);
     var token = tokenGenerator.createToken({uid: userDetails.uid});
@@ -13,7 +27,7 @@ module.exports = {
       if (error) {
         console.log(error);
       } else {
-        console.log('authData', authData);
+        console.log('authData');
       }
     });
 

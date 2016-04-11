@@ -89,3 +89,8 @@ html {
 .delete-skill {
   margin-bottom: 1em;
 }
+
+.phone > input {
+  display: inline-block;
+  width: 50%;
+}

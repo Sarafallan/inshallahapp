@@ -1,21 +1,45 @@
+var skillsNeeded = [];
+var hasSkills = [];
+
+var arabicSkills = {
+  Law: 'بلا',
+  Advice: 'بلا',
+  Asylum: 'بلا',
+};
+
+// -- Sending Data to Database From Signup/Update Profile -- //
 
 $('#save-button').on('click', function(){
   console.log('save clicked');
-  saveProfile();
+  var phoneNumber = validatePhone();
+  if (phoneNumber){
+    saveProfile(phoneNumber);
+  } else {
+    showWarning();
+  }
 });
 
-function saveProfile() {
-  //Looks at array of elements in the box
+function saveProfile(phoneNumber) {
   var authData = JSON.parse(localStorage.getItem('firebase:session::blazing-torch-7074'));
   var currentUid = authData.uid;
 
-  var story = $('#story').val();
-  var tel = $('#tel').val();
+  var helpNeededLocation = $('#help-needed-location').val();
+  var canHelpLocation = $('#can-help-location').val();
+
+  var tel = phoneNumber;
+
+  var story = sanitise($('#story').val());
+  var shareSkills = sanitise($('#share-skills').val());
+  var anythingElse = sanitise($('#anything-else').val());
 
   var updateUser = {
     'uid' : currentUid,
     'tel' : tel,
-    'story' : story
+    'story' : story,
+    'skillsNeeded': skillsNeeded,
+    'hasSkills': hasSkills,
+    'helpNeededLocation': helpNeededLocation,
+    'shareSkills': shareSkills
   };
 
   console.log(updateUser);
@@ -35,14 +59,39 @@ function saveProfile() {
   };
 }
 
-var arabicSkills = {
-  Law: 'بلا',
-  Advice: 'بلا',
-  Asylum: 'بلا',
-};
+// -- Validation Functions -- //
 
-var skillsNeeded = [];
-var hasSkills = [];
+function validatePhone() {
+
+  var phoneNum = $('#tel').val();
+  var countryCode = $('#country-code').val();
+  var nonDigit = new RegExp(/[^0-9]/, 'g');
+  var leadingZero = new RegExp(/\b0+/, 'g')
+  var digits = phoneNum.replace(nonDigit, '').replace(leadingZero, '');
+  var countryDigits = countryCode.replace(nonDigit, '').replace(leadingZero, '');
+  if (digits.length < 10 || digits.length > 15) {
+    return false;
+  } else {
+    return '+' + countryDigits + digits;
+  }
+}
+
+function showWarning() {
+
+  console.log('wrong number');
+}
+
+function sanitise(input) {
+
+  if ( input.match("<") || input.match(">") ) {
+    cleanText = input.replace(/\</g, "&lt;").replace(/\>/g, "&gt;");
+    return cleanText;
+  }
+  return input;
+}
+
+
+// -- Skills box functions -- //
 
 $('.select').on('change',function(e){
 

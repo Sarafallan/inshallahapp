@@ -12,7 +12,7 @@ $('.select').on('change',function(e){
   if ($(this).hasClass('need-skill-select')) {
     addSkill(e, skillsNeeded, '.need-skill-box');
   } else if ($(this).hasClass('have-skill-select')) {
-    addSkill(e, skillsNeeded, '.have-skill-box');
+    addSkill(e, hasSkills, '.have-skill-box');
   }
 });
 

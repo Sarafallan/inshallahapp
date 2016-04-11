@@ -12,6 +12,16 @@ module.exports = {
     var users = new Firebase('https://blazing-torch-7074.firebaseio.com/users/');
     var userProfile = users.child(profileKey);
 
+    var onComplete = function(error) {
+      if (error) {
+        console.log('Synchronization failed');
+        reply(error);
+      } else {
+        console.log('Synchronization succeeded');
+        reply(200);
+      }
+    };
+
     userProfile.update({
      'tel' : profileObject.tel,
      'story': profileObject.story,
@@ -19,7 +29,7 @@ module.exports = {
      'hasSkills': profileObject.hasSkills,
      'helpNeededLocation': profileObject.helpNeededLocation,
      'shareSkills': profileObject.shareSkills
-    });
+   }, onComplete);
   },
 
   login : function(req, reply) {
@@ -36,7 +46,7 @@ module.exports = {
     });
 
     user.once("value", function(snapshot) {
-      if (snapshot.exists() && snapshot.val().phone) {
+      if (snapshot.exists() && snapshot.val().tel) {
         reply({userSetupComplete: true});
       } else {
         if (!snapshot.exists()) {

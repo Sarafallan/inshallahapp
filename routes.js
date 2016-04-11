@@ -22,7 +22,14 @@ var routes = [
   },
   {
     method: 'GET',
-    path: '/setup',
+    path: '/main',
+    handler: function(req, reply){
+      reply.file(__dirname + '/index.html');
+    }
+  },
+  {
+    method: 'GET',
+    path: '/search',
     handler: function(req, reply){
       reply.file(__dirname + '/index.html');
     }

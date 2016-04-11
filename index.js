@@ -51,9 +51,10 @@ function saveProfile(phoneNumber) {
   request.onreadystatechange = function(){
     if (request.readyState === 4) {
       if (request.status === 200) {
-        console.log('helo');
+        window.location.href = '/main#search';
+        console.log('search');
       } else {
-        console.log('hi');
+        console.log('error, in search');
       }
     }
   };
@@ -77,7 +78,6 @@ function validatePhone() {
 }
 
 function showWarning() {
-
   console.log('wrong number');
 }
 

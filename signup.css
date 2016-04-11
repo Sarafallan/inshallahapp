@@ -72,3 +72,20 @@ html {
 .location-select, .skills-select {
   vertical-align: top;
 }
+
+.skill {
+  display: inline-block;
+  background-color: lightblue;
+  margin: 0.1em;
+  border-radius: 0.4em;
+  padding: 0 0.3em;
+  z-index: 100;
+}
+
+.skill > * {
+  display: inline-block;
+}
+
+.delete-skill {
+  margin-bottom: 1em;
+}

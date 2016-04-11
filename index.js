@@ -121,3 +121,41 @@ function addSkill(e, skillsArray, box) {
     });
   }
 }
+
+// -- Location -- //
+
+$('.getLocation').on('click', function(){
+  navigator.geolocation.getCurrentPosition(function(position){
+    var latitude = position.coords.latitude;
+    var longitude = position.coords.longitude;
+    console.log('lat: ', latitude);
+    console.log('long', longitude);
+    $.get( "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latitude + "," + longitude + "&result_type=country|locality&key=locality&key=" + process.env.GOOGLEMAPSAPI, function( data ) {
+      if (data.status === "OK") {
+        var city = extractCity(data.results);
+        var country = extractCountry(data.results);
+        console.log(city, country);
+      }
+    });
+  });
+});
+
+function extractCity(data) {
+  var found;
+  data.forEach(function(el){
+    if (el.types.indexOf("locality") > -1) {
+      found = el.address_components[0].long_name;
+    }
+  });
+  return found;
+}
+
+function extractCountry(data) {
+  var found;
+  data.forEach(function(el){
+    if (el.types.indexOf("country") > -1) {
+      found = el.address_components[0].long_name;
+    }
+  });
+  return found;
+}

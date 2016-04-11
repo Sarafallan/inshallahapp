@@ -4,20 +4,34 @@ var arabicSkills = {
   Asylum: 'بلا',
 };
 
-var skills = [];
+var skillsNeeded = [];
+var hasSkills = [];
 
-$('.need-skill-select').on('change',function(e){
-  var skill = $(e.target).val();
-  if (skills.indexOf(skill) === -1 && skills.length < 5) {
-    skills.push(skill);
-    $('.skill-box').append('<div class="skill"><a href="#" id=' + skill  + ' class="delete-skill ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-b ui-btn-inline">Delete</a>' + skill + ' / ' + arabicSkills[skill] + '</div>');
-    $('#' + skill).on('click', function(ev){
-      deleteSkill(ev, skill)
-    });
+$('.select').on('change',function(e){
+
+  if ($(this).hasClass('need-skill-select')) {
+    addSkill(e, skillsNeeded, '.need-skill-box');
+  } else if ($(this).hasClass('have-skill-select')) {
+    addSkill(e, skillsNeeded, '.have-skill-box');
   }
 });
 
-function deleteSkill(e, skill) {
+function deleteSkill(e, skill, skillsArray) {
+
   $(e.target.parentElement).remove();
-  skills.splice(skills.indexOf(skill), 1);
+  skillsArray.splice(skillsArray.indexOf(skill), 1);
+}
+
+function addSkill(e, skillsArray, box) {
+
+  var skill = $(e.target).val();
+
+  if (skillsArray.indexOf(skill) === -1 && skillsArray.length < 5) {
+    skillsArray.push(skill);
+    $(box).append('<div class="skill"><a href="#" id=' + skill  + ' class="delete-skill ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-b ui-btn-inline">Delete</a>' + skill + ' / ' + arabicSkills[skill] + '</div>');
+    $('#' + skill).on('click', function(ev){
+
+      deleteSkill(ev, skill, skillsArray);
+    });
+  }
 }

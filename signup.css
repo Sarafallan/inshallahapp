@@ -1,5 +1,5 @@
 html {
-  font-size: 20px;
+  font-size: 50px;
 }
 
 .signup {
@@ -9,11 +9,22 @@ html {
 
 .help > * {
   display: inline-block;
-  vertical-align: middle;
+}
+
+.help .translation {
+  margin-right: 1.5em;
 }
 
 .location, .greeting, .skill-box {
   margin-bottom: 2em;
+}
+
+.location p {
+  margin-right: 2em;
+}
+
+.location > * {
+  display: inline-block;
 }
 
 .skill-box {
@@ -32,15 +43,54 @@ html {
   margin-bottom: 0.5em;
 }
 
-.ui-btn-corner-all {
-  border-radius: 0.4em;
-  padding: 0.1em;
-}
-
 .header h1 {
   text-align: left;
 }
 
 .skill-box {
   margin-bottom: 2em;
+}
+
+.save, .next {
+  width: 50%;
+  float: right;
+}
+
+.save button, .next button {
+  font-size: 1em;
+  padding: 0em;
+}
+
+.disclaimer {
+  font-size: 0.75em;
+}
+
+.select {
+  font-size: 3em;
+}
+
+.location-select, .skills-select {
+  vertical-align: top;
+}
+
+.skill {
+  display: inline-block;
+  background-color: lightblue;
+  margin: 0.1em;
+  border-radius: 0.4em;
+  padding: 0 0.3em;
+  z-index: 100;
+}
+
+.skill > * {
+  display: inline-block;
+}
+
+.delete-skill {
+  margin-bottom: 1em;
+}
+
+.phone > input {
+  display: inline-block;
+  width: 50%;
 }

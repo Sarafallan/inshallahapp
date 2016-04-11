@@ -19,9 +19,9 @@ ref.onAuth(function(authData){
         if (request.status === 200) {
           var response = JSON.parse(request.responseText);
           if (response.userSetupComplete){
-            window.location.href = '/search';
+            window.location.href = '/main#search';
           } else {
-            window.location.href = '/setup';
+            window.location.href = '/main';
           }
         } else {
           console.log(request.status);

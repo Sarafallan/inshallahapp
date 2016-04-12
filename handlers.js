@@ -3,11 +3,22 @@ var Firebase = require('firebase');
 var FirebaseTokenGenerator = require('firebase-token-generator');
 var tokenGenerator = new FirebaseTokenGenerator(process.env.FIREBASESECRET);
 
+var adminToken = tokenGenerator.createToken(
+  { uid: "1"},
+  { admin: true}
+);
+
 module.exports = {
+
+  returnSearch : function(req, reply){
+    var searchQuery = JSON.parse(req.payload);
+    var searchResult = searchFunction(searchQuery, function(data){
+      reply(JSON.stringify(data));
+    });
+  },
 
   saveProfile : function(req, reply){
     var profileObject = JSON.parse(req.payload);
-    console.log('back end', profileObject);
     var profileKey = profileObject['uid'];
 
     var users = new Firebase('https://blazing-torch-7074.firebaseio.com/users/');
@@ -84,6 +95,60 @@ function createUser(user, callback) {
   users.update(newUser);
   callback();
 }
+
+
+function searchFunction(searchObject, callback) {
+  var users = new Firebase('https://blazing-torch-7074.firebaseio.com/users/');
+  var searchTerms = searchObject;
+
+  users.authWithCustomToken(adminToken, function(error) {
+    if (error) {
+      console.log(error);
+    } else {
+      users.on("value", function(snapshot) {
+        var data = snapshot.val();
+        var answer = searchUsers(data, searchTerms);
+        console.log('from search function', answer);
+        return callback(answer);
+
+      }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+      });
+    }
+  });
+}
+
+function searchUsers(data, terms) {
+
+  var keysArray = Object.keys(data);
+  var searchResults = [];
+
+  if(terms.searchChoice === "takeHelp"){
+
+    keysArray.forEach(function(key){
+      var hasSkills = data[key].hasSkills || [];
+      if (hasSkills.indexOf(terms.searchTopic) > -1) {
+        var result = {};
+        result[key] = data[key];
+        searchResults.push(result);
+      }
+    });
+
+  } else if (terms.searchChoice === "giveHelp"){
+    keysArray.forEach(function(key){
+      var skillsNeeded = data[key].skillsNeeded || [];
+      if (skillsNeeded.indexOf(terms.searchTopic) > -1) {
+        var result = {};
+        result[key] = data[key];
+        searchResults.push(result);
+      }
+    });
+  } else {
+    console.log('error');
+  }
+  return searchResults;
+}
+
 
 function extractCity(data) {
   var found;

@@ -11,9 +11,9 @@ module.exports = {
 
   returnSearch : function(req, reply){
     var searchQuery = JSON.parse(req.payload);
-    var searchResult = searchFunction(searchQuery);
-    console.log('search result', searchResult);
-    reply('send search results to frontend');
+    var searchResult = searchFunction(searchQuery, function(data){
+      reply(JSON.stringify(data));
+    });
   },
 
   saveProfile : function(req, reply){
@@ -81,7 +81,7 @@ function createUser(user, callback) {
   callback();
 }
 
-function searchFunction(searchObject) {
+function searchFunction(searchObject, callback) {
   var users = new Firebase('https://blazing-torch-7074.firebaseio.com/users/');
   var searchTerms = searchObject;
 
@@ -91,48 +91,44 @@ function searchFunction(searchObject) {
     } else {
       users.on("value", function(snapshot) {
         var data = snapshot.val();
-        searchUsers(data, searchTerms);
+        var answer = searchUsers(data, searchTerms);
+        console.log('from search function', answer);
+        return callback(answer);
 
       }, function (errorObject) {
         console.log("The read failed: " + errorObject.code);
       });
     }
   });
-
-  return 'hello search';
 }
 
 function searchUsers(data, terms) {
 
   var keysArray = Object.keys(data);
-  var searchResults = {};
+  var searchResults = [];
 
   if(terms.searchChoice === "takeHelp"){
 
     keysArray.forEach(function(key){
-
       var hasSkills = data[key].hasSkills || [];
-
       if (hasSkills.indexOf(terms.searchTopic) > -1) {
-        searchResults[key] = data[key];
-        console.log(searchResults);
-      } else {
-        console.log('no skill');
+        var result = {};
+        result[key] = data[key];
+        searchResults.push(result);
       }
-    console.log(searchResults);
+    });
+
+  } else if (terms.searchChoice === "giveHelp"){
+    keysArray.forEach(function(key){
+      var skillsNeeded = data[key].skillsNeeded || [];
+      if (skillsNeeded.indexOf(terms.searchTopic) > -1) {
+        var result = {};
+        result[key] = data[key];
+        searchResults.push(result);
+      }
     });
   } else {
-    keysArray.foreach(function(key){
-      var skillsNeeded = data[key].skillsNeeded || [];
-
-      if (skillsNeeded.indexOf(terms.searchTopic) > -1) {
-        searchResults[key] = data[key];
-        console.log(searchResults);
-      } else {
-        console.log('no skill');
-      }
-    });
-
+    console.log('error');
   }
-
+  return searchResults;
 }

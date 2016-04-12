@@ -54,7 +54,6 @@ module.exports = {
 
   getLocation: function(req, reply) {
     var coords = req.payload;
-    console.log(coords.latitude);
     request( "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + coords.latitude + "," + coords.longitude + "&result_type=country|locality&key=" + process.env.GOOGLEMAPSAPI, function(error, response, body) {
       var data = JSON.parse(body);
       if (data.status === 'OK') {

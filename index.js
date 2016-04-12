@@ -124,12 +124,26 @@ function addSkill(e, skillsArray, box) {
 
 // -- Location -- //
 
-$('.getLocation').on('click', function(){
+$('.getLocation').on('click', function(e){
+  var availability;
+
+  if ($(e.target).hasClass('help-needed-location')) {
+    availability = 'help-needed-location';
+  } else if ($(e.target).hasClass('can-help-location')) {
+    availability = 'can-help-location';
+  }
+  console.log(availability);
+
   navigator.geolocation.getCurrentPosition(function(position){
       var latitude = position.coords.latitude;
       var longitude = position.coords.longitude;
       $.post('/location', {latitude: latitude, longitude: longitude}, function(data){
         console.log(data);
+        var select = $('select#' + availability);
+        var optTempl = '<option selected value="' + data.country + '">'+ data.city + ', ' + data.country +'</option>';
+        select.prepend(optTempl);
+        select.selectmenu();
+        select.selectmenu('refresh', true);
       });
     });
 

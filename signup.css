@@ -144,3 +144,12 @@ a.ui-btn.hamburger {
   background-color: #dddddd;
   text-decoration: none;
 }
+
+/*Search Results Box*/
+
+.individual {
+  border: 1px solid black;
+  height: 3em;
+  margin: 2em;
+  padding: 1em;
+}

@@ -43,6 +43,11 @@ var routes = [
     method: 'POST',
     path: '/returnSearch',
     handler: handlers.returnSearch
+  },
+  {
+    method: 'POST',
+    path: '/location',
+    handler: handlers.getLocation
   }
 ];
 

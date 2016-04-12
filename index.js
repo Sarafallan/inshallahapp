@@ -79,7 +79,7 @@ function validatePhone() {
 }
 
 function showWarning() {
-  console.log('wrong number');
+  alert('Please enter a phone number to create your account');
 }
 
 function sanitise(input) {
@@ -122,3 +122,38 @@ function addSkill(e, skillsArray, box) {
     });
   }
 }
+
+// -- Location -- //
+
+$('.getLocation').on('click', function(e){
+  var availability;
+
+  if (!navigator.geolocation) {
+    alert('Geolocation is not available on this browser/device.');
+  }
+
+  if ($(e.target).hasClass('help-needed-location')) {
+    availability = 'help-needed-location';
+  } else if ($(e.target).hasClass('can-help-location')) {
+    availability = 'can-help-location';
+  }
+
+  navigator.geolocation.getCurrentPosition(function(position){
+    var latitude = position.coords.latitude;
+    var longitude = position.coords.longitude;
+    $.post('/location', {latitude: latitude, longitude: longitude}, function(data){
+      var select = $('select#' + availability);
+      var optTempl = '<option selected value="' + data.country + '">'+ data.city + ', ' + data.country +'</option>';
+      select.prepend(optTempl);
+      select.selectmenu();
+      select.selectmenu('refresh', true);
+    });
+  }, function(error){
+    if (error.code === 1) {
+      alert("Geolocation has been denied on this page. Please select your location from the dropdown menu.");
+    } else {
+      alert("We couldn't get your location. Please ensure geolocation is turned on and try again.")
+    }
+  });
+
+});

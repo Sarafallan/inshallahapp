@@ -38,6 +38,11 @@ var routes = [
     method: 'POST',
     path: '/saveProfile',
     handler: handlers.saveProfile
+  },
+  {
+    method: 'POST',
+    path: '/returnSearch',
+    handler: handlers.returnSearch
   }
 ];
 

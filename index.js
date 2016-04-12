@@ -39,7 +39,8 @@ function saveProfile(phoneNumber) {
     'skillsNeeded': skillsNeeded,
     'hasSkills': hasSkills,
     'helpNeededLocation': helpNeededLocation,
-    'shareSkills': shareSkills
+    'shareSkills': shareSkills,
+    'canHelpLocation': canHelpLocation
   };
 
   console.log(updateUser);

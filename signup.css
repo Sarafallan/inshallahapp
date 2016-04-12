@@ -98,3 +98,12 @@ html {
 .name {
   float: left;
 }
+
+/*Search Results Box*/
+
+.individual {
+  border: 1px solid black;
+  height: 3em;
+  margin: 2em;
+  padding: 1em;
+}

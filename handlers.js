@@ -1,3 +1,4 @@
+var request = require('request');
 var Firebase = require('firebase');
 var FirebaseTokenGenerator = require('firebase-token-generator');
 var tokenGenerator = new FirebaseTokenGenerator(process.env.FIREBASESECRET);
@@ -50,6 +51,21 @@ module.exports = {
       }
     });
   },
+
+  getLocation: function(req, reply) {
+    var coords = req.payload;
+    console.log(coords.latitude);
+    request( "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + coords.latitude + "," + coords.longitude + "&result_type=country|locality&key=" + process.env.GOOGLEMAPSAPI, function(error, response, body) {
+      var data = JSON.parse(body);
+      if (data.status === 'OK') {
+        var city = extractCity(data.results);
+        var country = extractCountry(data.results);
+        reply({city: city, country: country});
+      } else {
+        reply('error: ', data.status);
+      }
+    });
+  }
 };
 
 function createUser(user, callback) {
@@ -58,4 +74,24 @@ function createUser(user, callback) {
   newUser[user.uid] = {first_name: user.facebook.cachedUserProfile.first_name};
   users.update(newUser);
   callback();
+}
+
+function extractCity(data) {
+  var found;
+  data.forEach(function(el){
+    if (el.types.indexOf("locality") > -1) {
+      found = el.address_components[0].long_name;
+    }
+  });
+  return found;
+}
+
+function extractCountry(data) {
+  var found;
+  data.forEach(function(el){
+    if (el.types.indexOf("country") > -1) {
+      found = el.address_components[0].long_name;
+    }
+  });
+  return found;
 }

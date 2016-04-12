@@ -31,6 +31,11 @@ var routes = [
     method: 'POST',
     path: '/saveProfile',
     handler: handlers.saveProfile
+  },
+  {
+    method: 'POST',
+    path: '/location',
+    handler: handlers.getLocation
   }
 ];
 

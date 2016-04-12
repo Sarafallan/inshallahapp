@@ -157,3 +157,27 @@ $('.getLocation').on('click', function(e){
   });
 
 });
+
+// -- Header Menu -- //
+
+var menu = {
+  html: '<div class="modal"><div class="links"><ul><a href="/main"><li>My INshallah Page</li></a><a href="#search"><li>Search</li></a><a href="#"><li>Contact INshallah</li></a></ul></div></div>',
+  visible: false,
+}
+
+$('.hamburger').on('click', function(){
+  toggleMenu();
+});
+
+function toggleMenu() {
+  if (menu.visible) {
+    $('.modal').remove();
+    menu.visible = false;
+  } else {
+    $('body').prepend(menu.html);
+    $('.modal, .links ul a').on('click', function(){
+      toggleMenu();
+    });
+    menu.visible = true;
+  }
+}

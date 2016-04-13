@@ -6,6 +6,8 @@ $('#search-button').bind('click', function(e){
   var searchTopic = $('#search-topic').val();
 
   var searchQuery = {
+    'uid' : 'facebook:10156895568825089',
+    'location' : 'France',
     'searchChoice' : searchChoice,
     'searchTopic' : searchTopic
   };
@@ -17,7 +19,7 @@ $('#search-button').bind('click', function(e){
   request.onreadystatechange = function() {
     if (request.readyState === 4) {
       if (request.status === 200) {
-        var resultsArray = JSON.parse(request.responseText)
+        var resultsArray = JSON.parse(request.responseText);
         searchResultProfiles = arrayToObject(resultsArray);
         renderResults(resultsArray);
       } else {

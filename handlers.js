@@ -10,6 +10,15 @@ var adminToken = tokenGenerator.createToken(
 
 module.exports = {
 
+  sendMessage : function(req, reply) {
+    var messageInfo = req.payload;
+    var details = getMessageDetails(messageInfo.sender, messageInfo.reciever, function(data){
+      console.log('response', data);
+    });
+    reply(JSON.stringify('sent'));
+  },
+
+
   returnSearch : function(req, reply){
     var searchQuery = JSON.parse(req.payload);
     var searchResult = searchFunction(searchQuery, function(data){
@@ -108,7 +117,6 @@ function searchFunction(searchObject, callback) {
       users.on("value", function(snapshot) {
         var data = snapshot.val();
         var answer = searchUsers(data, searchTerms);
-        console.log('from search function', answer);
         return callback(answer);
 
       }, function (errorObject) {
@@ -168,4 +176,24 @@ function extractCountry(data) {
     }
   });
   return found;
+}
+
+function getMessageDetails(senderuid, recieveruid, callback) {
+  var users = new Firebase('https://blazing-torch-7074.firebaseio.com/users/');
+  var messageDetails = {};
+
+  users.authWithCustomToken(adminToken, function(error) {
+    if (error) {
+      console.log(error);
+    } else {
+      users.on("value", function(snapshot) {
+        var data = snapshot.val();
+        messageDetails.sender = data[senderuid];
+        messageDetails.reciever = data[recieveruid];
+        callback(messageDetails);
+      }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+      });
+    }
+  });
 }

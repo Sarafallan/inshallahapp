@@ -69,12 +69,12 @@ function createProfile(profile) {
 }
 
 $('.profile').on('click', '.send-message', function(e){
-
+  console.log('infinite loop');
   var sendObject = {
     sender : 'facebook:10156895568825089',
-    reciever : 'facebook:119493535118265'};
+    reciever : 'facebook:74747'};
 
   $.post('/sendMessage', sendObject, function(data){
-    
+    console.log('front end', data);
   });
 });

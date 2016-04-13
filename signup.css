@@ -153,3 +153,7 @@ a.ui-btn.hamburger {
   margin: 2em;
   padding: 1em;
 }
+
+.hidden {
+  display: none;
+}

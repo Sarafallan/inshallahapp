@@ -137,31 +137,51 @@ function searchUsers(data, terms) {
 
   var keysArray = Object.keys(data);
   var searchResults = [];
+  var searchLocationMatch = [];
 
   if(terms.searchChoice === "takeHelp"){
 
     keysArray.forEach(function(key){
       var hasSkills = data[key].hasSkills || [];
+      var giveHelpLocation = data[key].canHelpLocation || [];
+
       if (hasSkills.indexOf(terms.searchTopic) > -1 && key != terms.uid) {
         var result = {};
         result[key] = data[key];
-        searchResults.push(result);
+
+        if (giveHelpLocation.indexOf(terms.searchLocation) > -1) {
+          searchLocationMatch.push(result);
+        } else {
+          searchResults.push(result);
+        }
       }
     });
+
 
   } else if (terms.searchChoice === "giveHelp"){
     keysArray.forEach(function(key){
       var skillsNeeded = data[key].skillsNeeded || [];
+      var getHelpLocation = data[key].helpNeededLocation || [];
+
       if (skillsNeeded.indexOf(terms.searchTopic) > -1 && key != terms.uid) {
         var result = {};
         result[key] = data[key];
-        searchResults.push(result);
+
+        if (getHelpLocation.indexOf(terms.searchLocation) > -1) {
+          searchLocationMatch.push(result);
+        } else {
+          searchResults.push(result);
+        }
       }
     });
   } else {
     console.log('error');
   }
-  return searchResults;
+  console.log("location match", searchLocationMatch);
+  console.log("searchResults", searchResults);
+
+  var fullResults = searchLocationMatch.concat(searchResults);
+  return fullResults;
 }
 
 

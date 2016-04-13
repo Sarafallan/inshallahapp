@@ -14,6 +14,7 @@ module.exports = {
     var messageInfo = req.payload;
     var details = getMessageDetails(messageInfo.sender, messageInfo.reciever, function(data){
       console.log('response', data);
+      twilio(data);
     });
     reply(JSON.stringify('sent'));
   },
@@ -195,5 +196,22 @@ function getMessageDetails(senderuid, recieveruid, callback) {
         console.log("The read failed: " + errorObject.code);
       });
     }
+  });
+}
+
+function twilio(messageDetails) {
+  var accountSid = process.env.TWILIO_ACCOUNT_SID;
+  var authToken = process.env.TWILIO_AUTH_TOKEN;
+  var twilioPhoneNumber = process.env.TWILIO_PHONE_NUMBER;
+
+  var client = require('twilio')(accountSid, authToken);
+
+  client.messages.create({
+      to: messageDetails.reciever.tel,
+      from: twilioPhoneNumber,
+      body: "Hello " + messageDetails.reciever.first_name + ", " + messageDetails.sender.first_name + " needs help with generic skill. Get in touch with them at " + messageDetails.sender.tel,
+  }, function(err, message) {
+      console.log(err);
+      console.log(message.sid);
   });
 }

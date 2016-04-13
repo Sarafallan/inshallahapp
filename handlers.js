@@ -10,6 +10,16 @@ var adminToken = tokenGenerator.createToken(
 
 module.exports = {
 
+  sendMessage : function(req, reply) {
+    var messageInfo = req.payload;
+    var details = getMessageDetails(messageInfo.sender, messageInfo.reciever, function(data){
+      console.log('response', data);
+      twilio(data);
+    });
+    reply(JSON.stringify('sent'));
+  },
+
+
   returnSearch : function(req, reply){
     var searchQuery = JSON.parse(req.payload);
     var searchResult = searchFunction(searchQuery, function(data){
@@ -108,7 +118,6 @@ function searchFunction(searchObject, callback) {
       users.on("value", function(snapshot) {
         var data = snapshot.val();
         var answer = searchUsers(data, searchTerms);
-        console.log('from search function', answer);
         return callback(answer);
 
       }, function (errorObject) {
@@ -168,4 +177,41 @@ function extractCountry(data) {
     }
   });
   return found;
+}
+
+function getMessageDetails(senderuid, recieveruid, callback) {
+  var users = new Firebase('https://blazing-torch-7074.firebaseio.com/users/');
+  var messageDetails = {};
+
+  users.authWithCustomToken(adminToken, function(error) {
+    if (error) {
+      console.log(error);
+    } else {
+      users.on("value", function(snapshot) {
+        var data = snapshot.val();
+        messageDetails.sender = data[senderuid];
+        messageDetails.reciever = data[recieveruid];
+        callback(messageDetails);
+      }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+      });
+    }
+  });
+}
+
+function twilio(messageDetails) {
+  var accountSid = process.env.TWILIO_ACCOUNT_SID;
+  var authToken = process.env.TWILIO_AUTH_TOKEN;
+  var twilioPhoneNumber = process.env.TWILIO_PHONE_NUMBER;
+
+  var client = require('twilio')(accountSid, authToken);
+
+  client.messages.create({
+      to: messageDetails.reciever.tel,
+      from: twilioPhoneNumber,
+      body: "Hello " + messageDetails.reciever.first_name + ", " + messageDetails.sender.first_name + " needs help with generic skill. Get in touch with them at " + messageDetails.sender.tel,
+  }, function(err, message) {
+      console.log(err);
+      console.log(message.sid);
+  });
 }

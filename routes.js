@@ -48,6 +48,11 @@ var routes = [
     method: 'POST',
     path: '/location',
     handler: handlers.getLocation
+  },
+  {
+    method: 'POST',
+    path: '/sendMessage',
+    handler: handlers.sendMessage
   }
 ];
 

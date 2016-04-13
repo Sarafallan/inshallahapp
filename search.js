@@ -39,7 +39,7 @@ function renderResults(searchResultsArray) {
   $('.results-box').html(resultsHTML);
 }
 
-$(document.body).on('click', '.view-individual', function(e){
+$('.results-box').on('click', '.view-individual', function(e){
   var selectedID = e.target.parentElement.id;
   $('.profile').html(createProfile(searchResultProfiles[selectedID]));
   window.location.href = '#profile';
@@ -64,6 +64,17 @@ function createProfile(profile) {
       return '<div>' + el + '</div>';
     }).join('') +
     '<div><p>Send ' + profile.first_name + ' Your Details</p>' +
-    '<button>Send</button></div>'
+    '<button class="send-message">Send</button></div>'
   );
 }
+
+$('.profile').on('click', '.send-message', function(e){
+
+  var sendObject = {
+    sender : 'facebook:10156895568825089',
+    reciever : 'facebook:119493535118265'};
+
+  $.post('/sendMessage', sendObject, function(data){
+    
+  });
+});

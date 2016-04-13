@@ -54,9 +54,16 @@ function arrayToObject(array) {
 }
 
 function createProfile(profile) {
-  return '<h1>Contact ' + profile.first_name + '</h1>' +
-    '<h2>'+ profile.first_name +'\'s Skills</h2>' +
-    '<h2>'+ profile.first_name +' can also help with...</h2>' + profile.hasSkills.map(function(el){
+  return ('<h1>Contact ' + profile.first_name + '</h1>' +
+    '<h2>' + profile.first_name + '\'s Skills</h2>' +
+    '<p>' + profile.shareSkills + '</p>' +
+    '<h2>' + profile.first_name +' can also help with...</h2>' + profile.hasSkills.map(function(el){
       return '<div>' + el + '</div>';
-    }).join('');
+    }).join('') +
+    '<h2>'+ profile.first_name +' needs help with...</h2>' + profile.skillsNeeded.map(function(el){
+      return '<div>' + el + '</div>';
+    }).join('') +
+    '<div><p>Send ' + profile.first_name + ' Your Details</p>' +
+    '<button>Send</button></div>'
+  );
 }

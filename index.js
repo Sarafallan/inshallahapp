@@ -25,7 +25,6 @@ function saveProfile(phoneNumber) {
 
   var helpNeededLocation = $('#help-needed-location').val();
   var canHelpLocation = $('#can-help-location').val();
-
   var tel = phoneNumber;
 
   var story = sanitise($('#story').val());

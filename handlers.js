@@ -55,7 +55,8 @@ module.exports = {
      'skillsNeeded': profileObject.skillsNeeded,
      'hasSkills': profileObject.hasSkills,
      'helpNeededLocation': profileObject.helpNeededLocation,
-     'shareSkills': profileObject.shareSkills
+     'shareSkills': profileObject.shareSkills,
+     'canHelpLocation': profileObject.canHelpLocation
    }, onComplete);
   },
 

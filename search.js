@@ -1,3 +1,4 @@
+
 var searchResultProfiles = [];
 
 $('#search-button').bind('click', function(e){

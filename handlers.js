@@ -141,7 +141,7 @@ function searchUsers(data, terms) {
 
     keysArray.forEach(function(key){
       var hasSkills = data[key].hasSkills || [];
-      if (hasSkills.indexOf(terms.searchTopic) > -1) {
+      if (hasSkills.indexOf(terms.searchTopic) > -1 && key != terms.uid) {
         var result = {};
         result[key] = data[key];
         searchResults.push(result);
@@ -151,7 +151,7 @@ function searchUsers(data, terms) {
   } else if (terms.searchChoice === "giveHelp"){
     keysArray.forEach(function(key){
       var skillsNeeded = data[key].skillsNeeded || [];
-      if (skillsNeeded.indexOf(terms.searchTopic) > -1) {
+      if (skillsNeeded.indexOf(terms.searchTopic) > -1 && key != terms.uid) {
         var result = {};
         result[key] = data[key];
         searchResults.push(result);

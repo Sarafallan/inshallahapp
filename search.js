@@ -1,5 +1,3 @@
-var searchResultProfiles = [];
-
 $('#search-button').bind('click', function(e){
   console.log('search clicked');
   var searchChoice = $('#search-choice').val();
@@ -18,7 +16,7 @@ $('#search-button').bind('click', function(e){
     if (request.readyState === 4) {
       if (request.status === 200) {
         var resultsArray = JSON.parse(request.responseText)
-        searchResultProfiles = arrayToObject(resultsArray);
+        state.searchResultProfiles = arrayToObject(resultsArray);
         renderResults(resultsArray);
       } else {
         console.log('function error');
@@ -41,7 +39,7 @@ function renderResults(searchResultsArray) {
 
 $(document.body).on('click', '.view-individual', function(e){
   var selectedID = e.target.parentElement.id;
-  $('.profile').html(createProfile(searchResultProfiles[selectedID]));
+  $('.profile').html(createProfile(state.searchResultProfiles[selectedID]));
   window.location.href = '#profile';
 });
 

@@ -1,6 +1,3 @@
-var skillsNeeded = [];
-var hasSkills = [];
-
 var arabicSkills = {
   Law: 'بلا',
   Advice: 'بلا',
@@ -10,23 +7,24 @@ var arabicSkills = {
 // -- Sending Data to Database From Signup/Update Profile -- //
 
 $('#save-button').on('click', function(){
-  console.log('save clicked');
-  var phoneNumber = validatePhone();
-  if (phoneNumber){
-    saveProfile(phoneNumber);
+  state.userProfile.phoneNumber = validatePhone();
+  if (state.userProfile.phoneNumber){
+    saveProfile();
   } else {
     showWarning();
   }
+  console.log(localStorage.getItem('state'));
 });
 
-function saveProfile(phoneNumber) {
+function saveProfile() {
+  localStorage.setItem('state', JSON.stringify(state));
   var authData = JSON.parse(localStorage.getItem('firebase:session::blazing-torch-7074'));
   var currentUid = authData.uid;
 
   var helpNeededLocation = $('#help-needed-location').val();
   var canHelpLocation = $('#can-help-location').val();
 
-  var tel = phoneNumber;
+  var tel = state.userProfile.phoneNumber;
 
   var story = sanitise($('#story').val());
   var shareSkills = sanitise($('#share-skills').val());
@@ -36,8 +34,8 @@ function saveProfile(phoneNumber) {
     'uid' : currentUid,
     'tel' : tel,
     'story' : story,
-    'skillsNeeded': skillsNeeded,
-    'hasSkills': hasSkills,
+    'skillsNeeded': state.userProfile.skillsNeeded,
+    'hasSkills': state.userProfile.hasSkills,
     'helpNeededLocation': helpNeededLocation,
     'shareSkills': shareSkills,
     'canHelpLocation': canHelpLocation
@@ -72,7 +70,7 @@ function validatePhone() {
   var digits = phoneNum.replace(nonDigit, '').replace(leadingZero, '');
   var countryDigits = countryCode.replace(nonDigit, '').replace(leadingZero, '');
   if (digits.length < 10 || digits.length > 15) {
-    return false;
+    return '';
   } else {
     return '+' + countryDigits + digits;
   }
@@ -97,9 +95,9 @@ function sanitise(input) {
 $('.select').on('change',function(e){
 
   if ($(this).hasClass('need-skill-select')) {
-    addSkill(e, skillsNeeded, '.need-skill-box');
+    addSkill(e, state.userProfile.skillsNeeded, '.need-skill-box');
   } else if ($(this).hasClass('have-skill-select')) {
-    addSkill(e, hasSkills, '.have-skill-box');
+    addSkill(e, state.userProfile.hasSkills, '.have-skill-box');
   }
 });
 

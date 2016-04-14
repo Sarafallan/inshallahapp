@@ -186,7 +186,7 @@ $('.getLocation').on('click', function(e){
 // -- Header Menu -- //
 
 var menu = {
-  html: '<div class="modal"><div class="links"><ul><a href="/main"><li>My INshallah Page</li></a><a href="#search"><li>Search</li></a><a href="#"><li>Contact INshallah</li></a></ul></div></div>',
+  html: '<div class="modal"><div class="links"><ul><a href="/main"><li>My INshallah Page</li></a><a href="#search"><li>Search</li></a><a href="#activity"><li>Your Activity</li></a><a href="#"><li>Contact INshallah</li></a></ul></div></div>',
   visible: false,
 }
 
@@ -206,3 +206,30 @@ function toggleMenu() {
     menu.visible = true;
   }
 }
+
+// -- Activity Page -- //
+
+var contacted = [{display_name: 'Sohil', uid: 'facebook:74747'}];
+var received = [{display_name: 'Naaz', uid: 'facebook:23534643'}];
+
+$('.sent').append(contacted.map(function(el){
+  return (
+    '<div>' + el.display_name + '</div>'
+  );
+}));
+
+$('.received').append(received.map(function(el){
+  return (
+    '<div>' + el.display_name + '</div>'
+  );
+}));
+
+$('.sent-nav').on('click', function(){
+  $('.sent').removeClass('hidden');
+  $('.received').addClass('hidden');
+});
+
+$('.received-nav').on('click', function(){
+  $('.received').removeClass('hidden');
+  $('.sent').addClass('hidden');
+});

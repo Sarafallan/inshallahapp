@@ -65,15 +65,24 @@ function arrayToObject(array) {
 }
 
 function createProfile(profile) {
+  var skillsSentence = '';
+  var skills = '';
+  var needs = '';
+  if (profile.shareSkills){
+    skillsSentence = '<h2>' + profile.first_name + '\'s Skills</h2>' + '<p>' + profile.shareSkills + '</p>' || '';
+  }
+  if (profile.hasSkills) {
+    skills = '<h2>' + profile.first_name +' can also help with...</h2>' + profile.hasSkills.map(function(el){
+      return '<div>' + el + '</div>';
+    }).join('') || '';
+  }
+  if (profile.skillsNeeded) {
+    needs = '<h2>'+ profile.first_name +' needs help with...</h2>' + profile.skillsNeeded.map(function(el){
+      return '<div>' + el + '</div>';
+    }).join('') || '';
+  }
   return ('<h1>Contact ' + profile.first_name + '</h1>' +
-    '<h2>' + profile.first_name + '\'s Skills</h2>' +
-    '<p>' + profile.shareSkills + '</p>' +
-    '<h2>' + profile.first_name +' can also help with...</h2>' + profile.hasSkills.map(function(el){
-      return '<div>' + el + '</div>';
-    }).join('') +
-    '<h2>'+ profile.first_name +' needs help with...</h2>' + profile.skillsNeeded.map(function(el){
-      return '<div>' + el + '</div>';
-    }).join('') +
+     skillsSentence + skills + needs +
     '<div><p>Send ' + profile.first_name + ' Your Details</p>' +
     '<button class="send-message">Send</button></div>'
   );

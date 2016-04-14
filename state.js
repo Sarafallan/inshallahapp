@@ -3,10 +3,15 @@ var state = {
   searchResultProfiles: [],
 
   userProfile: {
-    uid: '',
     skillsNeeded: [],
     hasSkills: [],
     phoneNumber: '',
+    phoneCC: '',
+    helpNeededLocation: '',
+    canHelpLocation: '',
+    story: '',
+    shareSkills: '',
+    anythingElse: ''
   },
 
 };

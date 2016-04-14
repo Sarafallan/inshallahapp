@@ -1,13 +1,22 @@
+var stateCanHelpLocation = 'France';
+var stateNeedHelpLocation = 'UK';
 var searchResultProfiles = [];
 
 $('#search-button').bind('click', function(e){
   console.log('search clicked');
   var searchChoice = $('#search-choice').val();
   var searchTopic = $('#search-topic').val();
+  var searchLocation;
+
+  if (searchChoice === "takeHelp") {
+    searchLocation = stateNeedHelpLocation;
+  } else {
+    searchLocation = stateCanHelpLocation;
+  }
 
   var searchQuery = {
     'uid' : 'facebook:10156895568825089',
-    'location' : 'France',
+    'searchLocation' : searchLocation,
     'searchChoice' : searchChoice,
     'searchTopic' : searchTopic
   };
@@ -35,7 +44,7 @@ function renderResults(searchResultsArray) {
   searchResultsArray.forEach(function(user){
     var uid = Object.keys(user);
     console.log(uid);
-    resultsHTML = resultsHTML + '<div id=' + uid[0] +' class="individual"><div>' + user[uid].first_name + '</div><div>' + user[uid].hasSkills + '</div><button class=" view-individual ui-btn-inline">View Individual</button></div>';
+    resultsHTML = resultsHTML + '<div id=' + uid[0] +' class="individual"><div>' + user[uid].first_name + '</div><div>' + 'Can Help Here' + user[uid].canHelpLocation +'    Need Help Here' + user[uid].helpNeededLocation + ' Has Skills '+ user[uid].hasSkills + '</div><button class=" view-individual ui-btn-inline">View Individual</button></div>';
     console.log('results>', resultsHTML);
   });
   $('.results-box').html(resultsHTML);

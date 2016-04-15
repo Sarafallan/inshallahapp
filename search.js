@@ -115,6 +115,9 @@ $('.profile').on('click', '.send-message', function(e){
     reciever : 'facebook:74747'};
 
   $.post('/sendMessage', sendObject, function(data){
-    console.log('front end', data);
+    if (data.success){
+      // state.contacted.push()
+    }
+    alert(data.message);
   });
 });

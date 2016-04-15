@@ -54,28 +54,30 @@ function saveProfile() {
   state.userProfile.helpNeededLocation = $('#help-needed-location').val();
   state.userProfile.canHelpLocation = $('#can-help-location').val();
 
-  var tel = state.userProfile.phoneCC + state.userProfile.phoneNumber;
-
   state.userProfile.story = sanitise($('#story').val());
   state.userProfile.shareSkills = sanitise($('#share-skills').val());
   state.userProfile.anythingElse = sanitise($('#anything-else').val());
 
+  var authToken = authData.token;
+
   var updateUser = {
     'uid' : currentUid,
-    'tel' : tel,
+    'phoneNumber' : state.userProfile.phoneNumber,
+    'phoneCC': state.userProfile.phoneCC,
     'story' : state.userProfile.story,
     'skillsNeeded': state.userProfile.skillsNeeded,
     'hasSkills': state.userProfile.hasSkills,
     'helpNeededLocation': state.userProfile.helpNeededLocation,
     'shareSkills': state.userProfile.shareSkills,
-    'canHelpLocation': state.userProfile.canHelpLocation
+    'canHelpLocation': state.userProfile.canHelpLocation,
+    'anythingElse': state.userProfile.anythingElse,
   };
 
   localStorage.setItem('state', JSON.stringify(state));
 
   var request = new XMLHttpRequest();
   request.open('POST', '/saveProfile');
-  request.send(JSON.stringify(updateUser));
+  request.send(JSON.stringify({token: authToken, userProfile: updateUser}));
 
   request.onreadystatechange = function(){
     if (request.readyState === 4) {
@@ -214,13 +216,13 @@ var received = [{display_name: 'Naaz', uid: 'facebook:23534643'}];
 
 $('.sent').append(contacted.map(function(el){
   return (
-    '<div>' + el.display_name + '</div>'
+    '<a href="#profile?id=' + el.uid + '"><div>' + el.display_name + '</div></a>'
   );
 }));
 
 $('.received').append(received.map(function(el){
   return (
-    '<div>' + el.display_name + '</div>'
+    '<a href="#profile?id=' + el.uid + '"><div>' + el.display_name + '</div></a>'
   );
 }));
 

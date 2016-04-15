@@ -14,4 +14,7 @@ var state = {
     anythingElse: ''
   },
 
+  contacted: [],
+  receivedContact: [],
+
 };

@@ -13,10 +13,11 @@ module.exports = {
   sendMessage : function(req, reply) {
     var messageInfo = req.payload;
     var details = getMessageDetails(messageInfo.sender, messageInfo.reciever, function(data){
+      console.log(data);
       checkContacts(data.sender, data.reciever, function(boolean){
         if (boolean) {
           console.log('contacted already');
-          reply('You have already contacted this person, you can\'t contact them again but they have your number');
+          reply({success: false, message: 'You have already contacted this person, you can\'t contact them again but they have your number'});
         } else {
           twilio(data, reply);
         }
@@ -33,11 +34,11 @@ module.exports = {
   },
 
   saveProfile : function(req, reply){
-    var profileObject = JSON.parse(req.payload);
+    var profileObject = JSON.parse(req.payload).userProfile;
     var profileKey = profileObject['uid'];
-
     var users = new Firebase('https://blazing-torch-7074.firebaseio.com/users/');
     var userProfile = users.child(profileKey);
+    var token = JSON.parse(req.payload).token;
 
     var onComplete = function(error) {
       if (error) {
@@ -49,22 +50,29 @@ module.exports = {
       }
     };
 
-    userProfile.update({
-     'tel' : profileObject.tel,
-     'story': profileObject.story,
-     'skillsNeeded': profileObject.skillsNeeded,
-     'hasSkills': profileObject.hasSkills,
-     'helpNeededLocation': profileObject.helpNeededLocation,
-     'shareSkills': profileObject.shareSkills,
-     'canHelpLocation': profileObject.canHelpLocation
-   }, onComplete);
+    userProfile.authWithCustomToken(token, function(error, authData) {
+      if (error) {
+        console.log(error);
+      } else {
+        userProfile.update({
+         'phoneNumber' : profileObject.phoneNumber,
+         'phoneCC': profileObject.phoneCC,
+         'anythingElse': profileObject.anythingElse,
+         'story': profileObject.story,
+         'skillsNeeded': profileObject.skillsNeeded,
+         'hasSkills': profileObject.hasSkills,
+         'helpNeededLocation': profileObject.helpNeededLocation,
+         'shareSkills': profileObject.shareSkills,
+         'canHelpLocation': profileObject.canHelpLocation
+       }, onComplete);
+      }
+    });
   },
 
   login : function(req, reply) {
     var userDetails = JSON.parse(req.payload);
-    var token = tokenGenerator.createToken({uid: userDetails.uid});
+    var token = userDetails.token;
     var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + userDetails.uid);
-    console.log('our token', token);
     user.authWithCustomToken(token, function(error, authData) {
       if (error) {
         console.log(error);
@@ -74,16 +82,16 @@ module.exports = {
     });
 
     user.once("value", function(snapshot) {
-      if (snapshot.exists() && snapshot.val().tel) {
-        reply({userSetupComplete: true});
+      if (snapshot.exists() && snapshot.val().phoneNumber && snapshot.val().phoneCC) {
+        reply({userProfile: snapshot.val(), userSetupComplete: true});
       } else {
         if (!snapshot.exists()) {
           createUser(userDetails, function(){
-            reply({userSetupComplete: false});
+            reply({userProfile: snapshot.val(), userSetupComplete: false});
           });
 
         } else {
-          reply({userSetupComplete: false});
+          reply({userProfile: snapshot.val(), userSetupComplete: false});
         }
       }
     });
@@ -105,7 +113,6 @@ module.exports = {
 
   getProfileDetails: function(req, reply) {
     var id = req.payload.id;
-    console.log(id);
     var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + id);
     user.authWithCustomToken(adminToken, function(error) {
       if (error) {
@@ -124,7 +131,6 @@ module.exports = {
             canHelpLocation: profile.canHelpLocation,
             helpNeededLocation: profile.helpNeededLocation
           }
-          console.log(snapshot.val().first_name);
           reply(snapshot.val());
         }, function(error){
           reply(error);
@@ -272,11 +278,11 @@ function twilio(messageDetails, reply) {
   //     console.log(err);
   //     reply('Something went wrong, please try again later');
     // } else {
-    console.log('inside twillio function');
+      console.log('inside twillio function');
       addContact('contact_sent', messageDetails.sender.uid, {uid: messageDetails.reciever.uid, name: messageDetails.reciever.display_name});
-      addContact('contact_recieved', messageDetails.reciever.uid, {uid: messageDetails.sender.uid, name: messageDetails.sender.display_name, tel: messageDetails.sender.tel});
+      addContact('contact_recieved', messageDetails.reciever.uid, {uid: messageDetails.sender.uid, name: messageDetails.sender.display_name, tel: messageDetails.sender.phoneCC + messageDetails.sender.phoneNumber});
 
-      reply('Message Sent!');
+      reply({success: true, message: 'Message Sent!'});
     // }
   // });
 }

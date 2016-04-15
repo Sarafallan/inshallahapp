@@ -101,6 +101,36 @@ module.exports = {
         reply('error: ', data.status);
       }
     });
+  },
+
+  getProfileDetails: function(req, reply) {
+    var id = req.payload.id;
+    console.log(id);
+    var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + id);
+    user.authWithCustomToken(adminToken, function(error) {
+      if (error) {
+        console.log(error);
+      } else {
+        user.once('value', function(snapshot){
+          var profile = snapshot.val();
+          var responseObject = {
+            first_name: profile.first_name,
+            last_name: profile.last_name,
+            display_name: profile.display_name,
+            hasSkills: profile.hasSkils,
+            skillsNeeded: profile.skillsNeeded,
+            shareSkills: profile.shareSkills,
+            story: profile.story,
+            canHelpLocation: profile.canHelpLocation,
+            helpNeededLocation: profile.helpNeededLocation
+          }
+          console.log(snapshot.val().first_name);
+          reply(snapshot.val());
+        }, function(error){
+          reply(error);
+        });
+      }
+    });
   }
 };
 

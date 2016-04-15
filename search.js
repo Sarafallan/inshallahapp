@@ -57,7 +57,7 @@ $.mobile.paramsHandler.addPage(
 
   // callback function for when that page is about to show
   function (urlParams) {
-    $('.profile').html(createProfile(state.searchResultProfiles[urlParams.id]));
+    getProfile(urlParams.id);
   }
 );
 
@@ -71,11 +71,23 @@ function arrayToObject(array) {
   }, {});
 }
 
+function getProfile(id) {
+  if (state.searchResultProfiles[id]) {
+    $('.profile').html(createProfile(state.searchResultProfiles[id]));
+  } else {
+    $.post('/getProfileDetails', {id: id} ,function(data){
+      console.log(data);
+      $('.profile').html(createProfile(data));
+    });
+  }
+}
+
 function createProfile(profile) {
   var skillsSentence = '';
   var skills = '';
   var needs = '';
-  if (profile.shareSkills){
+
+  if (profile.shareSkills) {
     skillsSentence = '<h2>' + profile.first_name + '\'s Skills</h2>' + '<p>' + profile.shareSkills + '</p>' || '';
   }
   if (profile.hasSkills) {

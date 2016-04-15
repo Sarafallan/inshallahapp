@@ -177,8 +177,6 @@ function searchUsers(data, terms) {
   } else {
     console.log('error');
   }
-  console.log("location match", searchLocationMatch);
-  console.log("searchResults", searchResults);
 
   var fullResults = searchLocationMatch.concat(searchResults);
   return fullResults;
@@ -208,7 +206,6 @@ function extractCountry(data) {
 function getMessageDetails(senderuid, recieveruid, callback) {
   var users = new Firebase('https://blazing-torch-7074.firebaseio.com/users/');
   var messageDetails = {};
-  console.log('senderuid', senderuid, 'recieveruid>>>', recieveruid);
 
   users.authWithCustomToken(adminToken, function(error) {
     if (error) {
@@ -259,7 +256,6 @@ function checkContacts(sender, reciever, callback) {
 
   user.once("value", function(snapshot){
     var contacts = snapshot.val();
-
     for (var key in contacts) {
       if (contacts[key].uid === reciever.uid) {
         return callback(true);

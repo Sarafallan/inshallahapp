@@ -31,7 +31,7 @@ function renderProfile(){
   $('#tel').val(state.userProfile.phoneNumber);
   $('#help-needed-location option[value=' + state.userProfile.helpNeededLocation + ']').attr('selected', true);
   $('#can-help-location option[value=' + state.userProfile.canHelpLocation + ']').attr('selected', true);
-  $('#story').val(state.userProfile.story);
+  // $('#story').val(state.userProfile.story);
   $('#share-skills').val(state.userProfile.shareSkills);
   $('#anything-else').val(state.userProfile.anythingElse);
 }
@@ -53,9 +53,7 @@ function saveProfile() {
   var currentUid = authData.uid;
 
   state.userProfile.helpNeededLocation = $('#help-needed-location').val();
-  state.userProfile.canHelpLocation = $('#can-help-location').val();
 
-  state.userProfile.story = sanitise($('#story').val());
   state.userProfile.shareSkills = sanitise($('#share-skills').val());
   state.userProfile.anythingElse = sanitise($('#anything-else').val());
 

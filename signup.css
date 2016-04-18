@@ -58,6 +58,7 @@ html {
 }
 
 .disclaimer {
+  margin-top: 0;
   font-size: 0.75em;
 }
 
@@ -86,9 +87,17 @@ html {
   margin-bottom: 1em;
 }
 
-.phone > input {
+.phone > .ui-input-text.country-code {
   display: inline-block;
-  width: 50%;
+  width: 20%;
+  margin-right: 0.5em;
+  margin-bottom: 0;
+}
+
+.phone > .ui-input-text.tel {
+  display: inline-block;
+  width: 70%;
+  margin-bottom: 0;
 }
 
 a.ui-btn.hamburger {

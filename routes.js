@@ -53,7 +53,12 @@ var routes = [
     method: 'POST',
     path: '/sendMessage',
     handler: handlers.sendMessage
-  }
+  },
+  {
+    method: 'POST',
+    path: '/getProfileDetails',
+    handler: handlers.getProfileDetails
+  },
 ];
 
 module.exports = routes;

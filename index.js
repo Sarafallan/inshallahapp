@@ -1,52 +1,84 @@
-var skillsNeeded = [];
-var hasSkills = [];
-
 var arabicSkills = {
   Law: 'بلا',
   Advice: 'بلا',
   Asylum: 'بلا',
 };
+var nonDigit = new RegExp(/[^0-9]/, 'g');
+var leadingZero = new RegExp(/\b0+/, 'g');
+
+// -- Initialise App -- //
+
+$(document).ready(function(){
+  state = JSON.parse(localStorage.getItem('state')) || state;
+  renderProfile();
+  renderActivity();
+});
+
+function renderProfile(){
+  var profile = JSON.parse(localStorage.getItem('firebase:session::blazing-torch-7074'));
+
+  $('.first-name').html(profile.facebook.cachedUserProfile.first_name);
+
+  state.userProfile.skillsNeeded.map(function(el){
+    displaySkill('.need-skill-box', el, 'skillsNeeded');
+  });
+
+  state.userProfile.hasSkills.map(function(el){
+    displaySkill('.have-skill-box', el, 'hasSkills');
+  });
+
+  $('#country-code').val(state.userProfile.phoneCC);
+  $('#tel').val(state.userProfile.phoneNumber);
+  $('#help-needed-location option[value=' + state.userProfile.helpNeededLocation + ']').attr('selected', true);
+  $('#can-help-location option[value=' + state.userProfile.canHelpLocation + ']').attr('selected', true);
+  $('#story').val(state.userProfile.story);
+  $('#share-skills').val(state.userProfile.shareSkills);
+  $('#anything-else').val(state.userProfile.anythingElse);
+}
 
 // -- Sending Data to Database From Signup/Update Profile -- //
 
 $('#save-button').on('click', function(){
-  console.log('save clicked');
-  var phoneNumber = validatePhone();
-  if (phoneNumber){
-    saveProfile(phoneNumber);
+  state.userProfile.phoneNumber = validatePhone();
+  state.userProfile.phoneCC = validatePhoneCC();
+  if (state.userProfile.phoneNumber && state.userProfile.phoneCC){
+    saveProfile();
   } else {
     showWarning();
   }
 });
 
-function saveProfile(phoneNumber) {
+function saveProfile() {
   var authData = JSON.parse(localStorage.getItem('firebase:session::blazing-torch-7074'));
   var currentUid = authData.uid;
 
-  var helpNeededLocation = $('#help-needed-location').val();
-  var canHelpLocation = $('#can-help-location').val();
-  var tel = phoneNumber;
+  state.userProfile.helpNeededLocation = $('#help-needed-location').val();
+  state.userProfile.canHelpLocation = $('#can-help-location').val();
 
-  var story = sanitise($('#story').val());
-  var shareSkills = sanitise($('#share-skills').val());
-  var anythingElse = sanitise($('#anything-else').val());
+  state.userProfile.story = sanitise($('#story').val());
+  state.userProfile.shareSkills = sanitise($('#share-skills').val());
+  state.userProfile.anythingElse = sanitise($('#anything-else').val());
+
+  var authToken = authData.token;
 
   var updateUser = {
     'uid' : currentUid,
-    'tel' : tel,
-    'story' : story,
-    'skillsNeeded': skillsNeeded,
-    'hasSkills': hasSkills,
-    'helpNeededLocation': helpNeededLocation,
-    'shareSkills': shareSkills,
-    'canHelpLocation': canHelpLocation
+    'phoneNumber' : state.userProfile.phoneNumber,
+    'phoneCC': state.userProfile.phoneCC,
+    'story' : state.userProfile.story,
+    'skillsNeeded': state.userProfile.skillsNeeded,
+    'hasSkills': state.userProfile.hasSkills,
+    'helpNeededLocation': state.userProfile.helpNeededLocation,
+    'shareSkills': state.userProfile.shareSkills,
+    'canHelpLocation': state.userProfile.canHelpLocation,
+    'anythingElse': state.userProfile.anythingElse,
   };
 
-  console.log(updateUser);
+  localStorage.setItem('state', JSON.stringify(state));
 
   var request = new XMLHttpRequest();
   request.open('POST', '/saveProfile');
-  request.send(JSON.stringify(updateUser));
+  request.send(JSON.stringify({token: authToken, userProfile: updateUser}));
 
   request.onreadystatechange = function(){
     if (request.readyState === 4) {
@@ -63,26 +95,26 @@ function saveProfile(phoneNumber) {
 // -- Validation Functions -- //
 
 function validatePhone() {
-
   var phoneNum = $('#tel').val();
-  var countryCode = $('#country-code').val();
-  var nonDigit = new RegExp(/[^0-9]/, 'g');
-  var leadingZero = new RegExp(/\b0+/, 'g')
   var digits = phoneNum.replace(nonDigit, '').replace(leadingZero, '');
-  var countryDigits = countryCode.replace(nonDigit, '').replace(leadingZero, '');
   if (digits.length < 10 || digits.length > 15) {
-    return false;
+    return '';
   } else {
-    return '+' + countryDigits + digits;
+    return digits;
   }
 }
 
+function validatePhoneCC() {
+  var countryCode = $('#country-code').val();
+  var countryDigits = countryCode.replace(nonDigit, '').replace(leadingZero, '');
+  return '+' + countryDigits;
+}
+
 function showWarning() {
-  alert('Please enter a phone number to create your account');
+  alert('Please enter a valid phone number to create your account');
 }
 
 function sanitise(input) {
-
   if ( input.match("<") || input.match(">") ) {
     cleanText = input.replace(/\</g, "&lt;").replace(/\>/g, "&gt;");
     return cleanText;
@@ -90,36 +122,34 @@ function sanitise(input) {
   return input;
 }
 
-
 // -- Skills box functions -- //
 
 $('.select').on('change',function(e){
-
   if ($(this).hasClass('need-skill-select')) {
-    addSkill(e, skillsNeeded, '.need-skill-box');
+    addSkill(e, 'skillsNeeded', '.need-skill-box');
   } else if ($(this).hasClass('have-skill-select')) {
-    addSkill(e, hasSkills, '.have-skill-box');
+    addSkill(e, 'hasSkills', '.have-skill-box');
   }
 });
 
 function deleteSkill(e, skill, skillsArray) {
-
   $(e.target.parentElement).remove();
   skillsArray.splice(skillsArray.indexOf(skill), 1);
 }
 
 function addSkill(e, skillsArray, box) {
-
   var skill = $(e.target).val();
-
-  if (skillsArray.indexOf(skill) === -1 && skillsArray.length < 5) {
-    skillsArray.push(skill);
-    $(box).append('<div class="skill"><a href="#" id=' + skill  + ' class="delete-skill ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-b ui-btn-inline">Delete</a>' + skill + ' / ' + arabicSkills[skill] + '</div>');
-    $('#' + skill).on('click', function(ev){
-
-      deleteSkill(ev, skill, skillsArray);
-    });
+  if (state.userProfile[skillsArray].indexOf(skill) === -1 && state.userProfile[skillsArray].length < 5) {
+    state.userProfile[skillsArray].push(skill);
+    displaySkill(box, skill, skillsArray);
   }
+}
+
+function displaySkill(box, skill, skillsArray){
+  $(box).append('<div class="skill"><a href="#" id=' + skill + '-' + skillsArray + ' class="delete-skill ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-b ui-btn-inline">Delete</a>' + skill + ' / ' + arabicSkills[skill] + '</div>');
+  $('#' + skill + '-' + skillsArray).on('click', function(ev){
+    deleteSkill(ev, skill, state.userProfile[skillsArray]);
+  });
 }
 
 // -- Location -- //
@@ -154,7 +184,6 @@ $('.getLocation').on('click', function(e){
       alert("We couldn't get your location. Please ensure geolocation is turned on and try again.")
     }
   });
-
 });
 
 // -- Header Menu -- //
@@ -183,27 +212,37 @@ function toggleMenu() {
 
 // -- Activity Page -- //
 
-var contacted = [{display_name: 'Sohil', uid: 'facebook:74747'}];
-var received = [{display_name: 'Naaz', uid: 'facebook:23534643'}];
+function renderActivity() {
+    state.contacted = [];
+    state.receivedContact = [];
 
-$('.sent').append(contacted.map(function(el){
-  return (
-    '<div>' + el.display_name + '</div>'
-  );
-}));
+  for (var key in state.userProfile.contact_sent) {
+    state.contacted.push(state.userProfile.contact_sent[key]);
+  }
 
-$('.received').append(received.map(function(el){
-  return (
-    '<div>' + el.display_name + '</div>'
-  );
-}));
+  for (var key in state.userProfile.contact_recieved) {
+    state.contacted.push(state.userProfile.contact_recieved[key]);
+  }
 
-$('.sent-nav').on('click', function(){
-  $('.sent').removeClass('hidden');
-  $('.received').addClass('hidden');
-});
+  $('.sent').append(state.contacted.map(function(el){
+    return (
+      '<a href="#profile?id=' + el.uid + '"><div>' + el.name + '</div></a>'
+    );
+  }));
 
-$('.received-nav').on('click', function(){
-  $('.received').removeClass('hidden');
-  $('.sent').addClass('hidden');
-});
+  $('.received').append(state.receivedContact.map(function(el){
+    return (
+      '<a href="#profile?id=' + el.uid + '"><div>' + el.name + '</div></a>'
+    );
+  }));
+
+  $('.sent-nav').on('click', function(){
+    $('.sent').removeClass('hidden');
+    $('.received').addClass('hidden');
+  });
+
+  $('.received-nav').on('click', function(){
+    $('.received').removeClass('hidden');
+    $('.sent').addClass('hidden');
+  });
+}

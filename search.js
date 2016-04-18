@@ -3,7 +3,6 @@ var stateNeedHelpLocation = 'UK';
 var searchResultProfiles = [];
 
 $('#search-button').bind('click', function(e){
-  console.log('search clicked');
   var searchChoice = $('#search-choice').val();
   var searchTopic = $('#search-topic').val();
   var searchLocation;
@@ -28,8 +27,9 @@ $('#search-button').bind('click', function(e){
   request.onreadystatechange = function() {
     if (request.readyState === 4) {
       if (request.status === 200) {
-        var resultsArray = JSON.parse(request.responseText);
-        searchResultProfiles = arrayToObject(resultsArray);
+        var resultsArray = JSON.parse(request.responseText)
+        state.searchResultProfiles = arrayToObject(resultsArray);
+        localStorage.setItem('state', JSON.stringify(state));
         renderResults(resultsArray);
       } else {
         console.log('function error');
@@ -43,18 +43,25 @@ function renderResults(searchResultsArray) {
   var resultsHTML = "";
   searchResultsArray.forEach(function(user){
     var uid = Object.keys(user);
-    console.log(uid);
-    resultsHTML = resultsHTML + '<div id=' + uid[0] +' class="individual"><div>' + user[uid].first_name + '</div><div>' + 'Can Help Here' + user[uid].canHelpLocation +'    Need Help Here' + user[uid].helpNeededLocation + ' Has Skills '+ user[uid].hasSkills + '</div><button class=" view-individual ui-btn-inline">View Individual</button></div>';
-    console.log('results>', resultsHTML);
+    resultsHTML = resultsHTML + '<div id=' + uid[0] +' class="individual"><div>' + user[uid].first_name + '</div><div>' + 'Can Help Here' + user[uid].canHelpLocation +'    Need Help Here' + user[uid].helpNeededLocation + ' Has Skills '+ user[uid].hasSkills + '</div><a href="#profile?id=' + uid[0] + '"><button class=" view-individual ui-btn-inline">View Individual</button></a></div>';
   });
   $('.results-box').html(resultsHTML);
 }
 
-$('.results-box').on('click', '.view-individual', function(e){
-  var selectedID = e.target.parentElement.id;
-  $('.profile').html(createProfile(searchResultProfiles[selectedID]));
-  window.location.href = '#profile';
-});
+// -- Plugin for handling Query Strings -- //
+
+$.mobile.paramsHandler.addPage(
+  "profile", // id of jquery mobile page you want to accept URL parameters
+  ["id"],    // required parameters for that page
+  [],        // optional parameters for that page
+
+  // callback function for when that page is about to show
+  function (urlParams) {
+    getProfile(urlParams.id);
+  }
+);
+
+$.mobile.paramsHandler.init();
 
 function arrayToObject(array) {
   return array.reduce(function(object, element){
@@ -64,11 +71,23 @@ function arrayToObject(array) {
   }, {});
 }
 
+function getProfile(id) {
+  if (state.searchResultProfiles[id]) {
+    $('.profile').html(createProfile(state.searchResultProfiles[id]));
+  } else {
+    $.post('/getProfileDetails', {id: id} ,function(data){
+      console.log(data);
+      $('.profile').html(createProfile(data));
+    });
+  }
+}
+
 function createProfile(profile) {
   var skillsSentence = '';
   var skills = '';
   var needs = '';
-  if (profile.shareSkills){
+
+  if (profile.shareSkills) {
     skillsSentence = '<h2>' + profile.first_name + '\'s Skills</h2>' + '<p>' + profile.shareSkills + '</p>' || '';
   }
   if (profile.hasSkills) {
@@ -89,12 +108,16 @@ function createProfile(profile) {
 }
 
 $('.profile').on('click', '.send-message', function(e){
-  console.log('infinite loop');
+  var authData = JSON.parse(localStorage.getItem('firebase:session::blazing-torch-7074'));
+  var currentUid = authData.uid;
   var sendObject = {
-    sender : 'facebook:10156895568825089',
-    reciever : 'facebook:74747'};
+    sender : currentUid,
+    reciever : 'facebook:10156895568825089'};
 
   $.post('/sendMessage', sendObject, function(data){
-    console.log('front end', data);
+    if (data.success){
+      state.userProfile.contacted.push(data.contact);
+    }
+    alert(data.message);
   });
 });

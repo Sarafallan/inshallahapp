@@ -1,17 +1,9 @@
-var stateCanHelpLocation = 'France';
-var stateNeedHelpLocation = 'UK';
 var searchResultProfiles = [];
 
 $('#search-button').bind('click', function(e){
   var searchChoice = $('#search-choice').val();
   var searchTopic = $('#search-topic').val();
-  var searchLocation;
-
-  if (searchChoice === "takeHelp") {
-    searchLocation = stateNeedHelpLocation;
-  } else {
-    searchLocation = stateCanHelpLocation;
-  }
+  var searchLocation = state.userProfile.location;
 
   var searchQuery = {
     'uid' : 'facebook:10156895568825089',
@@ -27,7 +19,7 @@ $('#search-button').bind('click', function(e){
   request.onreadystatechange = function() {
     if (request.readyState === 4) {
       if (request.status === 200) {
-        var resultsArray = JSON.parse(request.responseText)
+        var resultsArray = JSON.parse(request.responseText);
         state.searchResultProfiles = arrayToObject(resultsArray);
         localStorage.setItem('state', JSON.stringify(state));
         renderResults(resultsArray);
@@ -43,7 +35,7 @@ function renderResults(searchResultsArray) {
   var resultsHTML = "";
   searchResultsArray.forEach(function(user){
     var uid = Object.keys(user);
-    resultsHTML = resultsHTML + '<div id=' + uid[0] +' class="individual"><div>' + user[uid].first_name + '</div><div>' + 'Can Help Here' + user[uid].canHelpLocation +'    Need Help Here' + user[uid].helpNeededLocation + ' Has Skills '+ user[uid].hasSkills + '</div><a href="#profile?id=' + uid[0] + '"><button class=" view-individual ui-btn-inline">View Individual</button></a></div>';
+    resultsHTML = resultsHTML + '<div id=' + uid[0] +' class="individual"><div>' + user[uid].first_name + '</div><div>' + 'Can Help Here' + user[uid].location +'    Need Help Here' + user[uid].location + ' Has Skills '+ user[uid].hasSkills + '</div><a href="#profile?id=' + uid[0] + '"><button class=" view-individual ui-btn-inline">View Individual</button></a></div>';
   });
   $('.results-box').html(resultsHTML);
 }

@@ -76,7 +76,6 @@ function getProfile(id) {
     $('.profile').html(createProfile(state.searchResultProfiles[id]));
   } else {
     $.post('/getProfileDetails', {id: id} ,function(data){
-      console.log(data);
       $('.profile').html(createProfile(data));
     });
   }
@@ -112,11 +111,11 @@ $('.profile').on('click', '.send-message', function(e){
   var currentUid = authData.uid;
   var sendObject = {
     sender : currentUid,
-    reciever : 'facebook:10156895568825089'};
+    reciever : 'facebook:23534643'};
 
   $.post('/sendMessage', sendObject, function(data){
     if (data.success){
-      state.userProfile.contacted.push(data.contact);
+      state.contacted.push(data.contact);
     }
     alert(data.message);
   });

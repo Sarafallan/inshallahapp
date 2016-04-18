@@ -14,7 +14,7 @@
 
   <!-- SIGNUP PAGE 1 -->
   <div data-role="page" id="signup-1">
-    <div data-role="header" class="header" data-position="fixed" data-theme="a">
+    <div data-role="header" class="header" data-position="fixed" data-tap-toggle="false">
       <h1>Sign Up</h1>
       <a href="#" class="ui-btn-right hamburger">
         <div class="burger-holder">
@@ -74,16 +74,12 @@
           <p>And what is your location?</p>
           <p>بلا جنوب الواقعة واندونيسيا،, مكن</p>
         </div>
-        <div class="ui-field-contain">
-          <div class="location-select">
-            <select class="select" id="help-needed-location">
-              <option value="" disabled selected>Select Country</option>
-              <option value="France">France / بلا</option>
-              <option value="UK">UK / بلا</option>
-              <option value="Anywhere">Anywhere / بلا</option>
-            </select>
-            <button class="getLocation help-needed-location">Use my location</button>
-          </div>
+        <div class="location-select">
+          <select class="select" id="location">
+            <option value="" disabled selected>Anywhere</option>
+            <option value="Anywhere">Anywhere / بلا</option>
+          </select>
+          <button class="getLocation location">Use my location</button>
         </div>
       </div>
       <div class="next">
@@ -96,7 +92,7 @@
 
   <!-- SIGNUP PAGE 2 -->
   <div data-role="page" id="signup-2">
-    <div data-role="header" class="header" data-position="fixed">
+    <div data-role="header" class="header" data-position="fixed" data-tap-toggle="false">
       <h1>Sign Up</h1>
       <a href="#" class="ui-btn-right hamburger">
         <div class="burger-holder">
@@ -148,7 +144,7 @@
 
   <!-- SEARCH PAGE -->
   <div data-role="page" id="search">
-    <div data-role="header" class="header" data-position="fixed">
+    <div data-role="header" class="header" data-position="fixed" data-tap-toggle="false">
       <h1>Hi <span class="first-name"></span></h1>
       <a href="#" class="ui-btn-right hamburger">
         <div class="burger-holder">
@@ -159,50 +155,47 @@
       </a>
     </div>
 
-    <div data-role="content" class="search">
-
-      <div class="help ui-field-contain">
-        <div class="">
-          <div class="translation">
-            <p>Find People...</p>
-            <p>بلا جنوب الواقعة وان</p>
+    <div class="page">
+      <div class="search">
+        <div class="help ui-field-contain">
+          <div class="">
+            <div class="translation">
+              <p>Find People...</p>
+              <p>بلا جنوب الواقعة وان</p>
+            </div>
+          </div>
+          <div class="">
+            <select id="search-choice" class="select">
+              <option value="takeHelp">To Help Me/ بلا</option>
+              <option value="giveHelp">That I can Help / بلا</option>
+            </select>
           </div>
         </div>
-        <div class="">
-          <select id="search-choice" class="select">
-            <option value="takeHelp">To Help Me/ بلا</option>
-            <option value="giveHelp">That I can Help / بلا</option>
-          </select>
-        </div>
-      </div>
-
-
-      <div class="location ui-field-contain">
-        <div class="">
-          <div class="translation">
-            <p>With...</p>
-            <p>بلا </p>
+        <div class="location ui-field-contain">
+          <div class="">
+            <div class="translation">
+              <p>With...</p>
+              <p>بلا </p>
+            </div>
+          </div>
+          <div class="">
+            <select id="search-topic" class="select">
+              <option value="Law">Law / بلا</option>
+              <option value="Asylum">Asylum / بلا</option>
+              <option value="Advice">Advice / بلا</option>
+            </select>
           </div>
         </div>
-        <div class="">
-          <select id="search-topic" class="select">
-            <option value="Law">Law / بلا</option>
-            <option value="Asylum">Asylum / بلا</option>
-            <option value="Advice">Advice / بلا</option>
-          </select>
+        <div>
+          In Location 'taken from the state'
         </div>
-      </div>
-
-      <div>
-        In Location 'taken from the state'
-      </div>
-
-      <div class="search-button">
-        <button id="search-button" class="ui-btn-inline">Search</button>
-      </div>
-      <br></br>
-      <div class="results-box">
-        Results appear below
+        <div class="search-button">
+          <button id="search-button" class="ui-btn-inline">Search</button>
+        </div>
+        <br></br>
+        <div class="results-box">
+          Results appear below
+        </div>
       </div>
     </div>
   </div>
@@ -210,7 +203,7 @@
   <!-- PROFILE PAGE -->
 
   <div data-role="page" id="profile">
-    <div data-role="header" class="header" data-position="fixed">
+    <div data-role="header" class="header" data-position="fixed" data-tap-toggle="false">
       <h1>Hi <span class="first-name"></span></h1>
       <a href="#" class="ui-btn-right hamburger">
         <div class="burger-holder">
@@ -220,10 +213,11 @@
         </div>
       </a>
     </div>
+    <div class="page">
+      <div class="profile">
+        <div class="userProfile">
 
-    <div data-role="content" class="profile">
-      <div class="userProfile">
-
+        </div>
       </div>
     </div>
   </div>
@@ -231,7 +225,7 @@
   <!-- ACTIVITY PAGE -->
 
   <div data-role="page" id="activity">
-    <div data-role="header" class="header" data-position="fixed">
+    <div data-role="header" class="header" data-position="fixed" data-tap-toggle="false">
       <h1>Hi Sara <span class="arabic-text">/ ي عن, وعلى ا</span></h1>
       <a href="#" class="ui-btn-right hamburger">
         <div class="burger-holder">
@@ -242,18 +236,20 @@
       </a>
     </div>
 
-    <div data-role="content" class="activity">
-      <div data-role="navbar">
-        <ul>
-          <li><a class="ui-btn-active sent-nav">Sent Message</a></li>
-          <li><a class="received-nav">Received Message</a></li>
-        </ul>
-      </div>
-      <div class="sent">
-        <h1>People you've contacted</h1>
-      </div>
-      <div class="received hidden">
-        <h1>People that have contacted you</h1>
+    <div class="page">
+      <div class="activity">
+        <div data-role="navbar">
+          <ul>
+            <li><a class="ui-btn-active sent-nav">Sent Message</a></li>
+            <li><a class="received-nav">Received Message</a></li>
+          </ul>
+        </div>
+        <div class="sent">
+          <h1>People you've contacted</h1>
+        </div>
+        <div class="received hidden">
+          <h1>People that have contacted you</h1>
+        </div>
       </div>
     </div>
   </div>
@@ -261,7 +257,7 @@
   <script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
   <script src="jquery.mobile.paramsHandler.js"></script>
   <script src="state.js"></script>
-  <script src="login.js"></script>
+  <!-- <script src="login.js"></script> -->
   <script src="index.js"></script>
   <script src="search.js"></script>
 </body>

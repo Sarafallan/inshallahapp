@@ -29,9 +29,9 @@ function renderProfile(){
 
   $('#country-code').val(state.userProfile.phoneCC);
   $('#tel').val(state.userProfile.phoneNumber);
-  $('#help-needed-location option[value=' + state.userProfile.helpNeededLocation + ']').attr('selected', true);
-  $('#can-help-location option[value=' + state.userProfile.canHelpLocation + ']').attr('selected', true);
-  // $('#story').val(state.userProfile.story);
+
+  $('#location option[value=' + state.userProfile.location + ']').attr('selected', true);
+
   $('#share-skills').val(state.userProfile.shareSkills);
   $('#anything-else').val(state.userProfile.anythingElse);
 }
@@ -52,7 +52,7 @@ function saveProfile() {
   var authData = JSON.parse(localStorage.getItem('firebase:session::blazing-torch-7074'));
   var currentUid = authData.uid;
 
-  state.userProfile.helpNeededLocation = $('#help-needed-location').val();
+  state.userProfile.location = $('#location').val();
 
   state.userProfile.shareSkills = sanitise($('#share-skills').val());
   state.userProfile.anythingElse = sanitise($('#anything-else').val());
@@ -66,9 +66,8 @@ function saveProfile() {
     'story' : state.userProfile.story,
     'skillsNeeded': state.userProfile.skillsNeeded,
     'hasSkills': state.userProfile.hasSkills,
-    'helpNeededLocation': state.userProfile.helpNeededLocation,
+    'location': state.userProfile.location,
     'shareSkills': state.userProfile.shareSkills,
-    'canHelpLocation': state.userProfile.canHelpLocation,
     'anythingElse': state.userProfile.anythingElse,
   };
 
@@ -153,23 +152,16 @@ function displaySkill(box, skill, skillsArray){
 // -- Location -- //
 
 $('.getLocation').on('click', function(e){
-  var availability;
-
   if (!navigator.geolocation) {
     alert('Geolocation is not available on this browser/device.');
-  }
-
-  if ($(e.target).hasClass('help-needed-location')) {
-    availability = 'help-needed-location';
-  } else if ($(e.target).hasClass('can-help-location')) {
-    availability = 'can-help-location';
   }
 
   navigator.geolocation.getCurrentPosition(function(position){
     var latitude = position.coords.latitude;
     var longitude = position.coords.longitude;
     $.post('/location', {latitude: latitude, longitude: longitude}, function(data){
-      var select = $('select#' + availability);
+      console.log(data);
+      var select = $('select#' + 'location');
       var optTempl = '<option selected value="' + data.country + '">'+ data.city + ', ' + data.country +'</option>';
       select.prepend(optTempl);
       select.selectmenu();
@@ -177,9 +169,9 @@ $('.getLocation').on('click', function(e){
     });
   }, function(error){
     if (error.code === 1) {
-      alert("Geolocation has been denied on this page. Please select your location from the dropdown menu.");
+      alert("Geolocation has been denied on this page. Please select 'Anywhere' from the dropdown menu.");
     } else {
-      alert("We couldn't get your location. Please ensure geolocation is turned on and try again.")
+      alert("We couldn't get your location. Please ensure geolocation is turned on and try again.");
     }
   });
 });
@@ -189,7 +181,7 @@ $('.getLocation').on('click', function(e){
 var menu = {
   html: '<div class="modal"><div class="links"><ul><a href="/main"><li>My INshallah Page</li></a><a href="#search"><li>Search</li></a><a href="#activity"><li>Your Activity</li></a><a href="#"><li>Contact INshallah</li></a></ul></div></div>',
   visible: false,
-}
+};
 
 $('.hamburger').on('click', function(){
   toggleMenu();

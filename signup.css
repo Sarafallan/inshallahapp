@@ -60,12 +60,6 @@ html {
   margin-bottom: 2em;
 }
 
-/*.save, .next, .search-button {
-  width: 50%;
-  float: right;
-  background-color: #EFFAFF;
-}*/
-
 .save button, .next button, .search-button button {
   font-size: 1em;
   margin-top: 2em;
@@ -83,6 +77,12 @@ html {
 
 .location-select, .skills-select {
   vertical-align: top;
+}
+
+.location-select {
+  width: 50%;
+  margin: auto;
+  display: block;
 }
 
 .skill {
@@ -130,4 +130,9 @@ html {
 
 .hidden {
   display: none;
+}
+
+.search, .profile, .activity {
+  padding: 2em;
+  background-color: #EFFAFF;
 }

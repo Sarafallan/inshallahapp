@@ -67,9 +67,8 @@ module.exports = {
          'story': profileObject.story,
          'skillsNeeded': profileObject.skillsNeeded,
          'hasSkills': profileObject.hasSkills,
-         'helpNeededLocation': profileObject.helpNeededLocation,
-         'shareSkills': profileObject.shareSkills,
-         'canHelpLocation': profileObject.canHelpLocation
+         'location': profileObject.location,
+         'shareSkills': profileObject.shareSkills
        }, onComplete);
       }
     });
@@ -134,9 +133,8 @@ module.exports = {
             skillsNeeded: profile.skillsNeeded,
             shareSkills: profile.shareSkills,
             story: profile.story,
-            canHelpLocation: profile.canHelpLocation,
-            helpNeededLocation: profile.helpNeededLocation
-          }
+            location: profile.location
+          };
           reply(snapshot.val());
         }, function(error){
           reply(error);
@@ -185,31 +183,37 @@ function searchUsers(data, terms) {
 
     keysArray.forEach(function(key){
       var hasSkills = data[key].hasSkills || [];
-      var giveHelpLocation = data[key].canHelpLocation || [];
+      var theirLocation = data[key].location || [];
+
+      console.log("their location", theirLocation);
+      console.log('my location', terms.searchLocation);
 
       if (hasSkills.indexOf(terms.searchTopic) > -1 && key != terms.uid) {
         var result = {};
         result[key] = data[key];
 
-        if (giveHelpLocation.indexOf(terms.searchLocation) > -1) {
+        if (theirLocation.indexOf(terms.searchLocation) > -1) {
           searchLocationMatch.push(result);
         } else {
           searchResults.push(result);
         }
       }
-    });
 
+
+    });
+    console.log('search location match', searchLocationMatch);
+    console.log('search results', searchResults);
 
   } else if (terms.searchChoice === "giveHelp"){
     keysArray.forEach(function(key){
       var skillsNeeded = data[key].skillsNeeded || [];
-      var getHelpLocation = data[key].helpNeededLocation || [];
+      var theirLocation = data[key].location || [];
 
       if (skillsNeeded.indexOf(terms.searchTopic) > -1 && key != terms.uid) {
         var result = {};
         result[key] = data[key];
 
-        if (getHelpLocation.indexOf(terms.searchLocation) > -1) {
+        if (theirLocation.indexOf(terms.searchLocation) > -1) {
           searchLocationMatch.push(result);
         } else {
           searchResults.push(result);

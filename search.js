@@ -112,11 +112,11 @@ $('.profile').on('click', '.send-message', function(e){
   var currentUid = authData.uid;
   var sendObject = {
     sender : currentUid,
-    reciever : 'facebook:74747'};
+    reciever : 'facebook:10156895568825089'};
 
   $.post('/sendMessage', sendObject, function(data){
     if (data.success){
-      // state.contacted.push()
+      state.userProfile.contacted.push(data.contact);
     }
     alert(data.message);
   });

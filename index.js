@@ -213,25 +213,24 @@ function toggleMenu() {
 // -- Activity Page -- //
 
 function renderActivity() {
-  var contacted = [];
-  var received = [];
+    state.contacted = [];
+    state.receivedContact = [];
 
   for (var key in state.userProfile.contact_sent) {
-    contacted.push(state.userProfile.contact_sent[key]);
+    state.contacted.push(state.userProfile.contact_sent[key]);
   }
 
   for (var key in state.userProfile.contact_recieved) {
-    contacted.push(state.userProfile.contact_recieved[key]);
+    state.contacted.push(state.userProfile.contact_recieved[key]);
   }
 
-  $('.sent').append(contacted.map(function(el){
-    console.log(el);
+  $('.sent').append(state.contacted.map(function(el){
     return (
       '<a href="#profile?id=' + el.uid + '"><div>' + el.name + '</div></a>'
     );
   }));
 
-  $('.received').append(received.map(function(el){
+  $('.received').append(state.receivedContact.map(function(el){
     return (
       '<a href="#profile?id=' + el.uid + '"><div>' + el.name + '</div></a>'
     );

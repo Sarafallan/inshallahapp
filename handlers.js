@@ -282,7 +282,7 @@ function twilio(messageDetails, reply) {
       addContact('contact_sent', messageDetails.sender.uid, {uid: messageDetails.reciever.uid, name: messageDetails.reciever.display_name});
       addContact('contact_recieved', messageDetails.reciever.uid, {uid: messageDetails.sender.uid, name: messageDetails.sender.display_name, tel: messageDetails.sender.phoneCC + messageDetails.sender.phoneNumber});
 
-      reply({success: true, message: 'Message Sent!'});
+      reply({success: true, message: 'Message Sent!', contact: {name: messageDetails.reciever.display_name, uid: messageDetails.reciever.uid}});
     // }
   // });
 }

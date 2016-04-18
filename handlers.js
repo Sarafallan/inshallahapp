@@ -13,13 +13,19 @@ module.exports = {
   sendMessage : function(req, reply) {
     var messageInfo = req.payload;
     var details = getMessageDetails(messageInfo.sender, messageInfo.reciever, function(data){
-      console.log(data);
-      checkContacts(data.sender, data.reciever, function(boolean){
-        if (boolean) {
-          console.log('contacted already');
-          reply({success: false, message: 'You have already contacted this person, you can\'t contact them again but they have your number'});
+      checkTextCount(data.sender, function(boolean){
+        if (boolean){
+          checkContacts(data.sender, data.reciever, function(boolean){
+            if (boolean) {
+              console.log('contacted already');
+              reply({success: false, message: 'You have already contacted this person, you can\'t contact them again but they have your number'});
+            } else {
+              twilio(data, reply);
+            }
+          });
         } else {
-          twilio(data, reply);
+          console.log('too many texts');
+          reply({success: false, message: 'You have sent more than five texts today. Please wait until tomorrow to send any more'});
         }
       });
     });
@@ -281,7 +287,7 @@ function twilio(messageDetails, reply) {
       console.log('inside twillio function');
       addContact('contact_sent', messageDetails.sender.uid, {uid: messageDetails.reciever.uid, name: messageDetails.reciever.display_name});
       addContact('contact_recieved', messageDetails.reciever.uid, {uid: messageDetails.sender.uid, name: messageDetails.sender.display_name, tel: messageDetails.sender.phoneCC + messageDetails.sender.phoneNumber});
-
+      incrementTextCount(messageDetails.sender);
       reply({success: true, message: 'Message Sent!', contact: {name: messageDetails.reciever.display_name, uid: messageDetails.reciever.uid}});
     // }
   // });
@@ -301,6 +307,42 @@ function checkContacts(sender, reciever, callback) {
   });
 }
 
+function checkTextCount(sender, callback) {
+  var newObj = {};
+  var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + sender.uid + '/text_count');
+
+  var dateString = getCurrentDate();
+
+  user.once("value", function(snapshot){
+    var textCount;
+    if (snapshot.val()){
+      textCount = snapshot.val()[dateString];
+    }
+
+    if (textCount && textCount < 5) {
+      callback(true);
+    } else if (textCount >= 5) {
+      callback(false);
+    } else if (!textCount){
+      newObj[dateString] = 0;
+      user.set(newObj);
+      callback(true)
+    }
+  });
+}
+
+function incrementTextCount(sender) {
+  var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + sender.uid + '/text_count');
+  var newObj = {};
+  var dateString = getCurrentDate();
+
+  user.once("value", function(snapshot){
+    var textCount = snapshot.val()[dateString];
+    newObj[dateString] = textCount + 1;
+    user.update(newObj);
+  });
+}
+
 function addContact(contactKey, userid, contactObject) {
   var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + userid + '/' + contactKey);
 
@@ -312,4 +354,16 @@ function addContact(contactKey, userid, contactObject) {
     }
   });
 
+}
+
+function getCurrentDate(){
+  var today = new Date(Date.now());
+
+  var day = today.getDate();
+  var month = today.getMonth();
+  var year = today.getFullYear();
+
+  var dateString = year + '-' + month + '-' + day;
+
+  return dateString;
 }

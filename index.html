@@ -41,21 +41,7 @@
         </div>
       </div>
       <div class="need-skill-box skill-box"></div>
-      <div class="location ui-field-contain">
-        <div class="translation">
-          <p>In...</p>
-          <p>بلا </p>
-        </div>
-        <div class="location-select">
-          <select class="select" id="help-needed-location">
-            <option value="" disabled selected>Select Country</option>
-            <option value="France">France / بلا</option>
-            <option value="UK">UK / بلا</option>
-            <option value="Anywhere">Anywhere / بلا</option>
-          </select>
-          <button class="getLocation help-needed-location">Use my location</button>
-        </div>
-      </div>
+
       <div class="next">
         <a href="#signup-2"><button>Next</button></a>
       </div>
@@ -100,13 +86,11 @@
             <p>بلا </p>
           </div>
         <div class="location-select">
-          <select class="select" id="can-help-location">
-            <option value="" disabled selected>Select Country</option>
-            <option value="France">France / بلا</option>
-            <option value="UK">UK / بلا</option>
+          <select class="select" id="location">
+            <option value="" disabled selected>Anywhere</option>
             <option value="Anywhere">Anywhere / بلا</option>
           </select>
-          <button class="getLocation can-help-location">Use my location</button>
+          <button class="getLocation location">Use my location</button>
         </div>
       </div>
       <div class="next">
@@ -287,7 +271,7 @@
 <script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
 <script src="jquery.mobile.paramsHandler.js"></script>
 <script src="state.js"></script>
-<script src="login.js"></script>
+<!-- <script src="login.js"></script> -->
 <script src="index.js"></script>
 <script src="search.js"></script>
 </body>

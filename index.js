@@ -11,6 +11,7 @@ var leadingZero = new RegExp(/\b0+/, 'g');
 $(document).ready(function(){
   state = JSON.parse(localStorage.getItem('state')) || state;
   renderProfile();
+  renderActivity();
 });
 
 function renderProfile(){
@@ -211,27 +212,38 @@ function toggleMenu() {
 
 // -- Activity Page -- //
 
-var contacted = [{display_name: 'Sohil', uid: 'facebook:74747'}];
-var received = [{display_name: 'Naaz', uid: 'facebook:23534643'}];
+function renderActivity() {
+  var contacted = [];
+  var received = [];
 
-$('.sent').append(contacted.map(function(el){
-  return (
-    '<a href="#profile?id=' + el.uid + '"><div>' + el.display_name + '</div></a>'
-  );
-}));
+  for (var key in state.userProfile.contact_sent) {
+    contacted.push(state.userProfile.contact_sent[key]);
+  }
 
-$('.received').append(received.map(function(el){
-  return (
-    '<a href="#profile?id=' + el.uid + '"><div>' + el.display_name + '</div></a>'
-  );
-}));
+  for (var key in state.userProfile.contact_recieved) {
+    contacted.push(state.userProfile.contact_recieved[key]);
+  }
 
-$('.sent-nav').on('click', function(){
-  $('.sent').removeClass('hidden');
-  $('.received').addClass('hidden');
-});
+  $('.sent').append(contacted.map(function(el){
+    console.log(el);
+    return (
+      '<a href="#profile?id=' + el.uid + '"><div>' + el.name + '</div></a>'
+    );
+  }));
 
-$('.received-nav').on('click', function(){
-  $('.received').removeClass('hidden');
-  $('.sent').addClass('hidden');
-});
+  $('.received').append(received.map(function(el){
+    return (
+      '<a href="#profile?id=' + el.uid + '"><div>' + el.name + '</div></a>'
+    );
+  }));
+
+  $('.sent-nav').on('click', function(){
+    $('.sent').removeClass('hidden');
+    $('.received').addClass('hidden');
+  });
+
+  $('.received-nav').on('click', function(){
+    $('.received').removeClass('hidden');
+    $('.sent').addClass('hidden');
+  });
+}

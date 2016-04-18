@@ -34,6 +34,8 @@ ref.onAuth(function(authData){
         }
       }
     };
+  } else {
+    window.location.href = '/';
   }
 
 });

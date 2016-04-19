@@ -43,8 +43,9 @@ html {
 .skill-box {
   width: 80%;
   border: solid 1px;
-  height: 5em;
+  min-height: 5em;
   margin: auto;
+  margin-bottom: 2em;
 }
 
 .translation > p:first-child {
@@ -54,10 +55,6 @@ html {
 .translation > p:last-child {
   margin-top: 0;
   margin-bottom: 0.5em;
-}
-
-.skill-box {
-  margin-bottom: 2em;
 }
 
 .save button, .next button, .search-button button {

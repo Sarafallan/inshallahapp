@@ -5,9 +5,10 @@ $('#search-button').bind('click', function(e){
   var searchChoice = $('#search-choice').val();
   var searchTopic = $('#search-topic').val();
   var searchLocation = state.userProfile.location;
+  var profile = JSON.parse(localStorage.getItem('firebase:session::blazing-torch-7074'));
 
   searchQuery = {
-    'uid' : 'facebook:10156895568825089',
+    'uid' : profile.uid,
     'searchLocation' : searchLocation,
     'searchChoice' : searchChoice,
     'searchTopic' : searchTopic

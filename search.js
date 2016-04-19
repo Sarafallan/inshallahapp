@@ -57,7 +57,7 @@ function renderResults(searchResultsArray) {
       }
 
       if (user[uid].skillsNeeded) {
-        skillsNeeded = user[uid].hasSkills.map(function(el){
+        skillsNeeded = user[uid].skillsNeeded.map(function(el){
           return '<div class="skill">' + el + ' / ' + arabicSkills[el] + '</div>';
         }).join('');
         skillsNeededString = '<p>Needs Help With: ' + skillsNeeded + '</p>'

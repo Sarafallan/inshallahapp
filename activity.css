@@ -54,3 +54,15 @@
   font-size: 1em;
   padding: 0;
 }
+
+li a .translation p {
+  margin: 0;
+}
+
+.sent .translation h3:first-child, .received .translation h3:first-child {
+  margin-bottom: 0;
+}
+
+.sent .translation h3:last-child, .received .translation h3:last-child {
+  margin-top: 0;
+}

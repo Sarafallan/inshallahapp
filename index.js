@@ -217,8 +217,9 @@ function renderActivity() {
   }
 
   $('.sent').append(state.contacted.map(function(el){
+    console.log(el);
     return (
-      '<a href="#profile?id=' + el.uid + '"><div>' + el.name + '</div></a>'
+      '<div class="activity-individual"><a href="#profile?id=' + el.uid + '"><div>' + el.name + '</div></a></div>'
     );
   }));
 

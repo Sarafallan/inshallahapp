@@ -12,7 +12,7 @@ module.exports = {
 
   sendMessage : function(req, reply) {
     var messageInfo = req.payload;
-    var details = getMessageDetails(messageInfo.sender, messageInfo.reciever, function(data){
+    var details = getMessageDetails(messageInfo, function(data){
       checkTextCount(data.sender, function(boolean){
         if (boolean){
           checkContacts(data.sender, data.reciever, function(boolean){
@@ -21,6 +21,7 @@ module.exports = {
               reply({success: false, message: 'You have already contacted this person, you can\'t contact them again but they have your number'});
             } else {
               twilio(data, reply);
+
             }
           });
         } else {
@@ -185,9 +186,6 @@ function searchUsers(data, terms) {
       var hasSkills = data[key].hasSkills || [];
       var theirLocation = data[key].location || [];
 
-      console.log("their location", theirLocation);
-      console.log('my location', terms.searchLocation);
-
       if (hasSkills.indexOf(terms.searchTopic) > -1 && key != terms.uid) {
         var result = {};
         result[key] = data[key];
@@ -201,8 +199,6 @@ function searchUsers(data, terms) {
 
 
     });
-    console.log('search location match', searchLocationMatch);
-    console.log('search results', searchResults);
 
   } else if (terms.searchChoice === "giveHelp"){
     keysArray.forEach(function(key){
@@ -249,7 +245,7 @@ function extractCountry(data) {
   return found;
 }
 
-function getMessageDetails(senderuid, recieveruid, callback) {
+function getMessageDetails(messageInfo, callback) {
   var users = new Firebase('https://blazing-torch-7074.firebaseio.com/users/');
   var messageDetails = {};
 
@@ -259,10 +255,13 @@ function getMessageDetails(senderuid, recieveruid, callback) {
     } else {
       users.once("value", function(snapshot) {
         var data = snapshot.val();
-        messageDetails.sender = data[senderuid];
-        messageDetails.sender.uid = senderuid;
-        messageDetails.reciever = data[recieveruid];
-        messageDetails.reciever.uid = recieveruid;
+        messageDetails.sender = data[messageInfo.sender];
+        messageDetails.sender.uid = messageInfo.sender;
+        messageDetails.reciever = data[ messageInfo.reciever];
+        messageDetails.reciever.uid =  messageInfo.reciever;
+        messageDetails.searchLocation = messageInfo.searchLocation;
+        messageDetails.searchChoice = messageInfo.searchChoice;
+        messageDetails.searchTopic = messageInfo.searchTopic;
 
         callback(messageDetails);
       }, function (errorObject) {
@@ -273,6 +272,19 @@ function getMessageDetails(senderuid, recieveruid, callback) {
 }
 
 function twilio(messageDetails, reply) {
+  console.log('message in twilio', messageDetails);
+  var messageBody;
+
+  if (messageDetails.searchChoice == "takeHelp"){
+    messageBody = "Hello " + messageDetails.reciever.first_name + ", " + messageDetails.sender.first_name + " needs help with " + messageDetails.searchTopic + ". Get in touch with them at " + messageDetails.sender.tel + " or see their inshallah page here: inshallah.herokuapp.com/main#profile?id=" + messageDetails.sender.uid;
+  } else if (messageDetails.searchChoice == "giveHelp") {
+    messageBody = "Hello " + messageDetails.reciever.first_name + ", " + messageDetails.sender.first_name + " can help you with " + messageDetails.searchTopic + ". Get in touch with them at " + messageDetails.sender.tel + " or see their inshallah page here: inshallah.herokuapp.com/main#profile?id=" + messageDetails.sender.uid;
+  } else {
+    console.log('error');
+  }
+
+  console.log(messageBody);
+
   // var accountSid = process.env.TWILIO_ACCOUNT_SID;
   // var authToken = process.env.TWILIO_AUTH_TOKEN;
   // var twilioPhoneNumber = process.env.TWILIO_PHONE_NUMBER;
@@ -282,18 +294,17 @@ function twilio(messageDetails, reply) {
   // client.messages.create({
   //     to: '07952795872',
   //     from: twilioPhoneNumber,
-  //     body: "Hello " + messageDetails.reciever.first_name + ", " + messageDetails.sender.first_name + " needs help with generic skill. Get in touch with them at " + messageDetails.sender.tel,
+  //     body: messageBody,
   // }, function(err, message) {
   //   if (err) {
   //     console.log(err);
   //     reply('Something went wrong, please try again later');
-    // } else {
-      console.log('inside twillio function');
-      addContact('contact_sent', messageDetails.sender.uid, {uid: messageDetails.reciever.uid, name: messageDetails.reciever.display_name});
-      addContact('contact_recieved', messageDetails.reciever.uid, {uid: messageDetails.sender.uid, name: messageDetails.sender.display_name, tel: messageDetails.sender.phoneCC + messageDetails.sender.phoneNumber});
-      incrementTextCount(messageDetails.sender);
-      reply({success: true, message: 'Message Sent!', contact: {name: messageDetails.reciever.display_name, uid: messageDetails.reciever.uid}});
-    // }
+  //   } else {
+  //     addContact('contact_sent', messageDetails.sender.uid, {uid: messageDetails.reciever.uid, name: messageDetails.reciever.display_name});
+  //     addContact('contact_recieved', messageDetails.reciever.uid, {uid: messageDetails.sender.uid, name: messageDetails.sender.display_name, tel: messageDetails.sender.phoneCC + messageDetails.sender.phoneNumber});
+  //     incrementTextCount(messageDetails.sender);
+  //     reply({success: true, message: 'Message Sent!', contact: {name: messageDetails.reciever.display_name, uid: messageDetails.reciever.uid}});
+  //   }
   // });
 }
 

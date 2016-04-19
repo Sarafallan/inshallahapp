@@ -185,7 +185,7 @@ function searchUsers(data, terms) {
     keysArray.forEach(function(key){
       var hasSkills = data[key].hasSkills || [];
       var theirLocation = data[key].location || [];
-
+      console.log('terms', terms);
       if (hasSkills.indexOf(terms.searchTopic) > -1 && key != terms.uid) {
         var result = {};
         result[key] = data[key];

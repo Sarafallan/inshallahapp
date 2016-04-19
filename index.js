@@ -1,7 +1,22 @@
 var arabicSkills = {
-  Law: 'بلا',
-  Advice: 'بلا',
-  Asylum: 'بلا',
+  'Accommodation': 'سكن',
+  'Advice': 'سكن',
+  'Arabic Lessons': 'سكن',
+  'Asylum System': 'سكن',
+  'Border Updates': 'سكن',
+  'Child Support': 'سكن',
+  'English Lessons': 'سكن',
+  'Emotional Support': 'سكن',
+  'Financial Advice': 'سكن',
+  'Form Filling': 'سكن',
+  'Friendship': 'سكن',
+  'Jobs': 'سكن',
+  'Legal Help': 'سكن',
+  'Medical Care': 'سكن',
+  'Mentoring': 'سكن',
+  'Psychologist': 'سكن',
+  'Studying': 'سكن',
+  'Translation': 'سكن',
 };
 var nonDigit = new RegExp(/[^0-9]/, 'g');
 var leadingZero = new RegExp(/\b0+/, 'g');

@@ -1,11 +1,12 @@
 var searchResultProfiles = [];
+var searchQuery = {};
 
 $('#search-button').bind('click', function(e){
   var searchChoice = $('#search-choice').val();
   var searchTopic = $('#search-topic').val();
   var searchLocation = state.userProfile.location;
 
-  var searchQuery = {
+  searchQuery = {
     'uid' : 'facebook:10156895568825089',
     'searchLocation' : searchLocation,
     'searchChoice' : searchChoice,
@@ -131,7 +132,11 @@ $('.profile').on('click', '.send-message', function(e){
   var currentUid = authData.uid;
   var sendObject = {
     sender : currentUid,
-    reciever : 'facebook:23534643'};
+    reciever : 'facebook:23534643',
+    searchLocation : searchQuery.searchLocation,
+    searchChoice : searchQuery.searchChoice,
+    searchTopic : searchQuery.searchTopic
+  };
 
   $.post('/sendMessage', sendObject, function(data){
     if (data.success){

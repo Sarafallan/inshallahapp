@@ -272,7 +272,6 @@ function getMessageDetails(messageInfo, callback) {
 }
 
 function twilio(messageDetails, reply) {
-  console.log('message in twilio', messageDetails);
   var messageBody;
 
   if (messageDetails.searchChoice == "takeHelp"){
@@ -283,7 +282,6 @@ function twilio(messageDetails, reply) {
     console.log('error');
   }
 
-  console.log(messageBody);
 
   // var accountSid = process.env.TWILIO_ACCOUNT_SID;
   // var authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -300,10 +298,11 @@ function twilio(messageDetails, reply) {
   //     console.log(err);
   //     reply('Something went wrong, please try again later');
   //   } else {
-  //     addContact('contact_sent', messageDetails.sender.uid, {uid: messageDetails.reciever.uid, name: messageDetails.reciever.display_name});
-  //     addContact('contact_recieved', messageDetails.reciever.uid, {uid: messageDetails.sender.uid, name: messageDetails.sender.display_name, tel: messageDetails.sender.phoneCC + messageDetails.sender.phoneNumber});
-  //     incrementTextCount(messageDetails.sender);
-  //     reply({success: true, message: 'Message Sent!', contact: {name: messageDetails.reciever.display_name, uid: messageDetails.reciever.uid}});
+      addContact('contact_sent', messageDetails.sender.uid, {uid: messageDetails.reciever.uid, name: messageDetails.reciever.display_name});
+      addContact('contact_recieved', messageDetails.reciever.uid, {uid: messageDetails.sender.uid, name: messageDetails.sender.display_name, tel: messageDetails.sender.phoneCC + messageDetails.sender.phoneNumber});
+      incrementTextCount(messageDetails.sender);
+      incrementContactedCount(messageDetails.reciever);
+      reply({success: true, message: 'Message Sent!', contact: {name: messageDetails.reciever.display_name, uid: messageDetails.reciever.uid}});
   //   }
   // });
 }
@@ -368,8 +367,25 @@ function addContact(contactKey, userid, contactObject) {
       user.push(contactObject);
     }
   });
-
 }
+
+function incrementContactedCount(reciever) {
+  var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + reciever.uid);
+
+  user.once("value", function(snapshot){
+    if (snapshot.val()['contacted_count']) {
+      contactedCount = snapshot.val()['contacted_count'] + 1;
+      user.update({
+        "contacted_count": contactedCount
+      });
+    } else {
+      user.update({
+        "contacted_count": 1
+      });
+    }
+  });
+}
+
 
 function getCurrentDate(){
   var today = new Date(Date.now());

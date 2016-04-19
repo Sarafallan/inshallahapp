@@ -33,7 +33,7 @@ function renderProfile(){
   $('#country-code').val(state.userProfile.phoneCC);
   $('#tel').val(state.userProfile.phoneNumber);
 
-  $('#location option[value=' + state.userProfile.location + ']').attr('selected', true);
+  $('#location').val(state.userProfile.location);
 
   $('#share-skills').val(state.userProfile.shareSkills);
   $('#anything-else').val(state.userProfile.anythingElse);
@@ -55,7 +55,7 @@ function saveProfile() {
   var authData = JSON.parse(localStorage.getItem('firebase:session::blazing-torch-7074'));
   var currentUid = authData.uid;
 
-  state.userProfile.location = $('#location').val();
+  state.userProfile.location = sanitise($('#location').val()) || 'Anywhere';
 
   state.userProfile.shareSkills = sanitise($('#share-skills').val());
   state.userProfile.anythingElse = sanitise($('#anything-else').val());
@@ -163,11 +163,18 @@ $('.getLocation').on('click', function(e){
     var latitude = position.coords.latitude;
     var longitude = position.coords.longitude;
     $.post('/location', {latitude: latitude, longitude: longitude}, function(data){
-      var select = $('select#' + 'location');
-      var optTempl = '<option selected value="' + data.country + '">'+ data.city + ', ' + data.country +'</option>';
-      select.prepend(optTempl);
-      select.selectmenu();
-      select.selectmenu('refresh', true);
+      var select = $('#location');
+      var city = data.city;
+      var country = data.country;
+      var location;
+      if (data.city && data.country) {
+        location = data.city + ', ' + data.country;
+      } else if (data.country) {
+        location = data.country;
+      } else {
+        location = 'Anywhere';
+      }
+      select.val(location);
     });
   }, function(error){
     if (error.code === 1) {
@@ -217,7 +224,6 @@ function renderActivity() {
   }
 
   $('.sent').append(state.contacted.map(function(el){
-    console.log(el);
     return (
       '<div class="activity-individual"><a href="#profile?id=' + el.uid + '"><div>' + el.name + '</div></a></div>'
     );

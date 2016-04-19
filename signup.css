@@ -73,9 +73,14 @@ html {
 }
 
 .location-select {
-  width: 50%;
+  width: 80%;
   margin: auto;
   display: block;
+}
+
+.location-select button {
+  font-size: 0.75em;
+  padding: 0.5em;
 }
 
 .skill {
@@ -114,4 +119,8 @@ html {
 
 .hidden {
   display: none;
+}
+
+.ui-page-theme-a .ui-btn:hover, html .ui-bar-a .ui-btn:hover, html .ui-body-a .ui-btn:hover, html body .ui-group-theme-a .ui-btn:hover, html head+body .ui-btn.ui-btn-a:hover {
+  background-color: #6fc4ea;
 }

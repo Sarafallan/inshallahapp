@@ -1,0 +1,68 @@
+.ui-navbar li .ui-btn {
+  font-size: 0.5em;
+}
+
+.activity-individual {
+  padding: 0.5em;
+  background-color: #81d5fa;
+  border: solid 1px #81d5fa;
+  border-radius: 25px;
+  margin-bottom: 0.5em;
+}
+
+.activity-individual:active {
+  background-color: #6fc4ea;
+}
+
+.activity-individual > * {
+  text-decoration: none;
+}
+
+.activity-individual a, .activity-individual a:visited, .activity-individual a:active {
+  color: black;
+}
+
+.profile h4, .profile p {
+  margin-bottom: 0;
+}
+
+.profile h2 {
+  text-align: center;
+}
+
+.profile .translation {
+  margin-bottom: 0.5em;
+}
+
+.contact.translation {
+  margin-bottom: 2em;
+}
+
+.translation h2, .translation h4 {
+  margin: 0;
+}
+
+.has-skills, .need-skills {
+  margin-bottom: 2em;
+}
+
+.send-details {
+  text-align: center;
+}
+
+.send-message {
+  font-size: 1em;
+  padding: 0;
+}
+
+li a .translation p {
+  margin: 0;
+}
+
+.sent .translation h3:first-child, .received .translation h3:first-child {
+  margin-bottom: 0;
+}
+
+.sent .translation h3:last-child, .received .translation h3:last-child {
+  margin-top: 0;
+}

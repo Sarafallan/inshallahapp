@@ -49,18 +49,24 @@ function renderResults(searchResultsArray) {
       }
 
       if (user[uid].hasSkills) {
-        hasSkills = '<p>Has Skills: ' + user[uid].hasSkills.join(', ') + '</p>';
+        hasSkills = user[uid].hasSkills.map(function(el){
+          return '<div class="skill">' + el + ' / ' + arabicSkills[el] + '</div>';
+        }).join('');
+        hasSkillsString = '<p>Has Skills: ' + hasSkills + '</p>';
       } else {
-        hasSkills = '';
+        hasSkillsString = '';
       }
 
       if (user[uid].skillsNeeded) {
-        skillsNeeded = '<p>Needs Help With: ' + user[uid].skillsNeeded.join(', ') + '</p>'
+        skillsNeeded = user[uid].hasSkills.map(function(el){
+          return '<div class="skill">' + el + ' / ' + arabicSkills[el] + '</div>';
+        }).join('');
+        skillsNeededString = '<p>Needs Help With: ' + skillsNeeded + '</p>'
       } else {
-        skillsNeeded = '';
+        skillsNeededString = '';
       }
 
-      resultsHTML = resultsHTML + '<div id=' + uid[0] +' class="individual"><h4>' + user[uid].display_name + '</h4><p>' + 'Location: ' +  location + '</p>'+ hasSkills + skillsNeeded + '<a href="#profile?id=' + uid[0] + '"><button class="view-individual">View Individual</button></a></div>';
+      resultsHTML = resultsHTML + '<div id=' + uid[0] +' class="individual"><h4>' + user[uid].display_name + '</h4><p>' + 'Location: ' +  location + '</p>'+ hasSkillsString + skillsNeededString + '<a href="#profile?id=' + uid[0] + '"><button class="view-individual">View Individual</button></a></div>';
     });
   } else {
     resultsHTML += '<p>Sorry, there are no results for your request</p><p>Please <a href="https://docs.google.com/forms/d/16EC6IcvYIWvaEvRRHBZYlpaMbo6eLCl4Dud3miyoZE0/viewform">Contact Us</a>, and we\'ll see what we can do to help</p>';
@@ -107,23 +113,20 @@ function createProfile(profile) {
   var skills = '';
   var needs = '';
 
-  if (profile.shareSkills) {
-    skillsSentence = '<h2>' + profile.first_name + '\'s Skills</h2>' + '<p>' + profile.shareSkills + '</p>' || '';
-  }
   if (profile.hasSkills) {
-    skills = '<h2>' + profile.first_name +' can also help with...</h2>' + profile.hasSkills.map(function(el){
-      return '<div>' + el + '</div>';
+    skills = '<div class="translation"><h4>' + profile.first_name +' can help with...</h4><h4>بلا جنوب الواقعة</h4></div>' + profile.hasSkills.map(function(el){
+      return '<div class="skill">' + el + ' / ' + arabicSkills[el] + '</div>';
     }).join('') || '';
   }
   if (profile.skillsNeeded) {
-    needs = '<h2>'+ profile.first_name +' needs help with...</h2>' + profile.skillsNeeded.map(function(el){
-      return '<div>' + el + '</div>';
+    needs = '<div class="translation"><h4>'+ profile.first_name +' needs help with...</h4><h4>بلا جنوب الواقعة</h4></div>' + profile.skillsNeeded.map(function(el){
+      return '<div class="skill">' + el + ' / ' + arabicSkills[el] + '</div>';
     }).join('') || '';
   }
-  return ('<h1>Contact ' + profile.first_name + '</h1>' +
-     skillsSentence + skills + needs +
-    '<div><p>Send ' + profile.first_name + ' Your Details</p>' +
-    '<button class="send-message">Send</button></div>'
+  return ('<div class="translation contact"><h2>Contact ' + profile.first_name + '</h2><h2>جنوب</h2></div>' +
+     '<div class="has-skills">' + skills + '</div>' + '<div class="need-skills">' + needs + '</div>' +
+    '<div class="send-details"><div class="translation"><p>Send ' + profile.first_name + ' Your Details</p><p>ببب ب ب بببب</p></div>' +
+    '<button class="send-message" data-role="button">Send / جنوب</button></div>'
   );
 }
 

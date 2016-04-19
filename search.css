@@ -1,33 +1,31 @@
-/*Colours*/
-body {
-  font-family: sans-serif;
+
+.individual {
+  border: 1px solid black;
+  min-height: 3em;
+  margin-bottom: 1em;
+  padding: 0.5em;
 }
 
-.top-nav {
-  background-color: #e84B0C;
+.individual p, .individual h4{
+  margin: 0;
 }
 
-
-.nav-welcome {
-  color: white;
-  font-size: 24px;
-  font-weight: bold;
+.individual .skill {
+  font-size: 0.8em;
 }
 
-.arabic-text {
-  color: #e0e0e0;
+.view-individual {
+  width: 50%;
+  margin: auto;
+  display: block;
 }
 
-.ui-btn-corner-all {
-  padding: 0;
-  display: inline-block;
-  border-radius: 0.4em;
-  text-shadow: none;
+.search, .profile, .activity {
+  padding: 2em;
+  background-color: #EFFAFF;
+  min-height: 100vh;
 }
 
-.menu-button {
-  position: absolute;
-  top: 0.75em;
-  right: 0.75em;
-
+.search, .profile {
+  padding-top: 0.5em;
 }

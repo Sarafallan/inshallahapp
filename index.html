@@ -8,6 +8,8 @@
   <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
   <link rel="stylesheet" href="signup.css" />
   <link rel="stylesheet" href="header.css" />
+  <link rel="stylesheet" href="search.css" />
+  <link rel="stylesheet" href="activity.css" />
 </head>
 
 <body>
@@ -105,10 +107,8 @@
           <p>بلا جنوب الواقعة واندونيسيا،, مكن</p>
         </div>
         <div class="location-select">
-          <select class="select" id="location">
-            <option value="" disabled selected>Anywhere</option>
-            <option value="Anywhere">Anywhere / بلا</option>
-          </select>
+          <input type="text" id="location" data-clear-btn="true">
+        </input>
           <button class="getLocation location">Find my location using gps</button>
         </div>
       </div>
@@ -282,15 +282,21 @@
       <div class="activity">
         <div data-role="navbar">
           <ul>
-            <li><a class="ui-btn-active sent-nav">Sent Message</a></li>
-            <li><a class="received-nav">Received Message</a></li>
+            <li><a class="ui-btn-active sent-nav"><div class="translation"><p>Sent Message</p><p>يييي قعة وان</p></div></a></li>
+            <li><a class="received-nav"><div class="translation"><p>Received Message</p><p>يييي قعة وان</p></div></a></li>
           </ul>
         </div>
         <div class="sent">
-          <h1>People you've contacted</h1>
+          <div class="translation">
+            <h3>People you've contacted</h3>
+            <h3>ي عن, وعلى ا</h3>
+          </div>
         </div>
         <div class="received hidden">
-          <h1>People that have contacted you</h1>
+          <div class="translation">
+            <h3>People that have contacted you</h3>
+            <h3>ي عن, وعلى ا</h3>
+          </div>
         </div>
       </div>
     </div>
@@ -299,7 +305,7 @@
   <script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
   <script src="jquery.mobile.paramsHandler.js"></script>
   <script src="state.js"></script>
-  <!-- <script src="login.js"></script> -->
+  <script src="login.js"></script>
   <script src="index.js"></script>
   <script src="search.js"></script>
 </body>

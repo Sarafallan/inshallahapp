@@ -276,9 +276,9 @@ function twilio(messageDetails, reply) {
   var messageBody;
 
   if (messageDetails.searchChoice == "takeHelp"){
-    messageBody = "Hello " + messageDetails.reciever.first_name + ", " + messageDetails.sender.first_name + " needs help with " + messageDetails.searchTopic + ". Get in touch with them at " + messageDetails.sender.tel + ".";
+    messageBody = "Hello " + messageDetails.reciever.first_name + ", " + messageDetails.sender.first_name + " needs help with " + messageDetails.searchTopic + ". Get in touch with them at " + messageDetails.sender.tel + " or see their inshallah page here: localhost:8000/main#profile?id=" + messageDetails.sender.uid;
   } else if (messageDetails.searchChoice == "giveHelp") {
-    messageBody = "Hello " + messageDetails.reciever.first_name + ", " + messageDetails.sender.first_name + " can help you with " + messageDetails.searchTopic + ". Get in touch with them at " + messageDetails.sender.tel + ".";
+    messageBody = "Hello " + messageDetails.reciever.first_name + ", " + messageDetails.sender.first_name + " can help you with " + messageDetails.searchTopic + ". Get in touch with them at " + messageDetails.sender.tel + " or see their inshallah page here: localhost:8000/main#profile?id=" + messageDetails.sender.uid;
   } else {
     console.log('error');
   }
@@ -294,7 +294,7 @@ function twilio(messageDetails, reply) {
   // client.messages.create({
   //     to: '07952795872',
   //     from: twilioPhoneNumber,
-  //     body: "Hello " + messageDetails.reciever.first_name + ", " + messageDetails.sender.first_name + " needs help with generic skill. Get in touch with them at " + messageDetails.sender.tel,
+  //     body: messageBody,
   // }, function(err, message) {
   //   if (err) {
   //     console.log(err);

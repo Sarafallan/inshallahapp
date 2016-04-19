@@ -276,9 +276,9 @@ function twilio(messageDetails, reply) {
   var messageBody;
 
   if (messageDetails.searchChoice == "takeHelp"){
-    messageBody = "Hello " + messageDetails.reciever.first_name + ", " + messageDetails.sender.first_name + " needs help with " + messageDetails.searchTopic + ". Get in touch with them at " + messageDetails.sender.tel + " or see their inshallah page here: localhost:8000/main#profile?id=" + messageDetails.sender.uid;
+    messageBody = "Hello " + messageDetails.reciever.first_name + ", " + messageDetails.sender.first_name + " needs help with " + messageDetails.searchTopic + ". Get in touch with them at " + messageDetails.sender.tel + " or see their inshallah page here: inshallah.herokuapp.com/main#profile?id=" + messageDetails.sender.uid;
   } else if (messageDetails.searchChoice == "giveHelp") {
-    messageBody = "Hello " + messageDetails.reciever.first_name + ", " + messageDetails.sender.first_name + " can help you with " + messageDetails.searchTopic + ". Get in touch with them at " + messageDetails.sender.tel + " or see their inshallah page here: localhost:8000/main#profile?id=" + messageDetails.sender.uid;
+    messageBody = "Hello " + messageDetails.reciever.first_name + ", " + messageDetails.sender.first_name + " can help you with " + messageDetails.searchTopic + ". Get in touch with them at " + messageDetails.sender.tel + " or see their inshallah page here: inshallah.herokuapp.com/main#profile?id=" + messageDetails.sender.uid;
   } else {
     console.log('error');
   }

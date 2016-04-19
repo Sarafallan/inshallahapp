@@ -14,10 +14,6 @@ html {
   display: inline-block;
 }
 
-.help .translation {
-  margin-right: 1.5em;
-}
-
 .need-help, .location, .next {
   background-color: #EFFAFF;
   padding: 1em;
@@ -120,9 +116,19 @@ html {
 
 .individual {
   border: 1px solid black;
-  height: 3em;
-  margin: 2em;
-  padding: 1em;
+  min-height: 3em;
+  margin-bottom: 1em;
+  padding: 0.5em;
+}
+
+.individual p, .individual h4{
+  margin: 0;
+}
+
+.view-individual {
+  width: 50%;
+  margin: auto;
+  display: block;
 }
 
 .hidden {
@@ -132,4 +138,9 @@ html {
 .search, .profile, .activity {
   padding: 2em;
   background-color: #EFFAFF;
+  min-height: 100vh;
+}
+
+.search {
+  padding-top: 0.5em;
 }

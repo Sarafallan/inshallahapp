@@ -33,9 +33,33 @@ $('#search-button').bind('click', function(e){
 
 function renderResults(searchResultsArray) {
   var resultsHTML = "";
+
+
   searchResultsArray.forEach(function(user){
     var uid = Object.keys(user);
-    resultsHTML = resultsHTML + '<div id=' + uid[0] +' class="individual"><div>' + user[uid].first_name + '</div><div>' + 'Can Help Here' + user[uid].location +'    Need Help Here' + user[uid].location + ' Has Skills '+ user[uid].hasSkills + '</div><a href="#profile?id=' + uid[0] + '"><button class=" view-individual ui-btn-inline">View Individual</button></a></div>';
+    var location;
+    var hasSkills;
+    var skillsNeeded;
+
+    if (user[uid].location) {
+      location = user[uid].location;
+    } else {
+      location = 'Anywhere';
+    }
+
+    if (user[uid].hasSkills) {
+      hasSkills = '<p>Has Skills: ' + user[uid].hasSkills.join(', ') + '</p>';
+    } else {
+      hasSkills = '';
+    }
+
+    if (user[uid].skillsNeeded) {
+      skillsNeeded = '<p>Needs Help With: ' + user[uid].skillsNeeded.join(', ') + '</p>'
+    } else {
+      skillsNeeded = '';
+    }
+
+    resultsHTML = resultsHTML + '<div id=' + uid[0] +' class="individual"><h4>' + user[uid].display_name + '</h4><p>' + 'Location: ' +  location + '</p>'+ hasSkills + skillsNeeded + '<a href="#profile?id=' + uid[0] + '"><button class="view-individual">View Individual</button></a></div>';
   });
   $('.results-box').html(resultsHTML);
 }

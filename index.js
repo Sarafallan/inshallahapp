@@ -160,7 +160,6 @@ $('.getLocation').on('click', function(e){
     var latitude = position.coords.latitude;
     var longitude = position.coords.longitude;
     $.post('/location', {latitude: latitude, longitude: longitude}, function(data){
-      console.log(data);
       var select = $('select#' + 'location');
       var optTempl = '<option selected value="' + data.country + '">'+ data.city + ', ' + data.country +'</option>';
       select.prepend(optTempl);

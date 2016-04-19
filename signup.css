@@ -73,9 +73,14 @@ html {
 }
 
 .location-select {
-  width: 50%;
+  width: 80%;
   margin: auto;
   display: block;
+}
+
+.location-select button {
+  font-size: 0.75em;
+  padding: 0.5em;
 }
 
 .skill {
@@ -112,35 +117,10 @@ html {
   background-color: #81d5fa;
 }
 
-/*Search Results Box*/
-
-.individual {
-  border: 1px solid black;
-  min-height: 3em;
-  margin-bottom: 1em;
-  padding: 0.5em;
-}
-
-.individual p, .individual h4{
-  margin: 0;
-}
-
-.view-individual {
-  width: 50%;
-  margin: auto;
-  display: block;
-}
-
 .hidden {
   display: none;
 }
 
-.search, .profile, .activity {
-  padding: 2em;
-  background-color: #EFFAFF;
-  min-height: 100vh;
-}
-
-.search {
-  padding-top: 0.5em;
+.ui-page-theme-a .ui-btn:hover, html .ui-bar-a .ui-btn:hover, html .ui-body-a .ui-btn:hover, html body .ui-group-theme-a .ui-btn:hover, html head+body .ui-btn.ui-btn-a:hover {
+  background-color: #6fc4ea;
 }

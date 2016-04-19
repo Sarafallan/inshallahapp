@@ -1,7 +1,8 @@
 body {
   margin: 0;
-  background-color: #ffe082;
+  background-color: #e1f5fe;
   box-sizing: border-box;
+  font-family: sans-serif;
   font-size: 45px;
 }
 
@@ -11,7 +12,7 @@ h1, p {
 }
 
 .main-content {
-  color: #e84B0C;
+  color: #0484BC;
   text-align: center;
 }
 
@@ -27,14 +28,14 @@ h1, p {
 }
 
 .about-us {
-  background-color: #ffca28;
+  background-color: #e1f5fe;
   padding: 2em;
 }
 
 /*Buttons*/
 
 .login-button, .contact-button {
-  background-color: #e65100;
+  background-color: #0484BC;
   border: none;
   border-radius: 2px;
   color: white;

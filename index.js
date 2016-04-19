@@ -29,8 +29,9 @@ function renderProfile(){
 
   $('#country-code').val(state.userProfile.phoneCC);
   $('#tel').val(state.userProfile.phoneNumber);
+
   $('#location option[value=' + state.userProfile.location + ']').attr('selected', true);
-  $('#story').val(state.userProfile.story);
+
   $('#share-skills').val(state.userProfile.shareSkills);
   $('#anything-else').val(state.userProfile.anythingElse);
 }
@@ -53,7 +54,6 @@ function saveProfile() {
 
   state.userProfile.location = $('#location').val();
 
-  state.userProfile.story = sanitise($('#story').val());
   state.userProfile.shareSkills = sanitise($('#share-skills').val());
   state.userProfile.anythingElse = sanitise($('#anything-else').val());
 
@@ -178,7 +178,7 @@ $('.getLocation').on('click', function(e){
 // -- Header Menu -- //
 
 var menu = {
-  html: '<div class="modal"><div class="links"><ul><a href="/main"><li>My INshallah Page</li></a><a href="#search"><li>Search</li></a><a href="#activity"><li>Your Activity</li></a><a href="#"><li>Contact INshallah</li></a></ul></div></div>',
+  html: '<div class="modal"><div class="links"><ul><a href="/main"><li>My INshallah Page</li></a><a href="#search"><li>Search</li></a><a href="#activity"><li>Your Activity</li></a><a href="https://docs.google.com/forms/d/16EC6IcvYIWvaEvRRHBZYlpaMbo6eLCl4Dud3miyoZE0/viewform"><li>Contact INshallah</li></a></ul></div></div>',
   visible: false,
 };
 

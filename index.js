@@ -178,7 +178,7 @@ $('.getLocation').on('click', function(e){
 // -- Header Menu -- //
 
 var menu = {
-  html: '<div class="modal"><div class="links"><ul><a href="/main"><li>My INshallah Page</li></a><a href="#search"><li>Search</li></a><a href="#activity"><li>Your Activity</li></a><a href="#"><li>Contact INshallah</li></a></ul></div></div>',
+  html: '<div class="modal"><div class="links"><ul><a href="/main"><li>My INshallah Page</li></a><a href="#search"><li>Search</li></a><a href="#activity"><li>Your Activity</li></a><a href="https://docs.google.com/forms/d/16EC6IcvYIWvaEvRRHBZYlpaMbo6eLCl4Dud3miyoZE0/viewform"><li>Contact INshallah</li></a></ul></div></div>',
   visible: false,
 };
 

@@ -34,33 +34,37 @@ $('#search-button').bind('click', function(e){
 function renderResults(searchResultsArray) {
   var resultsHTML = "";
 
+  if (searchResultsArray.length){
+    searchResultsArray.forEach(function(user){
+      var uid = Object.keys(user);
+      var location;
+      var hasSkills;
+      var skillsNeeded;
 
-  searchResultsArray.forEach(function(user){
-    var uid = Object.keys(user);
-    var location;
-    var hasSkills;
-    var skillsNeeded;
+      if (user[uid].location) {
+        location = user[uid].location;
+      } else {
+        location = 'Anywhere';
+      }
 
-    if (user[uid].location) {
-      location = user[uid].location;
-    } else {
-      location = 'Anywhere';
-    }
+      if (user[uid].hasSkills) {
+        hasSkills = '<p>Has Skills: ' + user[uid].hasSkills.join(', ') + '</p>';
+      } else {
+        hasSkills = '';
+      }
 
-    if (user[uid].hasSkills) {
-      hasSkills = '<p>Has Skills: ' + user[uid].hasSkills.join(', ') + '</p>';
-    } else {
-      hasSkills = '';
-    }
+      if (user[uid].skillsNeeded) {
+        skillsNeeded = '<p>Needs Help With: ' + user[uid].skillsNeeded.join(', ') + '</p>'
+      } else {
+        skillsNeeded = '';
+      }
 
-    if (user[uid].skillsNeeded) {
-      skillsNeeded = '<p>Needs Help With: ' + user[uid].skillsNeeded.join(', ') + '</p>'
-    } else {
-      skillsNeeded = '';
-    }
+      resultsHTML = resultsHTML + '<div id=' + uid[0] +' class="individual"><h4>' + user[uid].display_name + '</h4><p>' + 'Location: ' +  location + '</p>'+ hasSkills + skillsNeeded + '<a href="#profile?id=' + uid[0] + '"><button class="view-individual">View Individual</button></a></div>';
+    });
+  } else {
+    resultsHTML += '<p>Sorry, there are no results for your request</p><p>Please <a href="https://docs.google.com/forms/d/16EC6IcvYIWvaEvRRHBZYlpaMbo6eLCl4Dud3miyoZE0/viewform">Contact Us</a>, and we\'ll see what we can do to help</p>';
+  }
 
-    resultsHTML = resultsHTML + '<div id=' + uid[0] +' class="individual"><h4>' + user[uid].display_name + '</h4><p>' + 'Location: ' +  location + '</p>'+ hasSkills + skillsNeeded + '<a href="#profile?id=' + uid[0] + '"><button class="view-individual">View Individual</button></a></div>';
-  });
   $('.results-box').html(resultsHTML);
 }
 

@@ -10,6 +10,10 @@ var adminToken = tokenGenerator.createToken(
 
 module.exports = {
 
+  addStar : function(req, reply) {
+    reply('success');
+  },
+
   sendMessage : function(req, reply) {
     var messageInfo = req.payload;
     var details = getMessageDetails(messageInfo, function(data){

@@ -240,7 +240,7 @@ function renderActivity() {
 
   $('.sent').append(state.contacted.map(function(el){
     return (
-      '<div class="activity-individual"><a href="#profile?id=' + el.uid + '"><div>' + el.name + '</div></a></div>'
+      '<div class="activity-individual"><a href="#profile?id=' + el.uid + '"><div>' + el.name + '</div></a></div><div><a href="#"><button class="star">Star</button></a></div>'
     );
   }));
 
@@ -260,3 +260,20 @@ function renderActivity() {
     $('.sent').addClass('hidden');
   });
 }
+
+$('.sent').on('click', '.star', function(e){
+    console.log('star button');
+
+    var userStarred = e.target;
+    console.log(userStarred);
+
+    $.post('/addStar', function(data){
+      if (data === 'success'){
+        console.log('star added');
+        $(userStarred).addClass('starred');
+
+      } else {
+        console.log('star not added');
+      }
+    });
+});

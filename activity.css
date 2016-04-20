@@ -22,6 +22,10 @@
   color: black;
 }
 
+.starred {
+  background-color: yellow !important;
+}
+
 .profile h4, .profile p {
   margin-bottom: 0;
 }

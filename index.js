@@ -267,13 +267,16 @@ $('.sent').on('click', '.star', function(e){
     var userStarred = e.target;
     console.log(userStarred);
 
-    $.post('/addStar', function(data){
-      if (data === 'success'){
-        console.log('star added');
-        $(userStarred).addClass('starred');
 
-      } else {
-        console.log('star not added');
-      }
-    });
-});
+
+    // if ((userStarred).hasClass('.starred')) {
+    //   (userStarred).removeClass('.starred');
+    // } else {
+    //   $.post('/addStar', function(data){
+    //     if (data === 'success'){
+    //       console.log('star added');
+    //       $(userStarred).addClass('starred');
+    //     }
+    //   });
+    // }
+  });

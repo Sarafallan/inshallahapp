@@ -14,6 +14,10 @@ module.exports = {
     reply('success');
   },
 
+  removeStar : function(req, reply) {
+    reply('success');
+  },
+
   sendMessage : function(req, reply) {
     var messageInfo = req.payload;
     var details = getMessageDetails(messageInfo, function(data){

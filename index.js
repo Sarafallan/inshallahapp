@@ -261,22 +261,26 @@ function renderActivity() {
   });
 }
 
-$('.sent').on('click', '.star', function(e){
-    console.log('star button');
+//Star function
 
+$('.sent').on('click', '.star', function(e){
     var userStarred = e.target;
     console.log(userStarred);
 
+    if ($(userStarred).hasClass('starred')) {
+      $.post('/removeStar', function(data){
+        if (data === 'success'){
+          $(userStarred).removeClass('starred');
+       console.log('star removed', userStarred);
+        }
+      });
 
-
-    // if ((userStarred).hasClass('.starred')) {
-    //   (userStarred).removeClass('.starred');
-    // } else {
-    //   $.post('/addStar', function(data){
-    //     if (data === 'success'){
-    //       console.log('star added');
-    //       $(userStarred).addClass('starred');
-    //     }
-    //   });
-    // }
+    } else {
+      $.post('/addStar', function(data){
+        if (data === 'success'){
+        $(userStarred).addClass('starred');
+          console.log('star added', userStarred);
+        }
+      });
+    }
   });

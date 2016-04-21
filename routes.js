@@ -63,6 +63,11 @@ var routes = [
     method: 'POST',
     path: '/addStar',
     handler: handlers.addStar
+  },
+  {
+    method: 'POST',
+    path: '/removeStar',
+    handler: handlers.removeStar
   }
 ];
 

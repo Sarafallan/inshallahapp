@@ -129,7 +129,8 @@ function validatePhoneCC() {
 }
 
 function showWarning() {
-  alert('Please enter a valid phone number to create your account');
+  $( "#phoneAlert" ).popup();
+  $( "#phoneAlert" ).popup( "open" );
 }
 
 function sanitise(input) {
@@ -174,7 +175,8 @@ function displaySkill(box, skill, skillsArray){
 
 $('.getLocation').on('click', function(e){
   if (!navigator.geolocation) {
-    alert('Geolocation is not available on this browser/device.');
+    $( "#geoUnavailable" ).popup();
+    $( "#geoUnavailable" ).popup( "open" );
   }
 
   navigator.geolocation.getCurrentPosition(function(position){
@@ -200,9 +202,11 @@ $('.getLocation').on('click', function(e){
     });
   }, function(error){
     if (error.code === 1) {
-      alert("Geolocation has been denied on this page. Please select 'Anywhere' from the dropdown menu.");
+      $( "#geoDenied" ).popup();
+      $( "#geoDenied" ).popup( "open" );
     } else {
-      alert("We couldn't get your location. Please ensure geolocation is turned on and try again.");
+      $( "#geoError" ).popup();
+      $( "#geoError" ).popup( "open" );
     }
   });
 });

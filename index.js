@@ -281,17 +281,20 @@ function renderActivity() {
 //Star function
 
 $('.activity').on('click', '.star', function(e){
+    var currentUser = JSON.parse(localStorage.getItem('firebase:session::blazing-torch-7074'));
+    var currentid = currentUser.uid;
+    console.log('current id', currentid);
 
     var userStarred = e.target;
     var activityIndividual = $(userStarred).parent()[0].parentElement;
     var link = $(activityIndividual).find('a:first').attr('href');
     var useridToStar = link.split('id=')[1];
 
-    console.log(useridToStar);
+    console.log("user to star", useridToStar);
 
     if ($(userStarred).hasClass('starred')) {
-      $.post('/removeStar', function(data){
-        if (data === 'success'){
+      $.post('/removeStar', {'currentUser' : currentid, 'useridToStar': useridToStar}, function(data){
+        if (data === 'unstarred'){
           $(userStarred).removeClass('starred');
           $(userStarred).addClass('unstarred');
        console.log('star removed', userStarred);
@@ -299,8 +302,8 @@ $('.activity').on('click', '.star', function(e){
       });
 
     } else {
-      $.post('/addStar', function(data){
-        if (data === 'success'){
+      $.post('/addStar', {'currentUser' : currentid,'useridToStar': useridToStar}, function(data){
+        if (data === 'starred'){
           $(userStarred).addClass('starred');
           $(userStarred).removeClass('unstarred');
           console.log('star added', userStarred);

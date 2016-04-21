@@ -11,10 +11,34 @@ var adminToken = tokenGenerator.createToken(
 module.exports = {
 
   addStar : function(req, reply) {
-    reply('success');
+    console.log(user);
+    var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + req.payload.currentUser + '/contact_sent/');
+    var starredUser = req.payload.useridToStar;
+
+    var onComplete = function(error) {
+      if (error) {
+        console.log('Synchronization failed');
+        reply(error);
+      } else {
+        reply('starred');
+        console.log('updated');
+      }
+    };
+
+    user.authWithCustomToken(adminToken, function(error, authData) {
+      if (error) {
+        console.log(error);
+      } else {
+        user.update ({
+          'star_status': 'starred'
+        }, onComplete);
+      }
+    });
   },
 
   removeStar : function(req, reply) {
+    var userid = req.payload.useridToStar;
+
     reply('success');
   },
 
@@ -368,13 +392,13 @@ function incrementTextCount(sender) {
 }
 
 function addContact(contactKey, userid, contactObject) {
-  var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + userid + '/' + contactKey);
+  var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + userid + '/' + contactKey + '/' + contactObject.uid);
 
   user.authWithCustomToken(adminToken, function(error) {
     if (error) {
       console.log(error);
     } else {
-      user.push(contactObject);
+      user.set(contactObject);
     }
   });
 }

@@ -68,7 +68,8 @@ module.exports = {
          'story': profileObject.story,
          'skillsNeeded': profileObject.skillsNeeded,
          'hasSkills': profileObject.hasSkills,
-         'location': profileObject.location,
+         'locationCity': profileObject.locationCity,
+         'locationCountry': profileObject.locationCountry,
          'shareSkills': profileObject.shareSkills
        }, onComplete);
       }
@@ -134,7 +135,8 @@ module.exports = {
             skillsNeeded: profile.skillsNeeded,
             shareSkills: profile.shareSkills,
             story: profile.story,
-            location: profile.location
+            locationCity: profile.locationCity,
+            locationCountry: profile.locationCountry
           };
           reply(snapshot.val());
         }, function(error){
@@ -184,7 +186,7 @@ function searchUsers(data, terms) {
 
     keysArray.forEach(function(key){
       var hasSkills = data[key].hasSkills || [];
-      var theirLocation = data[key].location || [];
+      var theirLocation = data[key].locationCountry || [];
       console.log('terms', terms);
       if (hasSkills.indexOf(terms.searchTopic) > -1 && key != terms.uid) {
         var result = {};
@@ -203,7 +205,7 @@ function searchUsers(data, terms) {
   } else if (terms.searchChoice === "giveHelp"){
     keysArray.forEach(function(key){
       var skillsNeeded = data[key].skillsNeeded || [];
-      var theirLocation = data[key].location || [];
+      var theirLocation = data[key].locationCountry || [];
 
       if (skillsNeeded.indexOf(terms.searchTopic) > -1 && key != terms.uid) {
         var result = {};

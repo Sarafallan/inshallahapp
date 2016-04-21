@@ -107,7 +107,8 @@
           <p>بلا جنوب الواقعة واندونيسيا،, مكن</p>
         </div>
         <div class="location-select">
-          <input type="text" id="location" data-clear-btn="true">
+          <input type="text" placeholder="City" id="locationCity" data-clear-btn="true">
+          <input type="text" placeholder="Country" id="locationCountry" data-clear-btn="true">
         </input>
           <button class="getLocation location">Find my location using gps</button>
         </div>
@@ -320,6 +321,23 @@
         <h1>Information Here</h1>
       </div>
     </div>
+  </div>
+
+  <!-- POPUPS -->
+  <div data-role="popup" id="phoneAlert" class="alert">
+    <p>Please enter a valid phone number to create/update your account</p>
+  </div>
+
+  <div data-role="popup" id="geoUnavailable" class="alert">
+    <p>Geolocation is not available on this browser/device</p>
+  </div>
+
+  <div data-role="popup" id="geoDenied" class="alert">
+    <p>Geolocation has been denied on this page. Please enter your location or continue</p>
+  </div>
+
+  <div data-role="popup" id="geoError" class="alert">
+    <p>We couldn't get your location. Please ensure geolocation is turned on and try again</p>
   </div>
 
   <script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>

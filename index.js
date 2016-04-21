@@ -239,8 +239,17 @@ function renderActivity() {
   }
 
   $('.sent').append(state.contacted.map(function(el){
+    var starClass;
+    if (el.star_status === "unstarred") {
+      starClass = "unstarred";
+      console.log("un", starClass);
+    } else {
+      starClass = "starred";
+      console.log("st", el.star_status);
+    }
+
     return (
-      '<div class="activity-individual"><a href="#profile?id=' + el.uid + '"><div>' + el.name + '</div></a></div><div><a href="#"><button class="star">Star</button></a></div>'
+      '<div class="activity-individual"><a class="profile-link" href="#profile?id=' + el.uid + '"><div>' + el.name + '</div></a><div><button class="star ' + starClass + '">Star</button></div></div>'
     );
   }));
 
@@ -264,13 +273,19 @@ function renderActivity() {
 //Star function
 
 $('.sent').on('click', '.star', function(e){
+
     var userStarred = e.target;
-    console.log(userStarred);
+    var activityIndividual = $(userStarred).parent()[0].parentElement;
+    var link = $(activityIndividual).find('a:first').attr('href');
+    var useridToStar = link.split('id=')[1];
+
+    console.log(useridToStar);
 
     if ($(userStarred).hasClass('starred')) {
       $.post('/removeStar', function(data){
         if (data === 'success'){
           $(userStarred).removeClass('starred');
+          $(userStarred).addClass('unstarred');
        console.log('star removed', userStarred);
         }
       });
@@ -278,7 +293,8 @@ $('.sent').on('click', '.star', function(e){
     } else {
       $.post('/addStar', function(data){
         if (data === 'success'){
-        $(userStarred).addClass('starred');
+          $(userStarred).addClass('starred');
+          $(userStarred).removeClass('unstarred');
           console.log('star added', userStarred);
         }
       });

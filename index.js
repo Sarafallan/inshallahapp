@@ -48,7 +48,8 @@ function renderProfile(){
   $('#country-code').val(state.userProfile.phoneCC);
   $('#tel').val(state.userProfile.phoneNumber);
 
-  $('#location').val(state.userProfile.location);
+  $('#locationCity').val(state.userProfile.locationCity);
+  $('#locationCountry').val(state.userProfile.locationCountry);
 
   $('#share-skills').val(state.userProfile.shareSkills);
   $('#anything-else').val(state.userProfile.anythingElse);
@@ -70,7 +71,8 @@ function saveProfile() {
   var authData = JSON.parse(localStorage.getItem('firebase:session::blazing-torch-7074'));
   var currentUid = authData.uid;
 
-  state.userProfile.location = sanitise($('#location').val()) || 'Anywhere';
+  state.userProfile.locationCity = sanitise($('#locationCity').val()) || '';
+  state.userProfile.locationCountry = sanitise($('#locationCountry').val()) || 'Anywhere';
 
   state.userProfile.shareSkills = sanitise($('#share-skills').val());
   state.userProfile.anythingElse = sanitise($('#anything-else').val());
@@ -84,7 +86,8 @@ function saveProfile() {
     'story' : state.userProfile.story,
     'skillsNeeded': state.userProfile.skillsNeeded,
     'hasSkills': state.userProfile.hasSkills,
-    'location': state.userProfile.location,
+    'locationCity': state.userProfile.locationCity,
+    'locationCountry': state.userProfile.locationCountry,
     'shareSkills': state.userProfile.shareSkills,
     'anythingElse': state.userProfile.anythingElse,
   };
@@ -178,18 +181,22 @@ $('.getLocation').on('click', function(e){
     var latitude = position.coords.latitude;
     var longitude = position.coords.longitude;
     $.post('/location', {latitude: latitude, longitude: longitude}, function(data){
-      var select = $('#location');
+      var locCity = $('#locationCity');
+      var locCountry = $('#locationCountry');
       var city = data.city;
       var country = data.country;
-      var location;
       if (data.city && data.country) {
-        location = data.city + ', ' + data.country;
+        locationCity = data.city;
+        locationCountry = data.country;
       } else if (data.country) {
-        location = data.country;
+        locationCountry = data.country;
+        locationCity = '';
       } else {
-        location = 'Anywhere';
+        locationCountry = 'Anywhere';
+        locationCity = '';
       }
-      select.val(location);
+      locCity.val(locationCity);
+      locCountry.val(locationCountry);
     });
   }, function(error){
     if (error.code === 1) {

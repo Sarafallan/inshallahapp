@@ -7,7 +7,8 @@ var state = {
     hasSkills: [],
     phoneNumber: '',
     phoneCC: '',
-    location: '',
+    locationCity: '',
+    locationCountry: '',
     story: '',
     shareSkills: '',
     anythingElse: ''

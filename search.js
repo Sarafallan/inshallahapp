@@ -4,7 +4,7 @@ var searchQuery = {};
 $('#search-button').bind('click', function(e){
   var searchChoice = $('#search-choice').val();
   var searchTopic = $('#search-topic').val();
-  var searchLocation = state.userProfile.location;
+  var searchLocation = state.userProfile.locationCountry;
   var profile = JSON.parse(localStorage.getItem('firebase:session::blazing-torch-7074'));
 
   searchQuery = {
@@ -43,8 +43,10 @@ function renderResults(searchResultsArray) {
       var hasSkills;
       var skillsNeeded;
 
-      if (user[uid].location) {
-        location = user[uid].location;
+      if (user[uid].locationCity && user[uid].locationCountry) {
+        location = user[uid].locationCity + ', ' + user[uid].locationCountry;
+      } else if (user[uid].locationCountry) {
+        location = user[uid].locationCountry;
       } else {
         location = 'Anywhere';
       }

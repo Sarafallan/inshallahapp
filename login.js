@@ -21,6 +21,7 @@ ref.onAuth(function(authData){
         if (request.status === 200) {
           var response = JSON.parse(request.responseText);
           state.userProfile = response.userProfile;
+          state.authData = authData;
           localStorage.setItem('state', JSON.stringify(state));
           if (response.userSetupComplete){
             if(window.location.pathname === '/'){

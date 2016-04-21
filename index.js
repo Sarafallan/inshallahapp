@@ -24,7 +24,7 @@ var leadingZero = new RegExp(/\b0+/, 'g');
 // -- Initialise App -- //
 
 $(document).ready(function(){
-  if (!localStorage.getItem('firebase:session::blazing-torch-7074')){
+  if (!localStorage.getItem('firebase:session::blazing-torch-7074') && !state.authData){
     window.location.href = '/';
   }
   state = JSON.parse(localStorage.getItem('state')) || state;

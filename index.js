@@ -243,10 +243,12 @@ function renderActivity() {
 
   for (var key in state.userProfile.contact_sent) {
     state.contacted.push(state.userProfile.contact_sent[key]);
+    console.log("contacted", state.contacted);
   }
 
-  for (var key in state.userProfile.contact_recieved) {
-    state.contacted.push(state.userProfile.contact_recieved[key]);
+  for (var identifier in state.userProfile.contact_recieved) {
+    state.receivedContact.push(state.userProfile.contact_recieved[identifier]);
+    console.log("recieved", state.receivedContact);
   }
 
   $('.sent').append(state.contacted.map(function(el){

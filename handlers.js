@@ -195,7 +195,7 @@ function searchUsers(data, terms) {
     keysArray.forEach(function(key){
       var hasSkills = data[key].hasSkills || [];
       var theirLocation = data[key].locationCountry || [];
-    
+
       if (hasSkills.indexOf(terms.searchTopic) > -1 && key != terms.uid) {
         var result = {};
         result[key] = data[key];
@@ -308,8 +308,8 @@ function twilio(messageDetails, reply) {
   //     console.log(err);
   //     reply('Something went wrong, please try again later');
   //   } else {
-      addContact('contact_sent', messageDetails.sender.uid, {uid: messageDetails.reciever.uid, name: messageDetails.reciever.display_name, star_status: false});
-      addContact('contact_recieved', messageDetails.reciever.uid, {uid: messageDetails.sender.uid, name: messageDetails.sender.display_name, tel: messageDetails.sender.phoneCC + messageDetails.sender.phoneNumber, star_status: false});
+      addContact('contact_sent', messageDetails.sender.uid, {uid: messageDetails.reciever.uid, name: messageDetails.reciever.display_name, star_status: 'unstarred'});
+      addContact('contact_recieved', messageDetails.reciever.uid, {uid: messageDetails.sender.uid, name: messageDetails.sender.display_name, tel: messageDetails.sender.phoneCC + messageDetails.sender.phoneNumber, star_status: 'unstarred'});
       incrementTextCount(messageDetails.sender);
       incrementContactedCount(messageDetails.reciever);
       reply({success: true, message: 'Message Sent!', contact: {name: messageDetails.reciever.display_name, uid: messageDetails.reciever.uid}});

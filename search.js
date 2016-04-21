@@ -4,7 +4,7 @@ var searchQuery = {};
 $('#search-button').bind('click', function(e){
   var searchChoice = $('#search-choice').val();
   var searchTopic = $('#search-topic').val();
-  var searchLocation = state.userProfile.location;
+  var searchLocation = state.userProfile.locationCountry;
   var profile = JSON.parse(localStorage.getItem('firebase:session::blazing-torch-7074'));
 
   searchQuery = {
@@ -43,8 +43,10 @@ function renderResults(searchResultsArray) {
       var hasSkills;
       var skillsNeeded;
 
-      if (user[uid].location) {
-        location = user[uid].location;
+      if (user[uid].locationCity && user[uid].locationCountry) {
+        location = user[uid].locationCity + ', ' + user[uid].locationCountry;
+      } else if (user[uid].locationCountry) {
+        location = user[uid].locationCountry;
       } else {
         location = 'Anywhere';
       }
@@ -67,7 +69,7 @@ function renderResults(searchResultsArray) {
         skillsNeededString = '';
       }
 
-      resultsHTML = resultsHTML + '<div id=' + uid[0] +' class="individual"><h4>' + user[uid].display_name + '</h4><p>' + 'Location: ' +  location + '</p>'+ hasSkillsString + skillsNeededString + '<a href="#profile?id=' + uid[0] + '"><button class="view-individual">View Individual</button></a></div>';
+      resultsHTML = resultsHTML + '<div id=' + uid[0] +' class="individual"><h4>' + user[uid].display_name + '</h4><div class="individual-details"><p>' + 'Location: ' +  location + '</p>'+ hasSkillsString + skillsNeededString + '<a href="#profile?id=' + uid[0] + '"></div><button class="view-individual ui-btn ui-btn-inline">View Individual</button></a></div>';
     });
   } else {
     resultsHTML += '<p>Sorry, there are no results for your request</p><p>Please <a href="https://docs.google.com/forms/d/16EC6IcvYIWvaEvRRHBZYlpaMbo6eLCl4Dud3miyoZE0/viewform">Contact Us</a>, and we\'ll see what we can do to help</p>';

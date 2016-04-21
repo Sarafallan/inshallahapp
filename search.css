@@ -1,3 +1,6 @@
+a {
+  text-decoration: none;
+}
 
 .individual {
   border: 1px solid black;
@@ -14,10 +17,19 @@
   font-size: 0.8em;
 }
 
-.view-individual {
+.view-individual, .send-message {
   width: 50%;
   margin: auto;
   display: block;
+  border-radius: 10px;
+  font-size: 1em;
+  padding: 0 1em;
+}
+
+.individual-details {
+  border-bottom: 1px solid #81d5fa;
+  padding-bottom: 0.5em;
+  margin-bottom: 0.5em;
 }
 
 .search, .profile, .activity {

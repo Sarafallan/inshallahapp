@@ -124,3 +124,11 @@ html {
 .ui-page-theme-a .ui-btn:hover, html .ui-bar-a .ui-btn:hover, html .ui-body-a .ui-btn:hover, html body .ui-group-theme-a .ui-btn:hover, html head+body .ui-btn.ui-btn-a:hover {
   background-color: #6fc4ea;
 }
+
+.alert {
+  background-color: white;
+}
+
+#phoneAlert-screen, #geoUnavailable-screen, #geoDenied-screen, #geoError-screen {
+  background-color: black;
+}

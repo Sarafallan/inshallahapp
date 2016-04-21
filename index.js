@@ -252,14 +252,7 @@ function renderActivity() {
   }
 
   $('.sent').append(state.contacted.map(function(el){
-    var starClass;
-    if (el.star_status === "unstarred") {
-      starClass = "unstarred";
-      console.log("un", starClass);
-    } else {
-      starClass = "starred";
-      console.log("st", el.star_status);
-    }
+    var starClass = checkStar(el);
 
     return (
       '<div class="activity-individual"><a class="profile-link" href="#profile?id=' + el.uid + '"><div>' + el.name + '</div></a><div><button class="star ' + starClass + '">Star</button></div></div>'
@@ -267,8 +260,10 @@ function renderActivity() {
   }));
 
   $('.received').append(state.receivedContact.map(function(el){
+    var starClass = checkStar(el);
+
     return (
-      '<a href="#profile?id=' + el.uid + '"><div>' + el.name + '</div></a>'
+      '<div class="activity-individual"><a class="profile-link" href="#profile?id=' + el.uid + '"><div>' + el.name + '</div></a><div><button class="star ' + starClass + '">Star</button></div></div>'
     );
   }));
 
@@ -285,7 +280,7 @@ function renderActivity() {
 
 //Star function
 
-$('.sent').on('click', '.star', function(e){
+$('.activity').on('click', '.star', function(e){
 
     var userStarred = e.target;
     var activityIndividual = $(userStarred).parent()[0].parentElement;
@@ -313,3 +308,11 @@ $('.sent').on('click', '.star', function(e){
       });
     }
   });
+
+function checkStar(el) {
+  if (el.star_status === "unstarred") {
+    return "unstarred";
+  } else {
+    return "starred";
+  }
+}

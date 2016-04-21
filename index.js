@@ -246,8 +246,8 @@ function renderActivity() {
     console.log("contacted", state.contacted);
   }
 
-  for (var identifier in state.userProfile.contact_recieved) {
-    state.receivedContact.push(state.userProfile.contact_recieved[identifier]);
+  for (var item in state.userProfile.contact_recieved) {
+    state.receivedContact.push(state.userProfile.contact_recieved[item]);
     console.log("recieved", state.receivedContact);
   }
 

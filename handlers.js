@@ -12,14 +12,15 @@ module.exports = {
 
   addStar : function(req, reply) {
     console.log(user);
-    var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + req.payload.currentUser + '/contact_sent/');
     var starredUser = req.payload.useridToStar;
+    var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + req.payload.currentUser + '/contact_sent/' + starredUser);
 
     var onComplete = function(error) {
       if (error) {
         console.log('Synchronization failed');
         reply(error);
       } else {
+        incrementStar(starredUser);
         reply('starred');
         console.log('updated');
       }
@@ -37,9 +38,29 @@ module.exports = {
   },
 
   removeStar : function(req, reply) {
-    var userid = req.payload.useridToStar;
+    var starredUser = req.payload.useridToStar;
+    var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + req.payload.currentUser + '/contact_sent/' + starredUser);
 
-    reply('success');
+    var onComplete = function(error) {
+      if (error) {
+        console.log('Synchronization failed');
+        reply(error);
+      } else {
+        reduceStar(starredUser);
+        reply('unstarred');
+        console.log('updated');
+      }
+    };
+
+    user.authWithCustomToken(adminToken, function(error, authData) {
+      if (error) {
+        console.log(error);
+      } else {
+        user.update ({
+          'star_status': 'unstarred'
+        }, onComplete);
+      }
+    });
   },
 
   sendMessage : function(req, reply) {
@@ -334,6 +355,7 @@ function twilio(messageDetails, reply) {
   //   } else {
       addContact('contact_sent', messageDetails.sender.uid, {uid: messageDetails.reciever.uid, name: messageDetails.reciever.display_name, star_status: 'unstarred'});
       addContact('contact_recieved', messageDetails.reciever.uid, {uid: messageDetails.sender.uid, name: messageDetails.sender.display_name, tel: messageDetails.sender.phoneCC + messageDetails.sender.phoneNumber, star_status: 'unstarred'});
+      console.log(messageDetails.reciever.uid);
       incrementTextCount(messageDetails.sender);
       incrementContactedCount(messageDetails.reciever);
       reply({success: true, message: 'Message Sent!', contact: {name: messageDetails.reciever.display_name, uid: messageDetails.reciever.uid}});
@@ -394,6 +416,8 @@ function incrementTextCount(sender) {
 function addContact(contactKey, userid, contactObject) {
   var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + userid + '/' + contactKey + '/' + contactObject.uid);
 
+  console.log("this is the contact key", contactKey);
+
   user.authWithCustomToken(adminToken, function(error) {
     if (error) {
       console.log(error);
@@ -431,4 +455,12 @@ function getCurrentDate(){
   var dateString = year + '-' + month + '-' + day;
 
   return dateString;
+}
+
+function incrementStar(userid) {
+  console.log('increment star');
+}
+
+function reduceStar(userid) {
+  console.log('de-increment star');
 }

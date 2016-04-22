@@ -278,8 +278,10 @@ function twilio(messageDetails, reply) {
 
   if (messageDetails.searchChoice == "takeHelp"){
     messageBody = "Hello " + messageDetails.reciever.first_name + ", " + messageDetails.sender.first_name + " needs help with " + messageDetails.searchTopic + ". Get in touch with them at " + messageDetails.sender.tel + " or see their inshallah page here: inshallah.herokuapp.com/main#profile?id=" + messageDetails.sender.uid;
+    messageBody += "مرحبا " + messageDetails.reciever.first_name + "،" + messageDetails.sender.first_name + "يحتاج إلى مساعدة مع " + messageDetails.searchTopic + "يمكنك الاتصال على" + messageDetails.sender.tel + "أو راجع الصفحة   من هنا : inshallah.herokuapp.com/main#profile?id=" + messageDetails.sender.uid;
   } else if (messageDetails.searchChoice == "giveHelp") {
     messageBody = "Hello " + messageDetails.reciever.first_name + ", " + messageDetails.sender.first_name + " can help you with " + messageDetails.searchTopic + ". Get in touch with them at " + messageDetails.sender.tel + " or see their inshallah page here: inshallah.herokuapp.com/main#profile?id=" + messageDetails.sender.uid;
+    messageBody += "مرحبا " + messageDetails.reciever.first_name + "،" + messageDetails.sender.first_name + " يستطيع مساعدتك ب " + messageDetails.searchTopic + "يمكنك الاتصال على" + messageDetails.sender.tel + "أو راجع الصفحة   من هنا : inshallah.herokuapp.com/main#profile?id=" + messageDetails.sender.uid;
   } else {
     console.log('error');
   }

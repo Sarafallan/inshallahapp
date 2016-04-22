@@ -20,7 +20,7 @@ module.exports = {
         console.log('Synchronization failed');
         reply(error);
       } else {
-        incrementStar(starredUser);
+        incrementStar(starredUser, "increase");
         reply('starred');
         console.log('updated');
       }
@@ -46,7 +46,7 @@ module.exports = {
         console.log('Synchronization failed');
         reply(error);
       } else {
-        reduceStar(starredUser);
+        incrementStar(starredUser, "decrease");
         reply('unstarred');
         console.log('updated');
       }
@@ -203,7 +203,7 @@ module.exports = {
 function createUser(user, callback) {
   var users = new Firebase('https://blazing-torch-7074.firebaseio.com/users/');
   var newUser = {};
-  newUser[user.uid] = {first_name: user.facebook.cachedUserProfile.first_name, last_name: user.facebook.cachedUserProfile.last_name, display_name: user.facebook.displayName};
+  newUser[user.uid] = {first_name: user.facebook.cachedUserProfile.first_name, last_name: user.facebook.cachedUserProfile.last_name, display_name: user.facebook.displayName, star_count: 0};
   users.update(newUser);
   callback();
 }
@@ -457,10 +457,44 @@ function getCurrentDate(){
   return dateString;
 }
 
-function incrementStar(userid) {
-  console.log('increment star');
-}
+function incrementStar(userid, increment) {
+  console.log('increment star', userid, increment);
 
-function reduceStar(userid) {
-  console.log('de-increment star');
+  var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + userid);
+
+
+  user.authWithCustomToken(adminToken, function(error) {
+    if (error) {
+      console.log(error);
+    } else {
+      user.once("value", function(snapshot){
+        var currentCount = snapshot.val().star_count;
+
+        console.log("curent count", currentCount);
+
+        if (increment === "increase") {
+          currentCount = currentCount + 1;
+          user.update({
+            "star_count": currentCount
+          });
+          console.log("should increase", currentCount);
+
+        } else if (increment === "decrease") {
+          if (currentCount !== 0) {
+            currentCount = currentCount -1;
+            user.update({
+              "star_count": currentCount
+            });
+          console.log("should decrease", currentCount);
+          } else {
+            currentCount = 0;
+            user.update({
+              "star_count": currentCount
+            });
+          console.log("should be 0", currentCount);
+          }
+        }
+      });
+    }
+  });
 }

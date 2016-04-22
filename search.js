@@ -69,7 +69,7 @@ function renderResults(searchResultsArray) {
         skillsNeededString = '';
       }
 
-      resultsHTML = resultsHTML + '<div id=' + uid[0] +' class="individual"><h4>' + user[uid].display_name + '</h4><div class="individual-details"><p>' + 'Location: ' +  location + '</p>'+ hasSkillsString + skillsNeededString + '<a href="#profile?id=' + uid[0] + '"></div><button class="view-individual ui-btn ui-btn-inline">View Individual / اعرض الأشخاص</button></a></div>';
+      resultsHTML = resultsHTML + '<div id=' + uid[0] +' class="individual"><h4>' + user[uid].display_name + '</h4><div>Stars '+ user[uid].star_count +'</div><div class="individual-details"><p>' + 'Location: ' +  location + '</p>'+ hasSkillsString + skillsNeededString + '<a href="#profile?id=' + uid[0] + '"></div><button class="view-individual ui-btn ui-btn-inline">View Individual / اعرض الأشخاص</button></a></div>';
     });
   } else {
     resultsHTML += '<p>Sorry, there are no results for your request</p><p>Please <a href="https://docs.google.com/forms/d/16EC6IcvYIWvaEvRRHBZYlpaMbo6eLCl4Dud3miyoZE0/viewform">Contact Us</a>, and we\'ll see what we can do to help</p>';

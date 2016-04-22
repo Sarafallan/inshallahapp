@@ -250,7 +250,6 @@ function renderActivity() {
   for (var item in state.userProfile.contact_recieved) {
     state.receivedContact.push(state.userProfile.contact_recieved[item]);
     console.log("recieved", state.receivedContact);
-
   }
 
   $('.sent').append(state.contacted.map(function(el){

@@ -132,3 +132,9 @@ html {
 #phoneAlert-screen, #geoUnavailable-screen, #geoDenied-screen, #geoError-screen, #contactMessage-screen {
   background-color: black;
 }
+
+.getLocation .translation p {
+  text-align: center;
+  padding: 0;
+  margin: 0;
+}

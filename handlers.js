@@ -18,7 +18,7 @@ module.exports = {
           checkContacts(data.sender, data.reciever, function(boolean){
             if (boolean) {
               console.log('contacted already');
-              reply({success: false, message: 'You have already contacted this person, you can\'t contact them again but they have your number'});
+              reply({success: false, message: 'You have already contacted this person, you can\'t contact them again but they have your number', arabicMessage: 'لقد اتصلت بالفعل هذا الشخص، يمكنك الاتصال بهم مرة أخرى ولكن لديهم رقمك'});
             } else {
               twilio(data, reply);
 
@@ -26,7 +26,7 @@ module.exports = {
           });
         } else {
           console.log('too many texts');
-          reply({success: false, message: 'You have sent more than five texts today. Please wait until tomorrow to send any more'});
+          reply({success: false, message: 'You have sent more than five texts today. Please wait until tomorrow to send any more', arabicMessage: 'لقد أرسلت أكثر من خمسة نصوص اليوم . يرجى الانتظار حتى غد لإرسال أكثر'});
         }
       });
     });
@@ -278,8 +278,10 @@ function twilio(messageDetails, reply) {
 
   if (messageDetails.searchChoice == "takeHelp"){
     messageBody = "Hello " + messageDetails.reciever.first_name + ", " + messageDetails.sender.first_name + " needs help with " + messageDetails.searchTopic + ". Get in touch with them at " + messageDetails.sender.tel + " or see their inshallah page here: inshallah.herokuapp.com/main#profile?id=" + messageDetails.sender.uid;
+    messageBody += "مرحبا " + messageDetails.reciever.first_name + "،" + messageDetails.sender.first_name + "يحتاج إلى مساعدة مع " + messageDetails.searchTopic + "يمكنك الاتصال على" + messageDetails.sender.tel + "أو راجع الصفحة   من هنا : inshallah.herokuapp.com/main#profile?id=" + messageDetails.sender.uid;
   } else if (messageDetails.searchChoice == "giveHelp") {
     messageBody = "Hello " + messageDetails.reciever.first_name + ", " + messageDetails.sender.first_name + " can help you with " + messageDetails.searchTopic + ". Get in touch with them at " + messageDetails.sender.tel + " or see their inshallah page here: inshallah.herokuapp.com/main#profile?id=" + messageDetails.sender.uid;
+    messageBody += "مرحبا " + messageDetails.reciever.first_name + "،" + messageDetails.sender.first_name + " يستطيع مساعدتك ب " + messageDetails.searchTopic + "يمكنك الاتصال على" + messageDetails.sender.tel + "أو راجع الصفحة   من هنا : inshallah.herokuapp.com/main#profile?id=" + messageDetails.sender.uid;
   } else {
     console.log('error');
   }
@@ -304,7 +306,7 @@ function twilio(messageDetails, reply) {
       addContact('contact_recieved', messageDetails.reciever.uid, {uid: messageDetails.sender.uid, name: messageDetails.sender.display_name, tel: messageDetails.sender.phoneCC + messageDetails.sender.phoneNumber});
       incrementTextCount(messageDetails.sender);
       incrementContactedCount(messageDetails.reciever);
-      reply({success: true, message: 'Message Sent!', contact: {name: messageDetails.reciever.display_name, uid: messageDetails.reciever.uid}});
+      reply({success: true, message: 'Message Sent!', arabicMessage: '', contact: {name: messageDetails.reciever.display_name, uid: messageDetails.reciever.uid}});
   //   }
   // });
 }

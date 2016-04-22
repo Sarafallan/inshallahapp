@@ -117,19 +117,19 @@ function createProfile(profile) {
   var needs = '';
 
   if (profile.hasSkills) {
-    skills = '<div class="translation"><h4>' + profile.first_name +' can help with...</h4><h4>بلا جنوب الواقعة</h4></div>' + profile.hasSkills.map(function(el){
+    skills = '<div class="translation"><h4>' + profile.first_name +' can help with...</h4><h4>.يستطيع المساعدة ب</h4></div>' + profile.hasSkills.map(function(el){
       return '<div class="skill">' + el + ' / ' + arabicSkills[el] + '</div>';
     }).join('') || '';
   }
   if (profile.skillsNeeded) {
-    needs = '<div class="translation"><h4>'+ profile.first_name +' needs help with...</h4><h4>بلا جنوب الواقعة</h4></div>' + profile.skillsNeeded.map(function(el){
+    needs = '<div class="translation"><h4>'+ profile.first_name +' needs help with...</h4><h4> يحتاج المساعدة ب</h4></div>' + profile.skillsNeeded.map(function(el){
       return '<div class="skill">' + el + ' / ' + arabicSkills[el] + '</div>';
     }).join('') || '';
   }
   return ('<div class="translation contact"><h2>Contact ' + profile.first_name + '</h2><h2>جنوب</h2></div>' +
      '<div class="has-skills">' + skills + '</div>' + '<div class="need-skills">' + needs + '</div>' +
-    '<div class="send-details"><div class="translation"><p>Send ' + profile.first_name + ' Your Details</p><p>ببب ب ب بببب</p></div>' +
-    '<button class="send-message" data-role="button">Send / جنوب</button></div>'
+    '<div class="send-details"><div class="translation"><p>Send ' + profile.first_name + ' Your Details</p><p>ارسل ' + profile.first_name + ' تفاصيلك ب ب بببب</p></div>' +
+    '<button class="send-message" data-role="button">Send / ارسل</button></div>'
   );
 }
 
@@ -149,7 +149,7 @@ $('.profile').on('click', '.send-message', function(e){
       state.contacted.push(data.contact);
     }
     $('#contactMessage').popup();
-    $('#contactMessage p').html(data.message);
+    $('#contactMessage').html('<div class="translation"><p>' + data.message + '</p><p>' + data.arabicMessage + '</p></div>');
     $('#contactMessage').popup('open');
   });
 });

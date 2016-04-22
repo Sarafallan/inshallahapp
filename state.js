@@ -11,7 +11,9 @@ var state = {
     locationCountry: '',
     story: '',
     shareSkills: '',
-    anythingElse: ''
+    anythingElse: '',
+    contact_sent: [],
+    contact_recieved: [],
   },
 
   contacted: [],

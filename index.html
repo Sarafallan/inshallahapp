@@ -119,6 +119,17 @@
         </a>
       </div>
     </div>
+    <div data-role="popup" id="geoUnavailable" class="alert">
+      <p>Geolocation is not available on this browser/device</p>
+    </div>
+
+    <div data-role="popup" id="geoDenied" class="alert">
+      <p>Geolocation has been denied on this page. Please enter your location or continue</p>
+    </div>
+
+    <div data-role="popup" id="geoError" class="alert">
+      <p>We couldn't get your location. Please ensure geolocation is turned on and try again</p>
+    </div>
   </div>
 
   <!-- SIGNUP PAGE 2 -->
@@ -169,6 +180,9 @@
           <button id="save-button" class="ui-btn-inline">Save</button>
         </div>
       </div>
+    </div>
+    <div data-role="popup" id="phoneAlert" class="alert">
+      <p>Please enter a valid phone number to create/update your account</p>
     </div>
   </div>
 
@@ -321,23 +335,6 @@
         <h1>Information Here</h1>
       </div>
     </div>
-  </div>
-
-  <!-- POPUPS -->
-  <div data-role="popup" id="phoneAlert" class="alert">
-    <p>Please enter a valid phone number to create/update your account</p>
-  </div>
-
-  <div data-role="popup" id="geoUnavailable" class="alert">
-    <p>Geolocation is not available on this browser/device</p>
-  </div>
-
-  <div data-role="popup" id="geoDenied" class="alert">
-    <p>Geolocation has been denied on this page. Please enter your location or continue</p>
-  </div>
-
-  <div data-role="popup" id="geoError" class="alert">
-    <p>We couldn't get your location. Please ensure geolocation is turned on and try again</p>
   </div>
 
   <script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>

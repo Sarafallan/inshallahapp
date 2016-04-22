@@ -148,6 +148,8 @@ $('.profile').on('click', '.send-message', function(e){
     if (data.success){
       state.contacted.push(data.contact);
     }
-    alert(data.message);
+    $('#contactMessage').popup();
+    $('#contactMessage p').html(data.message);
+    $('#contactMessage').popup('open');
   });
 });

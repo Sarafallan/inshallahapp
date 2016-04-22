@@ -18,7 +18,7 @@ module.exports = {
           checkContacts(data.sender, data.reciever, function(boolean){
             if (boolean) {
               console.log('contacted already');
-              reply({success: false, message: 'You have already contacted this person, you can\'t contact them again but they have your number'});
+              reply({success: false, message: 'You have already contacted this person, you can\'t contact them again but they have your number', arabicMessage: 'لقد اتصلت بالفعل هذا الشخص، يمكنك الاتصال بهم مرة أخرى ولكن لديهم رقمك'});
             } else {
               twilio(data, reply);
 
@@ -26,7 +26,7 @@ module.exports = {
           });
         } else {
           console.log('too many texts');
-          reply({success: false, message: 'You have sent more than five texts today. Please wait until tomorrow to send any more'});
+          reply({success: false, message: 'You have sent more than five texts today. Please wait until tomorrow to send any more', arabicMessage: 'لقد أرسلت أكثر من خمسة نصوص اليوم . يرجى الانتظار حتى غد لإرسال أكثر'});
         }
       });
     });
@@ -304,7 +304,7 @@ function twilio(messageDetails, reply) {
       addContact('contact_recieved', messageDetails.reciever.uid, {uid: messageDetails.sender.uid, name: messageDetails.sender.display_name, tel: messageDetails.sender.phoneCC + messageDetails.sender.phoneNumber});
       incrementTextCount(messageDetails.sender);
       incrementContactedCount(messageDetails.reciever);
-      reply({success: true, message: 'Message Sent!', contact: {name: messageDetails.reciever.display_name, uid: messageDetails.reciever.uid}});
+      reply({success: true, message: 'Message Sent!', arabicMessage: '', contact: {name: messageDetails.reciever.display_name, uid: messageDetails.reciever.uid}});
   //   }
   // });
 }

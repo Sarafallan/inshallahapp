@@ -149,7 +149,7 @@ $('.profile').on('click', '.send-message', function(e){
       state.contacted.push(data.contact);
     }
     $('#contactMessage').popup();
-    $('#contactMessage p').html(data.message);
+    $('#contactMessage').html('<div class="translation"><p>' + data.message + '</p><p>' + data.arabicMessage + '</p></div>');
     $('#contactMessage').popup('open');
   });
 });

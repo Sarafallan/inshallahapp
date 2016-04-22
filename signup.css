@@ -129,6 +129,6 @@ html {
   background-color: white;
 }
 
-#phoneAlert-screen, #geoUnavailable-screen, #geoDenied-screen, #geoError-screen {
+#phoneAlert-screen, #geoUnavailable-screen, #geoDenied-screen, #geoError-screen, #contactMessage-screen {
   background-color: black;
 }

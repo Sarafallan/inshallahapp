@@ -22,8 +22,8 @@ a {
   margin: auto;
   display: block;
   border-radius: 10px;
-  font-size: 1em;
-  padding: 0 1em;
+  font-size: 0.9em;
+  padding: 0 0.75em;
 }
 
 .individual-details {

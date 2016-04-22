@@ -4,7 +4,7 @@ var searchQuery = {};
 $('#search-button').bind('click', function(e){
   var searchChoice = $('#search-choice').val();
   var searchTopic = $('#search-topic').val();
-  var searchLocation = state.userProfile.location;
+  var searchLocation = state.userProfile.locationCountry;
   var profile = JSON.parse(localStorage.getItem('firebase:session::blazing-torch-7074'));
 
   searchQuery = {
@@ -43,8 +43,10 @@ function renderResults(searchResultsArray) {
       var hasSkills;
       var skillsNeeded;
 
-      if (user[uid].location) {
-        location = user[uid].location;
+      if (user[uid].locationCity && user[uid].locationCountry) {
+        location = user[uid].locationCity + ', ' + user[uid].locationCountry;
+      } else if (user[uid].locationCountry) {
+        location = user[uid].locationCountry;
       } else {
         location = 'Anywhere';
       }
@@ -67,7 +69,7 @@ function renderResults(searchResultsArray) {
         skillsNeededString = '';
       }
 
-      resultsHTML = resultsHTML + '<div id=' + uid[0] +' class="individual"><h4>' + user[uid].display_name + '</h4><div class="individual-details"><p>' + 'Location: ' +  location + '</p>'+ hasSkillsString + skillsNeededString + '<a href="#profile?id=' + uid[0] + '"></div><button class="view-individual ui-btn ui-btn-inline">View Individual</button></a></div>';
+      resultsHTML = resultsHTML + '<div id=' + uid[0] +' class="individual"><h4>' + user[uid].display_name + '</h4><div class="individual-details"><p>' + 'Location: ' +  location + '</p>'+ hasSkillsString + skillsNeededString + '<a href="#profile?id=' + uid[0] + '"></div><button class="view-individual ui-btn ui-btn-inline">View Individual / اعرض الأشخاص</button></a></div>';
     });
   } else {
     resultsHTML += '<p>Sorry, there are no results for your request</p><p>Please <a href="https://docs.google.com/forms/d/16EC6IcvYIWvaEvRRHBZYlpaMbo6eLCl4Dud3miyoZE0/viewform">Contact Us</a>, and we\'ll see what we can do to help</p>';
@@ -115,19 +117,19 @@ function createProfile(profile) {
   var needs = '';
 
   if (profile.hasSkills) {
-    skills = '<div class="translation"><h4>' + profile.first_name +' can help with...</h4><h4>بلا جنوب الواقعة</h4></div>' + profile.hasSkills.map(function(el){
+    skills = '<div class="translation"><h4>' + profile.first_name +' can help with...</h4><h4>.يستطيع المساعدة ب</h4></div>' + profile.hasSkills.map(function(el){
       return '<div class="skill">' + el + ' / ' + arabicSkills[el] + '</div>';
     }).join('') || '';
   }
   if (profile.skillsNeeded) {
-    needs = '<div class="translation"><h4>'+ profile.first_name +' needs help with...</h4><h4>بلا جنوب الواقعة</h4></div>' + profile.skillsNeeded.map(function(el){
+    needs = '<div class="translation"><h4>'+ profile.first_name +' needs help with...</h4><h4> يحتاج المساعدة ب</h4></div>' + profile.skillsNeeded.map(function(el){
       return '<div class="skill">' + el + ' / ' + arabicSkills[el] + '</div>';
     }).join('') || '';
   }
   return ('<div class="translation contact"><h2>Contact ' + profile.first_name + '</h2><h2>جنوب</h2></div>' +
      '<div class="has-skills">' + skills + '</div>' + '<div class="need-skills">' + needs + '</div>' +
-    '<div class="send-details"><div class="translation"><p>Send ' + profile.first_name + ' Your Details</p><p>ببب ب ب بببب</p></div>' +
-    '<button class="send-message" data-role="button">Send / جنوب</button></div>'
+    '<div class="send-details"><div class="translation"><p>Send ' + profile.first_name + ' Your Details</p><p>ارسل ' + profile.first_name + ' تفاصيلك ب ب بببب</p></div>' +
+    '<button class="send-message" data-role="button">Send / ارسل</button></div>'
   );
 }
 
@@ -146,6 +148,8 @@ $('.profile').on('click', '.send-message', function(e){
     if (data.success){
       state.contacted.push(data.contact);
     }
-    alert(data.message);
+    $('#contactMessage').popup();
+    $('#contactMessage').html('<div class="translation"><p>' + data.message + '</p><p>' + data.arabicMessage + '</p></div>');
+    $('#contactMessage').popup('open');
   });
 });

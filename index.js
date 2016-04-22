@@ -1,22 +1,22 @@
 var arabicSkills = {
   'Accommodation': 'سكن',
-  'Advice': 'سكن',
-  'Arabic Lessons': 'سكن',
-  'Asylum System': 'سكن',
-  'Border Updates': 'سكن',
-  'Child Support': 'سكن',
-  'English Lessons': 'سكن',
-  'Emotional Support': 'سكن',
-  'Financial Advice': 'سكن',
-  'Form Filling': 'سكن',
-  'Friendship': 'سكن',
-  'Jobs': 'سكن',
-  'Legal Help': 'سكن',
-  'Medical Care': 'سكن',
-  'Mentoring': 'سكن',
-  'Psychologist': 'سكن',
-  'Studying': 'سكن',
-  'Translation': 'سكن',
+  'Advice': 'إستشارة',
+  'Arabic Lessons': 'دروس عربي',
+  'Asylum System': 'نظام اللجوء',
+  'Border Updates': 'آخر تطورات الحدود',
+  'Child Support': 'دعم الطفل',
+  'English Lessons': 'دروس انجليزي',
+  'Emotional Support': 'دعم ذهني',
+  'Financial Advice': 'إستشارة مالية',
+  'Form Filling': 'مساعدة الآدمن',
+  'Friendship': 'صداقة',
+  'Jobs': 'أعمال',
+  'Legal Help': 'مساعدة قانونية',
+  'Medical Care': 'عناية طبية',
+  'Mentoring': 'التوجيه',
+  'Psychologist': 'معالج نفسي',
+  'Studying': 'دراسة',
+  'Translation': 'ترجمات',
 };
 var nonDigit = new RegExp(/[^0-9]/, 'g');
 var leadingZero = new RegExp(/\b0+/, 'g');
@@ -24,7 +24,7 @@ var leadingZero = new RegExp(/\b0+/, 'g');
 // -- Initialise App -- //
 
 $(document).ready(function(){
-  if (!localStorage.getItem('firebase:session::blazing-torch-7074')){
+  if (!localStorage.getItem('firebase:session::blazing-torch-7074') && !state.authData){
     window.location.href = '/';
   }
   state = JSON.parse(localStorage.getItem('state')) || state;
@@ -48,7 +48,8 @@ function renderProfile(){
   $('#country-code').val(state.userProfile.phoneCC);
   $('#tel').val(state.userProfile.phoneNumber);
 
-  $('#location').val(state.userProfile.location);
+  $('#locationCity').val(state.userProfile.locationCity);
+  $('#locationCountry').val(state.userProfile.locationCountry);
 
   $('#share-skills').val(state.userProfile.shareSkills);
   $('#anything-else').val(state.userProfile.anythingElse);
@@ -70,7 +71,8 @@ function saveProfile() {
   var authData = JSON.parse(localStorage.getItem('firebase:session::blazing-torch-7074'));
   var currentUid = authData.uid;
 
-  state.userProfile.location = sanitise($('#location').val()) || 'Anywhere';
+  state.userProfile.locationCity = sanitise($('#locationCity').val()) || '';
+  state.userProfile.locationCountry = sanitise($('#locationCountry').val()) || 'Anywhere';
 
   state.userProfile.shareSkills = sanitise($('#share-skills').val());
   state.userProfile.anythingElse = sanitise($('#anything-else').val());
@@ -84,7 +86,8 @@ function saveProfile() {
     'story' : state.userProfile.story,
     'skillsNeeded': state.userProfile.skillsNeeded,
     'hasSkills': state.userProfile.hasSkills,
-    'location': state.userProfile.location,
+    'locationCity': state.userProfile.locationCity,
+    'locationCountry': state.userProfile.locationCountry,
     'shareSkills': state.userProfile.shareSkills,
     'anythingElse': state.userProfile.anythingElse,
   };
@@ -126,7 +129,8 @@ function validatePhoneCC() {
 }
 
 function showWarning() {
-  alert('Please enter a valid phone number to create your account');
+  $( "#phoneAlert" ).popup();
+  $( "#phoneAlert" ).popup( "open" );
 }
 
 function sanitise(input) {
@@ -171,31 +175,38 @@ function displaySkill(box, skill, skillsArray){
 
 $('.getLocation').on('click', function(e){
   if (!navigator.geolocation) {
-    alert('Geolocation is not available on this browser/device.');
+    $( "#geoUnavailable" ).popup();
+    $( "#geoUnavailable" ).popup( "open" );
   }
 
   navigator.geolocation.getCurrentPosition(function(position){
     var latitude = position.coords.latitude;
     var longitude = position.coords.longitude;
     $.post('/location', {latitude: latitude, longitude: longitude}, function(data){
-      var select = $('#location');
+      var locCity = $('#locationCity');
+      var locCountry = $('#locationCountry');
       var city = data.city;
       var country = data.country;
-      var location;
       if (data.city && data.country) {
-        location = data.city + ', ' + data.country;
+        locationCity = data.city;
+        locationCountry = data.country;
       } else if (data.country) {
-        location = data.country;
+        locationCountry = data.country;
+        locationCity = '';
       } else {
-        location = 'Anywhere';
+        locationCountry = 'Anywhere';
+        locationCity = '';
       }
-      select.val(location);
+      locCity.val(locationCity);
+      locCountry.val(locationCountry);
     });
   }, function(error){
     if (error.code === 1) {
-      alert("Geolocation has been denied on this page. Please select 'Anywhere' from the dropdown menu.");
+      $( "#geoDenied" ).popup();
+      $( "#geoDenied" ).popup( "open" );
     } else {
-      alert("We couldn't get your location. Please ensure geolocation is turned on and try again.");
+      $( "#geoError" ).popup();
+      $( "#geoError" ).popup( "open" );
     }
   });
 });
@@ -203,7 +214,7 @@ $('.getLocation').on('click', function(e){
 // -- Header Menu -- //
 
 var menu = {
-  html: '<div class="modal"><div class="links"><ul><a href="/main"><li>My INshallah Page</li></a><a href="#search"><li>Search</li></a><a href="#activity"><li>Your Activity</li></a><a href="#information"><li>Information</li></a><a href="https://docs.google.com/forms/d/16EC6IcvYIWvaEvRRHBZYlpaMbo6eLCl4Dud3miyoZE0/viewform"><li>Contact INshallah</li></a></ul></div></div>',
+  html: '<div class="modal"><div class="links"><ul><a href="/main"><li>My INshallah Page / صفحتي الشخصية</li></a><a href="#search"><li>Search / بحث</li></a><a href="#activity"><li>My Activity / نشاطي</li></a><a href="#information"><li>Information / معومات</li></a><a href="https://docs.google.com/forms/d/16EC6IcvYIWvaEvRRHBZYlpaMbo6eLCl4Dud3miyoZE0/viewform"><li>Contact INshallah / اتصل بنا</li></a></ul></div></div>',
   visible: false,
 };
 
@@ -229,13 +240,13 @@ function toggleMenu() {
 function renderActivity() {
     state.contacted = [];
     state.receivedContact = [];
-
+    console.log(state.userProfile);
   for (var key in state.userProfile.contact_sent) {
     state.contacted.push(state.userProfile.contact_sent[key]);
   }
 
   for (var key in state.userProfile.contact_recieved) {
-    state.contacted.push(state.userProfile.contact_recieved[key]);
+    state.receivedContact.push(state.userProfile.contact_recieved[key]);
   }
 
   $('.sent').append(state.contacted.map(function(el){
@@ -246,7 +257,7 @@ function renderActivity() {
 
   $('.received').append(state.receivedContact.map(function(el){
     return (
-      '<a href="#profile?id=' + el.uid + '"><div>' + el.name + '</div></a>'
+      '<div class="activity-individual"><a href="#profile?id=' + el.uid + '"><div>' + el.name + '</div></a></div>'
     );
   }));
 

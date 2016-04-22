@@ -240,13 +240,13 @@ function toggleMenu() {
 function renderActivity() {
     state.contacted = [];
     state.receivedContact = [];
-
+    console.log(state.userProfile);
   for (var key in state.userProfile.contact_sent) {
     state.contacted.push(state.userProfile.contact_sent[key]);
   }
 
   for (var key in state.userProfile.contact_recieved) {
-    state.contacted.push(state.userProfile.contact_recieved[key]);
+    state.receivedContact.push(state.userProfile.contact_recieved[key]);
   }
 
   $('.sent').append(state.contacted.map(function(el){
@@ -257,7 +257,7 @@ function renderActivity() {
 
   $('.received').append(state.receivedContact.map(function(el){
     return (
-      '<a href="#profile?id=' + el.uid + '"><div>' + el.name + '</div></a>'
+      '<div class="activity-individual"><a href="#profile?id=' + el.uid + '"><div>' + el.name + '</div></a></div>'
     );
   }));
 

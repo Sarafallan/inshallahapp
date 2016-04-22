@@ -148,7 +148,8 @@ $('.profile').on('click', '.send-message', function(e){
 
   $.post('/sendMessage', sendObject, function(data){
     if (data.success){
-      state.userProfile.contact_sent.push(data.contact);
+      state.userProfile.contact_sent[data.contact.uid] = data.contact;
+      renderActivity();
     }
     $('#contactMessage').popup();
     $('#contactMessage').html('<div class="translation"><p>' + data.message + '</p><p>' + data.arabicMessage + '</p></div>');

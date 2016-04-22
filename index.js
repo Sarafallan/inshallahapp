@@ -241,7 +241,6 @@ function toggleMenu() {
 function renderActivity() {
     state.contacted = [];
     state.receivedContact = [];
-    console.log(state.userProfile);
   for (var key in state.userProfile.contact_sent) {
     state.contacted.push(state.userProfile.contact_sent[key]);
     console.log("contacted", state.contacted);

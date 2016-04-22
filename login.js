@@ -20,7 +20,7 @@ ref.onAuth(function(authData){
       if (request.readyState === 4) {
         if (request.status === 200) {
           var response = JSON.parse(request.responseText);
-          state.userProfile = response.userProfile;
+          state.userProfile = buildProfile(response.userProfile);
           state.authData = authData;
           localStorage.setItem('state', JSON.stringify(state));
           if (response.userSetupComplete){
@@ -38,3 +38,18 @@ ref.onAuth(function(authData){
   }
 
 });
+
+function buildProfile(databaseProfile) {
+  var newProfile = {};
+  newProfile['skillsNeeded'] = databaseProfile['skillsNeeded'] || [];
+  newProfile['hasSkills'] = databaseProfile['hasSkills'] || [];
+  newProfile['phoneNumber'] = databaseProfile['phoneNumber'] || '';
+  newProfile['phoneCC'] = databaseProfile['phoneCC'] || '';
+  newProfile['locationCity'] = databaseProfile['locationCity'] || '';
+  newProfile['locationCountry'] = databaseProfile['locationCountry'] || '';
+  newProfile['shareSkills'] = databaseProfile['shareSkills'] || '';
+  newProfile['anythingElse'] = databaseProfile['shareSkills'] || '';
+  newProfile['contact_sent'] = databaseProfile['contact_sent'] || [];
+  newProfile['contact_recieved'] = databaseProfile['contact_recieved'] || [];
+  return newProfile;
+}

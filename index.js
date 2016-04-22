@@ -18,8 +18,8 @@ var arabicSkills = {
   'Studying': 'دراسة',
   'Translation': 'ترجمات',
 };
-var nonDigit = new RegExp(/[^0-9]/, 'g');
-var leadingZero = new RegExp(/\b0+/, 'g');
+var nonDigit = new RegExp(/[^0-9]/g);
+var leadingZero = new RegExp(/\b0+/g);
 
 // -- Initialise App -- //
 
@@ -28,6 +28,8 @@ $(document).ready(function(){
     window.location.href = '/';
   }
   state = JSON.parse(localStorage.getItem('state')) || state;
+  state.userProfile.hasSkills = state.userProfile.hasSkills || [];
+  state.userProfile.skillsNeeded = state.userProfile.skillsNeeded || [];
   renderProfile();
   renderActivity();
 });
@@ -83,7 +85,6 @@ function saveProfile() {
     'uid' : currentUid,
     'phoneNumber' : state.userProfile.phoneNumber,
     'phoneCC': state.userProfile.phoneCC,
-    'story' : state.userProfile.story,
     'skillsNeeded': state.userProfile.skillsNeeded,
     'hasSkills': state.userProfile.hasSkills,
     'locationCity': state.userProfile.locationCity,
@@ -165,8 +166,8 @@ function addSkill(e, skillsArray, box) {
 }
 
 function displaySkill(box, skill, skillsArray){
-  $(box).append('<div class="skill"><a href="#" id=' + skill + '-' + skillsArray + ' class="delete-skill ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-b ui-btn-inline">Delete</a>' + skill + ' / ' + arabicSkills[skill] + '</div>');
-  $('#' + skill + '-' + skillsArray).on('click', function(ev){
+  $(box).append('<div class="skill"><a href="#" id="' + skill.replace(' ', '') + '-' + skillsArray + '" class="delete-skill ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-b ui-btn-inline">Delete</a>' + skill + ' / ' + arabicSkills[skill] + '</div>');
+  $('#' + skill.replace(' ', '') + '-' + skillsArray).on('click', function(ev){
     deleteSkill(ev, skill, state.userProfile[skillsArray]);
   });
 }

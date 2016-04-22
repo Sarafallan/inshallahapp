@@ -65,7 +65,6 @@ module.exports = {
          'phoneNumber' : profileObject.phoneNumber,
          'phoneCC': profileObject.phoneCC,
          'anythingElse': profileObject.anythingElse,
-         'story': profileObject.story,
          'skillsNeeded': profileObject.skillsNeeded,
          'hasSkills': profileObject.hasSkills,
          'locationCity': profileObject.locationCity,
@@ -93,8 +92,8 @@ module.exports = {
         reply({userProfile: snapshot.val(), userSetupComplete: true});
       } else {
         if (!snapshot.exists()) {
-          createUser(userDetails, function(){
-            reply({userProfile: snapshot.val(), userSetupComplete: false});
+          createUser(userDetails, function(profile){
+            reply({userProfile: profile, userSetupComplete: false});
           });
 
         } else {
@@ -152,7 +151,7 @@ function createUser(user, callback) {
   var newUser = {};
   newUser[user.uid] = {first_name: user.facebook.cachedUserProfile.first_name, last_name: user.facebook.cachedUserProfile.last_name, display_name: user.facebook.displayName};
   users.update(newUser);
-  callback();
+  callback(newUser[user.uid]);
 }
 
 

@@ -10,6 +10,59 @@ var adminToken = tokenGenerator.createToken(
 
 module.exports = {
 
+  addStar : function(req, reply) {
+    console.log(user);
+    var starredUser = req.payload.useridToStar;
+    var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + req.payload.currentUser + '/contact_sent/' + starredUser);
+
+    var onComplete = function(error) {
+      if (error) {
+        console.log('Synchronization failed');
+        reply(error);
+      } else {
+        incrementStar(starredUser, "increase");
+        reply('starred');
+        console.log('updated');
+      }
+    };
+
+    user.authWithCustomToken(adminToken, function(error, authData) {
+      if (error) {
+        console.log(error);
+      } else {
+        user.update ({
+          'star_status': 'starred'
+        }, onComplete);
+      }
+    });
+  },
+
+  removeStar : function(req, reply) {
+    var starredUser = req.payload.useridToStar;
+    var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + req.payload.currentUser + '/contact_sent/' + starredUser);
+
+    var onComplete = function(error) {
+      if (error) {
+        console.log('Synchronization failed');
+        reply(error);
+      } else {
+        incrementStar(starredUser, "decrease");
+        reply('unstarred');
+        console.log('updated');
+      }
+    };
+
+    user.authWithCustomToken(adminToken, function(error, authData) {
+      if (error) {
+        console.log(error);
+      } else {
+        user.update ({
+          'star_status': 'unstarred'
+        }, onComplete);
+      }
+    });
+  },
+
   sendMessage : function(req, reply) {
     var messageInfo = req.payload;
     var details = getMessageDetails(messageInfo, function(data){
@@ -149,7 +202,7 @@ module.exports = {
 function createUser(user, callback) {
   var users = new Firebase('https://blazing-torch-7074.firebaseio.com/users/');
   var newUser = {};
-  newUser[user.uid] = {first_name: user.facebook.cachedUserProfile.first_name, last_name: user.facebook.cachedUserProfile.last_name, display_name: user.facebook.displayName};
+  newUser[user.uid] = {first_name: user.facebook.cachedUserProfile.first_name, last_name: user.facebook.cachedUserProfile.last_name, display_name: user.facebook.displayName, star_count: 0};
   users.update(newUser);
   callback(newUser[user.uid]);
 }
@@ -186,7 +239,7 @@ function searchUsers(data, terms) {
     keysArray.forEach(function(key){
       var hasSkills = data[key].hasSkills || [];
       var theirLocation = data[key].locationCountry || [];
-      console.log('terms', terms);
+
       if (hasSkills.indexOf(terms.searchTopic) > -1 && key != terms.uid) {
         var result = {};
         result[key] = data[key];
@@ -301,8 +354,9 @@ function twilio(messageDetails, reply) {
   //     console.log(err);
   //     reply('Something went wrong, please try again later');
   //   } else {
-      addContact('contact_sent', messageDetails.sender.uid, {uid: messageDetails.reciever.uid, name: messageDetails.reciever.display_name});
-      addContact('contact_recieved', messageDetails.reciever.uid, {uid: messageDetails.sender.uid, name: messageDetails.sender.display_name, tel: messageDetails.sender.phoneCC + messageDetails.sender.phoneNumber});
+      addContact('contact_sent', messageDetails.sender.uid, {uid: messageDetails.reciever.uid, name: messageDetails.reciever.display_name, star_status: 'unstarred'});
+      addContact('contact_recieved', messageDetails.reciever.uid, {uid: messageDetails.sender.uid, name: messageDetails.sender.display_name, tel: messageDetails.sender.phoneCC + messageDetails.sender.phoneNumber, star_status: 'unstarred'});
+      console.log(messageDetails.reciever.uid);
       incrementTextCount(messageDetails.sender);
       incrementContactedCount(messageDetails.reciever);
       reply({success: true, message: 'Message Sent!', arabicMessage: '', contact: {name: messageDetails.reciever.display_name, uid: messageDetails.reciever.uid}});
@@ -361,13 +415,15 @@ function incrementTextCount(sender) {
 }
 
 function addContact(contactKey, userid, contactObject) {
-  var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + userid + '/' + contactKey);
+  var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + userid + '/' + contactKey + '/' + contactObject.uid);
+
+  console.log("this is the contact key", contactKey);
 
   user.authWithCustomToken(adminToken, function(error) {
     if (error) {
       console.log(error);
     } else {
-      user.push(contactObject);
+      user.set(contactObject);
     }
   });
 }
@@ -400,4 +456,46 @@ function getCurrentDate(){
   var dateString = year + '-' + month + '-' + day;
 
   return dateString;
+}
+
+function incrementStar(userid, increment) {
+  console.log('increment star', userid, increment);
+
+  var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + userid);
+
+
+  user.authWithCustomToken(adminToken, function(error) {
+    if (error) {
+      console.log(error);
+    } else {
+      user.once("value", function(snapshot){
+        var currentCount = snapshot.val().star_count;
+
+        console.log("curent count", currentCount);
+
+        if (increment === "increase") {
+          currentCount = currentCount + 1;
+          user.update({
+            "star_count": currentCount
+          });
+          console.log("should increase", currentCount);
+
+        } else if (increment === "decrease") {
+          if (currentCount !== 0) {
+            currentCount = currentCount -1;
+            user.update({
+              "star_count": currentCount
+            });
+          console.log("should decrease", currentCount);
+          } else {
+            currentCount = 0;
+            user.update({
+              "star_count": currentCount
+            });
+          console.log("should be 0", currentCount);
+          }
+        }
+      });
+    }
+  });
 }

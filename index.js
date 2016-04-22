@@ -244,21 +244,28 @@ function renderActivity() {
     console.log(state.userProfile);
   for (var key in state.userProfile.contact_sent) {
     state.contacted.push(state.userProfile.contact_sent[key]);
+    console.log("contacted", state.contacted);
   }
 
-  for (var key in state.userProfile.contact_recieved) {
-    state.receivedContact.push(state.userProfile.contact_recieved[key]);
+
+  for (var item in state.userProfile.contact_recieved) {
+    state.receivedContact.push(state.userProfile.contact_recieved[item]);
+    console.log("recieved", state.receivedContact);
   }
 
   $('.sent').append(state.contacted.map(function(el){
+    var starClass = checkStar(el);
+
     return (
-      '<div class="activity-individual"><a href="#profile?id=' + el.uid + '"><div>' + el.name + '</div></a></div>'
+      '<div class="activity-individual"><a class="profile-link" href="#profile?id=' + el.uid + '"><div>' + el.name + '</div></a><div><button class="star ' + starClass + '">Star</button></div></div>'
     );
   }));
 
   $('.received').append(state.receivedContact.map(function(el){
+    var starClass = checkStar(el);
+
     return (
-      '<div class="activity-individual"><a href="#profile?id=' + el.uid + '"><div>' + el.name + '</div></a></div>'
+      '<div class="activity-individual"><a class="profile-link" href="#profile?id=' + el.uid + '"><div>' + el.name + '</div></a><div><button class="star ' + starClass + '">Star</button></div></div>'
     );
   }));
 
@@ -271,4 +278,46 @@ function renderActivity() {
     $('.received').removeClass('hidden');
     $('.sent').addClass('hidden');
   });
+}
+
+//Star function
+
+$('.activity').on('click', '.star', function(e){
+    var currentUser = JSON.parse(localStorage.getItem('firebase:session::blazing-torch-7074'));
+    var currentid = currentUser.uid;
+    console.log('current id', currentid);
+
+    var userStarred = e.target;
+    var activityIndividual = $(userStarred).parent()[0].parentElement;
+    var link = $(activityIndividual).find('a:first').attr('href');
+    var useridToStar = link.split('id=')[1];
+
+    console.log("user to star", useridToStar);
+
+    if ($(userStarred).hasClass('starred')) {
+      $.post('/removeStar', {'currentUser' : currentid, 'useridToStar': useridToStar}, function(data){
+        if (data === 'unstarred'){
+          $(userStarred).removeClass('starred');
+          $(userStarred).addClass('unstarred');
+       console.log('star removed', userStarred);
+        }
+      });
+
+    } else {
+      $.post('/addStar', {'currentUser' : currentid,'useridToStar': useridToStar}, function(data){
+        if (data === 'starred'){
+          $(userStarred).addClass('starred');
+          $(userStarred).removeClass('unstarred');
+          console.log('star added', userStarred);
+        }
+      });
+    }
+  });
+
+function checkStar(el) {
+  if (el.star_status === "unstarred") {
+    return "unstarred";
+  } else {
+    return "starred";
+  }
 }

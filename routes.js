@@ -59,6 +59,16 @@ var routes = [
     path: '/getProfileDetails',
     handler: handlers.getProfileDetails
   },
+  {
+    method: 'POST',
+    path: '/addStar',
+    handler: handlers.addStar
+  },
+  {
+    method: 'POST',
+    path: '/removeStar',
+    handler: handlers.removeStar
+  }
 ];
 
 module.exports = routes;

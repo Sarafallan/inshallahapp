@@ -1,5 +1,5 @@
 {
-  "name": "inshallahapp",
+  "name": "Inshallahapp",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/katpas/inshallahapp.git"
+    "url": "git+https://github.com/katpas/Inshallahapp.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/katpas/inshallahapp/issues"
+    "url": "https://github.com/katpas/Inshallahapp/issues"
   },
-  "homepage": "https://github.com/katpas/inshallahapp#readme",
+  "homepage": "https://github.com/katpas/Inshallahapp#readme",
   "dependencies": {
     "firebase": "^2.4.2",
     "firebase-token-generator": "^2.0.0",

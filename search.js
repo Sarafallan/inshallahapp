@@ -56,7 +56,7 @@ function renderResults(searchResultsArray) {
         location = 'Anywhere';
       }
 
-      if (user[uid].hasSkills) {
+      if (user[uid].hasSkills && searchQuery.searchChoice === "takeHelp") {
         hasSkills = user[uid].hasSkills.map(function(el){
           return '<div class="skill">' + el + ' / ' + arabicSkills[el] + '</div>';
         }).join('');
@@ -65,7 +65,7 @@ function renderResults(searchResultsArray) {
         hasSkillsString = '';
       }
 
-      if (user[uid].skillsNeeded) {
+      if (user[uid].skillsNeeded && searchQuery.searchChoice === "giveHelp") {
         skillsNeeded = user[uid].skillsNeeded.map(function(el){
           return '<div class="skill">' + el + ' / ' + arabicSkills[el] + '</div>';
         }).join('');

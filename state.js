@@ -12,8 +12,7 @@ var state = {
     story: '',
     shareSkills: '',
     anythingElse: '',
-    contact_sent: [],
-    contact_recieved: [],
+    star_count: 0
   },
 
   contacted: [],

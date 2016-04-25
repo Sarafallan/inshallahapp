@@ -24,10 +24,10 @@ var leadingZero = new RegExp(/\b0+/g);
 // -- Initialise App -- //
 
 $(document).ready(function(){
+  state = JSON.parse(localStorage.getItem('state')) || state;
   if (!localStorage.getItem('firebase:session::blazing-torch-7074') && !state.authData){
     window.location.href = '/';
   }
-  state = JSON.parse(localStorage.getItem('state')) || state;
   state.userProfile.hasSkills = state.userProfile.hasSkills || [];
   state.userProfile.skillsNeeded = state.userProfile.skillsNeeded || [];
   renderProfile();
@@ -79,6 +79,8 @@ function saveProfile() {
   state.userProfile.shareSkills = sanitise($('#share-skills').val());
   state.userProfile.anythingElse = sanitise($('#anything-else').val());
 
+  state.userProfile.profileComplete = true;
+
   var authToken = authData.token;
 
   var updateUser = {
@@ -91,6 +93,7 @@ function saveProfile() {
     'locationCountry': state.userProfile.locationCountry,
     'shareSkills': state.userProfile.shareSkills,
     'anythingElse': state.userProfile.anythingElse,
+    'profileComplete': true
   };
 
   localStorage.setItem('state', JSON.stringify(state));

@@ -122,7 +122,8 @@ module.exports = {
          'hasSkills': profileObject.hasSkills,
          'locationCity': profileObject.locationCity,
          'locationCountry': profileObject.locationCountry,
-         'shareSkills': profileObject.shareSkills
+         'shareSkills': profileObject.shareSkills,
+         'profileComplete': profileObject.profileComplete
        }, onComplete);
       }
     });

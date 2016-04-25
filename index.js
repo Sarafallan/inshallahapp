@@ -266,7 +266,7 @@ function renderActivity() {
     var starClass = checkStar(el);
 
     return (
-      '<div class="activity-individual"><a class="profile-link" href="#profile?id=' + el.uid + '"><div>' + el.name + '</div></a><div><button class="star ' + starClass + '">Star</button></div></div>'
+      '<div class="activity-individual"><a class="profile-link" href="#profile?id=' + el.uid + '"><div class="activity-name">' + el.name + '</div></a><div><button class="star ' + starClass + '"><img src="star.png"/></button></div></div>'
     );
   }));
 

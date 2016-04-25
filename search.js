@@ -18,19 +18,24 @@ $('#search-button').bind('click', function(e){
   request.open('POST', '/returnSearch');
   request.send(JSON.stringify(searchQuery));
 
-  request.onreadystatechange = function() {
-    if (request.readyState === 4) {
-      if (request.status === 200) {
-        var resultsArray = JSON.parse(request.responseText);
-        state.searchResultProfiles = arrayToObject(resultsArray);
-        localStorage.setItem('state', JSON.stringify(state));
-        renderResults(resultsArray);
-      } else {
-        console.log('function error');
-      }
-    }
-  };
+  if (state.userProfile.profileComplete) {
 
+    request.onreadystatechange = function() {
+      if (request.readyState === 4) {
+        if (request.status === 200) {
+          var resultsArray = JSON.parse(request.responseText);
+          state.searchResultProfiles = arrayToObject(resultsArray);
+          localStorage.setItem('state', JSON.stringify(state));
+          renderResults(resultsArray);
+        } else {
+          console.log('function error');
+        }
+      }
+    };
+  } else {
+    $( "#profileIncomplete" ).popup();
+    $( "#profileIncomplete" ).popup( "open" );
+  }
 });
 
 function renderResults(searchResultsArray) {
@@ -158,13 +163,20 @@ $('.profile').on('click', '.send-message', function(e){
     searchTopic : searchQuery.searchTopic
   };
 
-  $.post('/sendMessage', sendObject, function(data){
-    if (data.success){
-      state.userProfile.contact_sent[data.contact.uid] = data.contact;
-      renderActivity();
-    }
-    $('#contactMessage').popup();
-    $('#contactMessage').html('<div class="translation"><p>' + data.message + '</p><p>' + data.arabicMessage + '</p></div>');
-    $('#contactMessage').popup('open');
-  });
+  if (state.userProfile.profileComplete) {
+
+    $.post('/sendMessage', sendObject, function(data){
+      if (data.success){
+        state.userProfile.contact_sent[data.contact.uid] = data.contact;
+        renderActivity();
+      }
+      $('#contactMessage').popup();
+      $('#contactMessage').html('<div class="translation"><p>' + data.message + '</p><p>' + data.arabicMessage + '</p></div>');
+      $('#contactMessage').popup('open');
+    });
+  } else {
+    $( "#profileIncomplete" ).popup();
+    $( "#profileIncomplete" ).popup( "open" );
+  }
+
 });

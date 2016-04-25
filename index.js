@@ -26,10 +26,10 @@ var leadingZero = new RegExp(/\b0+/g);
 // -- Initialise App -- //
 
 $(document).ready(function(){
+  state = JSON.parse(localStorage.getItem('state')) || state;
   if (!localStorage.getItem('firebase:session::blazing-torch-7074') && !state.authData){
     window.location.href = '/';
   }
-  state = JSON.parse(localStorage.getItem('state')) || state;
   state.userProfile.hasSkills = state.userProfile.hasSkills || [];
   state.userProfile.skillsNeeded = state.userProfile.skillsNeeded || [];
   renderProfile();
@@ -81,6 +81,8 @@ function saveProfile() {
   state.userProfile.shareSkills = sanitise($('#share-skills').val());
   state.userProfile.anythingElse = sanitise($('#anything-else').val());
 
+  state.userProfile.profileComplete = true;
+
   var authToken = authData.token;
 
   var updateUser = {
@@ -93,6 +95,7 @@ function saveProfile() {
     'locationCountry': state.userProfile.locationCountry,
     'shareSkills': state.userProfile.shareSkills,
     'anythingElse': state.userProfile.anythingElse,
+    'profileComplete': true
   };
 
   localStorage.setItem('state', JSON.stringify(state));
@@ -301,25 +304,30 @@ $('.activity').on('click', '.star', function(e){
     var link = $(activityIndividual).find('a:first').attr('href');
     var useridToStar = link.split('id=')[1];
 
-    if ($(userStarred).hasClass('starred')) {
-      $.post('/removeStar', {'currentUser' : currentid, 'useridToStar': useridToStar}, function(data){
-        if (data === 'unstarred'){
-          $(userStarred).removeClass('starred');
-          $(userStarred).addClass('unstarred');
-       console.log('star removed', userStarred);
-        }
-      });
+    if (state.userProfile.profileComplete) {
+      if ($(userStarred).hasClass('starred')) {
+        $.post('/removeStar', {'currentUser' : currentid, 'useridToStar': useridToStar}, function(data){
+          if (data === 'unstarred'){
+            $(userStarred).removeClass('starred');
+            $(userStarred).addClass('unstarred');
+         console.log('star removed', userStarred);
+          }
+        });
 
+      } else {
+        $.post('/addStar', {'currentUser' : currentid,'useridToStar': useridToStar}, function(data){
+          if (data === 'starred'){
+            $(userStarred).addClass('starred');
+            $(userStarred).removeClass('unstarred');
+            console.log('star added', userStarred);
+          }
+        });
+      }
     } else {
-      $.post('/addStar', {'currentUser' : currentid,'useridToStar': useridToStar}, function(data){
-        if (data === 'starred'){
-          $(userStarred).addClass('starred');
-          $(userStarred).removeClass('unstarred');
-          console.log('star added', userStarred);
-        }
-      });
+      $( "#profileIncomplete" ).popup();
+      $( "#profileIncomplete" ).popup( "open" );
     }
-  });
+});
 
 function checkStar(el) {
   if (el.star_status === "unstarred") {

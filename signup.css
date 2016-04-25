@@ -127,9 +127,10 @@ html {
 
 .alert {
   background-color: white;
+  padding: 1em;
 }
 
-#phoneAlert-screen, #geoUnavailable-screen, #geoDenied-screen, #geoError-screen, #contactMessage-screen {
+#phoneAlert-screen, #geoUnavailable-screen, #geoDenied-screen, #geoError-screen, #contactMessage-screen, #profileIncomplete-screen {
   background-color: black;
 }
 

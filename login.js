@@ -48,8 +48,9 @@ function buildProfile(databaseProfile) {
   newProfile['locationCity'] = databaseProfile['locationCity'] || '';
   newProfile['locationCountry'] = databaseProfile['locationCountry'] || '';
   newProfile['shareSkills'] = databaseProfile['shareSkills'] || '';
-  newProfile['anythingElse'] = databaseProfile['shareSkills'] || '';
+  newProfile['anythingElse'] = databaseProfile['anythingElse'] || '';
   newProfile['contact_sent'] = databaseProfile['contact_sent'] || [];
   newProfile['contact_recieved'] = databaseProfile['contact_recieved'] || [];
+  newProfile['profileComplete'] = databaseProfile['profileComplete'] || false;
   return newProfile;
 }

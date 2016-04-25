@@ -30,6 +30,11 @@
   position: initial;
   display: inline;
   float: right;
+  margin: 0;
+}
+
+.star.ui-btn > img {
+  height: 35px;
 }
 
 .activity-name {

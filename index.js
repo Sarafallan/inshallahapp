@@ -220,9 +220,11 @@ $('.getLocation').on('click', function(e){
 // -- Header Menu -- //
 
 var menu = {
-  html: '<div class="modal"><div class="links"><ul><a href="/main"><li>My Inshallah Page / صفحتي الشخصية</li></a><a href="#search"><li>Search / بحث</li></a><a href="#activity"><li>My Activity / نشاطي</li></a><a href="#information"><li>Information / معومات</li></a><a href="https://docs.google.com/forms/d/16EC6IcvYIWvaEvRRHBZYlpaMbo6eLCl4Dud3miyoZE0/viewform"><li>Contact Inshallah / اتصل بنا</li></a></ul></div></div>',
+  html: '<div class="modal"><div class="links"><ul><a href="/main"><li>My Inshallah Page / صفحتي الشخصية</li></a><a href="#search"><li>Search / بحث</li></a><a href="#activity"><li>My Activity / نشاطي</li></a><a href="https://docs.google.com/forms/d/16EC6IcvYIWvaEvRRHBZYlpaMbo6eLCl4Dud3miyoZE0/viewform"><li>Contact Inshallah / اتصل بنا</li></a><a onclick="logout()"><li class="logout">Log Out</li></a></ul></div></div>',
   visible: false,
 };
+
+//Add in when info there -> <a href="#information"><li>Information / معومات</li></a>
 
 $('.hamburger').on('click', function(){
   toggleMenu();
@@ -239,6 +241,14 @@ function toggleMenu() {
     });
     menu.visible = true;
   }
+}
+
+function logout() {
+    document.cookie.split(";").forEach(function(c) {
+        document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+      });
+    localStorage.clear();
+    window.location.replace('/');
 }
 
 // -- Activity Page -- //

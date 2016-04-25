@@ -120,6 +120,11 @@ function createProfile(profile, id) {
   var skillsSentence = '';
   var skills = '';
   var needs = '';
+  var starSentence = "";
+
+  if (profile.star_count !== 0) {
+    starSentence = profile.first_name + ' has been recommended by ' + profile.star_count + ' persons';
+  }
 
   if (profile.hasSkills) {
     skills = '<div class="translation"><h4>' + profile.first_name +' can help with...</h4><h4>.يستطيع المساعدة ب</h4></div>' + profile.hasSkills.map(function(el){
@@ -132,7 +137,7 @@ function createProfile(profile, id) {
     }).join('') || '';
   }
   return ('<div class="translation contact recieverid" id="' +id+ '"><h2>Contact ' + profile.first_name + '</h2><h2>جنوب</h2></div>' +
-     '<div class="has-skills">' + skills + '</div>' + '<div class="need-skills">' + needs + '</div>' +
+     '<div class="has-skills">' + skills + '</div>' + '<div class="need-skills">' + needs + '</div>' + '<div>' + starSentence + '</div>' +
     '<div class="send-details"><div class="translation"><p>Send ' + profile.first_name + ' Your Details</p><p>ارسل ' + profile.first_name + ' تفاصيلك ب ب بببب</p></div>' +
     '<button class="send-message" data-role="button">Send / ارسل</button></div>'
   );

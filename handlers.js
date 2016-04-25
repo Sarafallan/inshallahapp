@@ -11,7 +11,6 @@ var adminToken = tokenGenerator.createToken(
 module.exports = {
 
   addStar : function(req, reply) {
-    console.log(user);
     var starredUser = req.payload.useridToStar;
     var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + req.payload.currentUser + '/contact_sent/' + starredUser);
 
@@ -22,7 +21,6 @@ module.exports = {
       } else {
         incrementStar(starredUser, "increase");
         reply('starred');
-        console.log('updated');
       }
     };
 
@@ -48,7 +46,6 @@ module.exports = {
       } else {
         incrementStar(starredUser, "decrease");
         reply('unstarred');
-        console.log('updated');
       }
     };
 
@@ -357,7 +354,7 @@ function twilio(messageDetails, reply) {
   //   } else {
       addContact('contact_sent', messageDetails.sender.uid, {uid: messageDetails.reciever.uid, name: messageDetails.reciever.display_name, star_status: 'unstarred'});
       addContact('contact_recieved', messageDetails.reciever.uid, {uid: messageDetails.sender.uid, name: messageDetails.sender.display_name, tel: messageDetails.sender.phoneCC + messageDetails.sender.phoneNumber, star_status: 'unstarred'});
-      console.log(messageDetails.reciever.uid);
+
       incrementTextCount(messageDetails.sender);
       incrementContactedCount(messageDetails.reciever);
       reply({success: true, message: 'Message Sent!', arabicMessage: '', contact: {name: messageDetails.reciever.display_name, uid: messageDetails.reciever.uid}});
@@ -418,8 +415,6 @@ function incrementTextCount(sender) {
 function addContact(contactKey, userid, contactObject) {
   var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + userid + '/' + contactKey + '/' + contactObject.uid);
 
-  console.log("this is the contact key", contactKey);
-
   user.authWithCustomToken(adminToken, function(error) {
     if (error) {
       console.log(error);
@@ -460,10 +455,7 @@ function getCurrentDate(){
 }
 
 function incrementStar(userid, increment) {
-  console.log('increment star', userid, increment);
-
   var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + userid);
-
 
   user.authWithCustomToken(adminToken, function(error) {
     if (error) {
@@ -472,28 +464,22 @@ function incrementStar(userid, increment) {
       user.once("value", function(snapshot){
         var currentCount = snapshot.val().star_count;
 
-        console.log("curent count", currentCount);
-
         if (increment === "increase") {
           currentCount = currentCount + 1;
           user.update({
             "star_count": currentCount
           });
-          console.log("should increase", currentCount);
-
         } else if (increment === "decrease") {
           if (currentCount !== 0) {
             currentCount = currentCount -1;
             user.update({
               "star_count": currentCount
             });
-          console.log("should decrease", currentCount);
           } else {
             currentCount = 0;
             user.update({
               "star_count": currentCount
             });
-          console.log("should be 0", currentCount);
           }
         }
       });

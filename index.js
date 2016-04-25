@@ -258,7 +258,7 @@ function renderActivity() {
     var starClass = checkStar(el);
 
     return (
-      '<div class="activity-individual"><a class="profile-link" href="#profile?id=' + el.uid + '"><div>' + el.name + '</div></a><div><button class="star ' + starClass + '"  style="background-color:transparent; border-color:transparent;"><img src="star.png" height="35"/></button></div></div>'
+      '<div class="activity-individual"><a class="profile-link" href="#profile?id=' + el.uid + '"><div class="activity-name">' + el.name + '</div></a><button class="star ' + starClass + '"><img src="star.png" height="35"/></button></div>'
     );
   }));
 

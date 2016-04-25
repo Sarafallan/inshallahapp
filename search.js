@@ -47,6 +47,7 @@ function renderResults(searchResultsArray) {
       var location;
       var hasSkills;
       var skillsNeeded;
+      var recommendsString;
 
       if (user[uid].locationCity && user[uid].locationCountry) {
         location = user[uid].locationCity + ', ' + user[uid].locationCountry;
@@ -74,7 +75,13 @@ function renderResults(searchResultsArray) {
         skillsNeededString = '';
       }
 
-      resultsHTML = resultsHTML + '<div id=' + uid[0] +' class="individual"><h4>' + user[uid].display_name + '</h4><div>Stars '+ user[uid].star_count +'</div><div class="individual-details"><p>' + 'Location: ' +  location + '</p>'+ hasSkillsString + skillsNeededString + '<a href="#profile?id=' + uid[0] + '"></div><button class="view-individual ui-btn ui-btn-inline">View Individual / اعرض الأشخاص</button></a></div>';
+      if (user[uid].star_count >= 1) {
+        recommendsString = '<div><img src="star.png" style="height: 35px; background-color: yellow"/> ' + user[uid].star_count +' recommends</div>';
+      } else {
+        recommendsString ='';
+      }
+
+      resultsHTML = resultsHTML + '<div id=' + uid[0] +' class="individual"><h4>' + user[uid].display_name + '</h4>' + recommendsString + '<div class="individual-details"><p>' + 'Location: ' +  location + '</p>'+ hasSkillsString + skillsNeededString + '<a href="#profile?id=' + uid[0] + '"></div><button class="view-individual ui-btn ui-btn-inline">View Individual / اعرض الأشخاص</button></a></div>';
     });
   } else {
     resultsHTML += '<p>Sorry, there are no results for your request</p><p>Please <a href="https://docs.google.com/forms/d/16EC6IcvYIWvaEvRRHBZYlpaMbo6eLCl4Dud3miyoZE0/viewform">Contact Us</a>, and we\'ll see what we can do to help</p>';
@@ -123,7 +130,7 @@ function createProfile(profile, id) {
   var starSentence = "";
 
   if (profile.star_count !== 0) {
-    starSentence = profile.first_name + ' has been recommended by ' + profile.star_count + ' persons';
+    starSentence = profile.first_name + ' has been recommended ' + profile.star_count + ' times';
   }
 
   if (profile.hasSkills) {

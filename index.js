@@ -7,13 +7,15 @@ var arabicSkills = {
   'Child Support': 'دعم الطفل',
   'English Lessons': 'دروس انجليزي',
   'Emotional Support': 'دعم ذهني',
-  'Financial Advice': 'إستشارة مالية',
   'Form Filling': 'مساعدة الآدمن',
+  'French Lessons': 'دروس فرنسي',
   'Friendship': 'صداقة',
+  'German Lessons': 'دروس ألماني',
   'Jobs': 'أعمال',
   'Legal Help': 'مساعدة قانونية',
   'Medical Care': 'عناية طبية',
   'Mentoring': 'التوجيه',
+  'Phone Credit': 'تعبئة رصيد هاتف',
   'Psychologist': 'معالج نفسي',
   'Studying': 'دراسة',
   'Translation': 'ترجمات',
@@ -259,7 +261,7 @@ function renderActivity() {
     var starClass = checkStar(el);
 
     return (
-      '<div class="activity-individual"><a class="profile-link" href="#profile?id=' + el.uid + '"><div>' + el.name + '</div></a><div><button class="star ' + starClass + '"  style="background-color:transparent; border-color:transparent;"><img src="star.png" height="35"/></button></div></div>'
+      '<div class="activity-individual"><a class="profile-link" href="#profile?id=' + el.uid + '"><div class="activity-name">' + el.name + '</div></a><button class="star ' + starClass + '"><img src="star.png"/></button></div>'
     );
   }));
 
@@ -267,7 +269,7 @@ function renderActivity() {
     var starClass = checkStar(el);
 
     return (
-      '<div class="activity-individual"><a class="profile-link" href="#profile?id=' + el.uid + '"><div>' + el.name + '</div></a><div><button class="star ' + starClass + '">Star</button></div></div>'
+      '<div class="activity-individual"><a class="profile-link" href="#profile?id=' + el.uid + '"><div class="activity-name">' + el.name + '</div></a><div><button class="star ' + starClass + '"><img src="star.png"/></button></div></div>'
     );
   }));
 
@@ -287,17 +289,22 @@ function renderActivity() {
 $('.activity').on('click', '.star', function(e){
     var currentUser = JSON.parse(localStorage.getItem('firebase:session::blazing-torch-7074'));
     var currentid = currentUser.uid;
-    console.log('current id', currentid);
+    var userStarred;
 
-    var userStarred = e.target;
+    userStar = e.target.toString();
+    if (userStar.indexOf('Image') > -1){
+      userStarred = $(e.target).parent();
+      console.log("image clicked");
+    } else {
+      userStarred = e.target;
+      console.log('button clicked');
+    }
+
     var activityIndividual = $(userStarred).parent()[0].parentElement;
     var link = $(activityIndividual).find('a:first').attr('href');
     var useridToStar = link.split('id=')[1];
 
-    console.log("user to star", useridToStar);
-
     if (state.userProfile.profileComplete) {
-
       if ($(userStarred).hasClass('starred')) {
         $.post('/removeStar', {'currentUser' : currentid, 'useridToStar': useridToStar}, function(data){
           if (data === 'unstarred'){
@@ -320,7 +327,7 @@ $('.activity').on('click', '.star', function(e){
       $( "#profileIncomplete" ).popup();
       $( "#profileIncomplete" ).popup( "open" );
     }
-  });
+});
 
 function checkStar(el) {
   if (el.star_status === "unstarred") {

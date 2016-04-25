@@ -22,19 +22,28 @@
   color: black;
 }
 
-.star {
-  width: 10px;
-  height: 50px;
+.star.ui-btn {
+  height: 4em;
+  width: 4em;
+  background-color: transparent;
+  border-color: transparent;
+  position: initial;
+  display: inline;
+  float: right;
+  margin: 0;
 }
 
-.starred img{
+.star.ui-btn > img {
+  height: 35px;
+}
+
+.activity-name {
+  width: 50%;
+  display: inline;
+}
+
+.star.starred.ui-btn {
   background-color: yellow !important;
-}
-
-.star img {
-  width: 25px;
-  height: 25px;
-  color: green !important;
 }
 
 

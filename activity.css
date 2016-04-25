@@ -22,9 +22,21 @@
   color: black;
 }
 
-.starred {
+.star {
+  width: 10px;
+  height: 50px;
+}
+
+.starred img{
   background-color: yellow !important;
 }
+
+.star img {
+  width: 25px;
+  height: 25px;
+  color: green !important;
+}
+
 
 .profile h4, .profile p {
   margin-bottom: 0;

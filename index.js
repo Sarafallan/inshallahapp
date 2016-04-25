@@ -296,23 +296,29 @@ $('.activity').on('click', '.star', function(e){
 
     console.log("user to star", useridToStar);
 
-    if ($(userStarred).hasClass('starred')) {
-      $.post('/removeStar', {'currentUser' : currentid, 'useridToStar': useridToStar}, function(data){
-        if (data === 'unstarred'){
-          $(userStarred).removeClass('starred');
-          $(userStarred).addClass('unstarred');
-       console.log('star removed', userStarred);
-        }
-      });
+    if (state.userProfile.profileComplete) {
 
+      if ($(userStarred).hasClass('starred')) {
+        $.post('/removeStar', {'currentUser' : currentid, 'useridToStar': useridToStar}, function(data){
+          if (data === 'unstarred'){
+            $(userStarred).removeClass('starred');
+            $(userStarred).addClass('unstarred');
+         console.log('star removed', userStarred);
+          }
+        });
+
+      } else {
+        $.post('/addStar', {'currentUser' : currentid,'useridToStar': useridToStar}, function(data){
+          if (data === 'starred'){
+            $(userStarred).addClass('starred');
+            $(userStarred).removeClass('unstarred');
+            console.log('star added', userStarred);
+          }
+        });
+      }
     } else {
-      $.post('/addStar', {'currentUser' : currentid,'useridToStar': useridToStar}, function(data){
-        if (data === 'starred'){
-          $(userStarred).addClass('starred');
-          $(userStarred).removeClass('unstarred');
-          console.log('star added', userStarred);
-        }
-      });
+      $( "#profileIncomplete" ).popup();
+      $( "#profileIncomplete" ).popup( "open" );
     }
   });
 

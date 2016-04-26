@@ -324,42 +324,43 @@ function getMessageDetails(messageInfo, callback) {
 }
 
 function twilio(messageDetails, reply) {
+  console.log('message details', messageDetails.reciever.phoneCC + messageDetails.reciever.phoneNumber);
   var messageBody;
 
   if (messageDetails.searchChoice == "takeHelp"){
-    messageBody = "Hello " + messageDetails.reciever.first_name + ", " + messageDetails.sender.first_name + " needs help with " + messageDetails.searchTopic + ". Get in touch with them at " + messageDetails.sender.tel + " or see their Inshallah page here: Inshallah.herokuapp.com/main#profile?id=" + messageDetails.sender.uid;
-    messageBody += "مرحبا " + messageDetails.reciever.first_name + "،" + messageDetails.sender.first_name + "يحتاج إلى مساعدة مع " + messageDetails.searchTopic + "يمكنك الاتصال على" + messageDetails.sender.tel + "أو راجع الصفحة   من هنا : Inshallah.herokuapp.com/main#profile?id=" + messageDetails.sender.uid;
+    messageBody = "Hello " + messageDetails.reciever.first_name + ", " + messageDetails.sender.first_name + " needs help with " + messageDetails.searchTopic + ". Get in touch with them at " + messageDetails.sender.phoneCC + messageDetails.sender.phoneNumber + " or see their Inshallah page here: Inshallah.herokuapp.com/main#profile?id=" + messageDetails.sender.uid;
+    messageBody += "مرحبا " + messageDetails.reciever.first_name + "،" + messageDetails.sender.first_name + "يحتاج إلى مساعدة مع " + messageDetails.searchTopic + "يمكنك الاتصال على" + messageDetails.sender.phoneCC + messageDetails.sender.phoneNumber + "أو راجع الصفحة   من هنا : Inshallah.herokuapp.com/main#profile?id=" + messageDetails.sender.uid;
   } else if (messageDetails.searchChoice == "giveHelp") {
-    messageBody = "Hello " + messageDetails.reciever.first_name + ", " + messageDetails.sender.first_name + " can help you with " + messageDetails.searchTopic + ". Get in touch with them at " + messageDetails.sender.tel + " or see their Inshallah page here: Inshallah.herokuapp.com/main#profile?id=" + messageDetails.sender.uid;
-    messageBody += "مرحبا " + messageDetails.reciever.first_name + "،" + messageDetails.sender.first_name + " يستطيع مساعدتك ب " + messageDetails.searchTopic + "يمكنك الاتصال على" + messageDetails.sender.tel + "أو راجع الصفحة   من هنا : Inshallah.herokuapp.com/main#profile?id=" + messageDetails.sender.uid;
+    messageBody = "Hello " + messageDetails.reciever.first_name + ", " + messageDetails.sender.first_name + " can help you with " + messageDetails.searchTopic + ". Get in touch with them at " + messageDetails.sender.phoneCC + messageDetails.sender.phoneNumber + " or see their Inshallah page here: Inshallah.herokuapp.com/main#profile?id=" + messageDetails.sender.uid;
+    messageBody += "مرحبا " + messageDetails.reciever.first_name + "،" + messageDetails.sender.first_name + " يستطيع مساعدتك ب " + messageDetails.searchTopic + "يمكنك الاتصال على" + messageDetails.sender.phoneCC + messageDetails.sender.phoneNumber + "أو راجع الصفحة   من هنا : Inshallah.herokuapp.com/main#profile?id=" + messageDetails.sender.uid;
   } else {
     console.log('error');
   }
 
 
-  // var accountSid = process.env.TWILIO_ACCOUNT_SID;
-  // var authToken = process.env.TWILIO_AUTH_TOKEN;
-  // var twilioPhoneNumber = process.env.TWILIO_PHONE_NUMBER;
-  //
-  // var client = require('twilio')(accountSid, authToken);
-  //
-  // client.messages.create({
-  //     to: '07952795872',
-  //     from: twilioPhoneNumber,
-  //     body: messageBody,
-  // }, function(err, message) {
-  //   if (err) {
-  //     console.log(err);
-  //     reply('Something went wrong, please try again later');
-  //   } else {
+  var accountSid = process.env.TWILIO_ACCOUNT_SID;
+  var authToken = process.env.TWILIO_AUTH_TOKEN;
+  var twilioPhoneNumber = process.env.TWILIO_PHONE_NUMBER;
+
+  var client = require('twilio')(accountSid, authToken);
+
+  client.messages.create({
+      to: messageDetails.reciever.phoneCC + messageDetails.reciever.phoneNumber,
+      from: twilioPhoneNumber,
+      body: messageBody,
+  }, function(err, message) {
+    if (err) {
+      console.log(err);
+      reply('Something went wrong, please try again later');
+    } else {
       addContact('contact_sent', messageDetails.sender.uid, {uid: messageDetails.reciever.uid, name: messageDetails.reciever.display_name, star_status: 'unstarred'});
       addContact('contact_recieved', messageDetails.reciever.uid, {uid: messageDetails.sender.uid, name: messageDetails.sender.display_name, tel: messageDetails.sender.phoneCC + messageDetails.sender.phoneNumber, star_status: 'unstarred'});
 
       incrementTextCount(messageDetails.sender);
       incrementContactedCount(messageDetails.reciever);
       reply({success: true, message: 'Message Sent!', arabicMessage: '', contact: {name: messageDetails.reciever.display_name, uid: messageDetails.reciever.uid}});
-  //   }
-  // });
+    }
+  });
 }
 
 function checkContacts(sender, reciever, callback) {

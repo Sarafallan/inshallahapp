@@ -84,7 +84,7 @@ function renderResults(searchResultsArray) {
       resultsHTML = resultsHTML + '<div id=' + uid[0] +' class="individual"><h4>' + user[uid].display_name + '</h4>' + recommendsString + '<div class="individual-details"><p>' + 'Location: ' +  location + '</p>'+ hasSkillsString + skillsNeededString + '<a href="#profile?id=' + uid[0] + '"></div><button class="view-individual ui-btn ui-btn-inline">View Individual / اعرض الأشخاص</button></a></div>';
     });
   } else {
-    resultsHTML += '<p>Sorry, there are no results for your request</p><p>Please <a href="https://docs.google.com/forms/d/16EC6IcvYIWvaEvRRHBZYlpaMbo6eLCl4Dud3miyoZE0/viewform">Contact Us</a>, and we\'ll see what we can do to help</p>';
+    resultsHTML += '<p>Sorry, there are no results for your request</p><p>Please <a href="https://docs.google.com/forms/d/16EC6IcvYIWvaEvRRHBZYlpaMbo6eLCl4Dud3miyoZE0/viewform">Contact Us</a>, and we\'ll see what we can do to help.</p><p class="translation">عفوا، لا توجد نتائج لطلبك. يرجى الاتصال بنا ، وسنرى ما يمكننا القيام به للمساعدة.</p>';
   }
 
   $('.results-box').html(resultsHTML);

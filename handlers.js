@@ -328,11 +328,12 @@ function twilio(messageDetails, reply) {
   var messageBody;
 
   if (messageDetails.searchChoice == "takeHelp"){
-    messageBody = "Hello " + messageDetails.reciever.first_name + ", " + messageDetails.sender.first_name + " needs help with " + messageDetails.searchTopic + ". Get in touch with them at " + messageDetails.sender.phoneCC + messageDetails.sender.phoneNumber + " or see their Inshallah page here: Inshallah.herokuapp.com/main#profile?id=" + messageDetails.sender.uid;
-    messageBody += "مرحبا " + messageDetails.reciever.first_name + "،" + messageDetails.sender.first_name + "يحتاج إلى مساعدة مع " + messageDetails.searchTopic + "يمكنك الاتصال على" + messageDetails.sender.phoneCC + messageDetails.sender.phoneNumber + "أو راجع الصفحة   من هنا : Inshallah.herokuapp.com/main#profile?id=" + messageDetails.sender.uid;
+    messageBody = "Hello " + messageDetails.reciever.first_name + ", " + messageDetails.sender.first_name + " needs help with " + messageDetails.searchTopic + ". Get in touch with them at the number below or see their Inshallah page at the link below. "
+    messageBody += "مرحبا " + messageDetails.reciever.first_name + "،" + messageDetails.sender.first_name + "يحتاج إلى مساعدة مع " + messageDetails.searchTopic + " يمكنك الاتصال على " + messageDetails.sender.phoneCC + messageDetails.sender.phoneNumber + " أو راجع الصفحة من هنا :  Inshallah.herokuapp.com/main#profile?id=" + messageDetails.sender.uid;
   } else if (messageDetails.searchChoice == "giveHelp") {
-    messageBody = "Hello " + messageDetails.reciever.first_name + ", " + messageDetails.sender.first_name + " can help you with " + messageDetails.searchTopic + ". Get in touch with them at " + messageDetails.sender.phoneCC + messageDetails.sender.phoneNumber + " or see their Inshallah page here: Inshallah.herokuapp.com/main#profile?id=" + messageDetails.sender.uid;
-    messageBody += "مرحبا " + messageDetails.reciever.first_name + "،" + messageDetails.sender.first_name + " يستطيع مساعدتك ب " + messageDetails.searchTopic + "يمكنك الاتصال على" + messageDetails.sender.phoneCC + messageDetails.sender.phoneNumber + "أو راجع الصفحة   من هنا : Inshallah.herokuapp.com/main#profile?id=" + messageDetails.sender.uid;
+
+    messageBody = "Hello " + messageDetails.reciever.first_name + ", " + messageDetails.sender.first_name + " can help you with " + messageDetails.searchTopic + ". Get in touch with them at the number below or see their Inshallah page at the link below. "
+    messageBody += "مرحبا " + messageDetails.reciever.first_name + "،" + messageDetails.sender.first_name + " يستطيع مساعدتك ب " + messageDetails.searchTopic + "يمكنك الاتصال على " + messageDetails.sender.phoneCC + messageDetails.sender.phoneNumber + " أو راجع الصفحة   من هنا : Inshallah.herokuapp.com/main#profile?id=" + messageDetails.sender.uid;
   } else {
     console.log('error');
   }

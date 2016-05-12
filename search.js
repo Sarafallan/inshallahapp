@@ -81,10 +81,10 @@ function renderResults(searchResultsArray) {
         recommendsString ='';
       }
 
-      resultsHTML = resultsHTML + '<div id=' + uid[0] +' class="individual"><h4>' + user[uid].display_name + '</h4>' + recommendsString + '<div class="individual-details"><p>' + 'Location: ' +  location + '</p>'+ hasSkillsString + skillsNeededString + '<a href="#profile?id=' + uid[0] + '"></div><button class="view-individual ui-btn ui-btn-inline">View Individual / اعرض الأشخاص</button></a></div>';
+      resultsHTML = resultsHTML + '<div id=' + uid[0] +' class="individual"><h4>' + user[uid].display_name + '</h4>' + recommendsString + '<div class="individual-details"><p>' + 'Location: ' +  location + '</p>'+ hasSkillsString + skillsNeededString + '<a href="#profile?id=' + uid[0] + '"></div><button class="view-individual ui-btn ui-btn-inline">View Individual / إعرض الأشخاص</button></a></div>';
     });
   } else {
-    resultsHTML += '<p>Sorry, there are no results for your request</p><p>Please <a href="https://docs.google.com/forms/d/16EC6IcvYIWvaEvRRHBZYlpaMbo6eLCl4Dud3miyoZE0/viewform">Contact Us</a>, and we\'ll see what we can do to help.</p><p class="translation">عفوا، لا توجد نتائج لطلبك. يرجى الاتصال بنا ، وسنرى ما يمكننا القيام به للمساعدة.</p>';
+    resultsHTML += '<p>Sorry, there are no results for your request</p><p>Please <a href="https://docs.google.com/forms/d/16EC6IcvYIWvaEvRRHBZYlpaMbo6eLCl4Dud3miyoZE0/viewform">Contact Us</a>, and we\'ll see what we can do to help.</p><p class="translation"> عفواً، لا توجد نتائج لطلبك. يرجى الإتصال بنا وسنرى ما يمكننا القيام به للمساعدة.</p>';
   }
 
   $('.results-box').html(resultsHTML);
@@ -145,8 +145,8 @@ function createProfile(profile, id) {
   }
   return ('<div class="translation contact recieverid" id="' +id+ '"><h2>Contact ' + profile.first_name + '</h2><h2>جنوب</h2></div>' +
      '<div class="has-skills">' + skills + '</div>' + '<div class="need-skills">' + needs + '</div>' + '<div>' + starSentence + '</div>' +
-    '<div class="send-details"><div class="translation"><p>Send ' + profile.first_name + ' Your Details</p><p>ارسل ' + profile.first_name + ' تفاصيلك ب ب بببب</p></div>' +
-    '<button class="send-message" data-role="button">Send / ارسل</button></div>'
+    '<div class="send-details"><div class="translation"><p>Send ' + profile.first_name + ' Your Details</p><p>إرسل '+ profile.first_name +' تفاصيلك</p></div>' +
+    '<button class="send-message" data-role="button">Send / إرسل</button></div>'
   );
 }
 

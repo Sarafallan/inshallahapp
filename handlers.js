@@ -68,7 +68,7 @@ module.exports = {
           checkContacts(data.sender, data.reciever, function(boolean){
             if (boolean) {
               console.log('contacted already');
-              reply({success: false, message: 'You have already contacted this person, you can\'t contact them again but they have your number', arabicMessage: 'لقد اتصلت بالفعل هذا الشخص، يمكنك الاتصال بهم مرة أخرى ولكن لديهم رقمك'});
+              reply({success: false, message: 'You have already contacted this person, you can\'t contact them again but they have your number', arabicMessage: 'لقد سبق واتصلت بهذا الشخص، لا يمكنك الاتصال به مرة أخرى ولكن لديه رقمك'});
             } else {
               twilio(data, reply);
 
@@ -76,7 +76,7 @@ module.exports = {
           });
         } else {
           console.log('too many texts');
-          reply({success: false, message: 'You have sent more than five texts today. Please wait until tomorrow to send any more', arabicMessage: 'لقد أرسلت أكثر من خمسة نصوص اليوم . يرجى الانتظار حتى غد لإرسال أكثر'});
+          reply({success: false, message: 'You have sent more than five texts today. Please wait until tomorrow to send any more', arabicMessage: 'لقد أرسلت أكثر من خمسة نصوص اليوم. يرجى الانتظار حتى الغد لإرسال المزيد'});
         }
       });
     });

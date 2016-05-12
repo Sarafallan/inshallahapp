@@ -224,7 +224,7 @@ var menu = {
   visible: false,
 };
 
-//Add in when info there -> <a href="#information"><li>Information / معومات</li></a>
+//Add in when info there -> <a href="#information"><li>Information / معلومات/li></a>
 
 $('.hamburger').on('click', function(){
   toggleMenu();

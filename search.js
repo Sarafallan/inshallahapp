@@ -159,7 +159,7 @@ $('.profile').on('click', '.send-message', function(e){
     sender : currentUid,
     reciever : reciever,
     searchLocation : searchQuery.searchLocation,
-    searchChoice : searchQuery.searchChoice,
+    searchChoice : searchQuery.searchChoice || 'takeHelp',
     searchTopic : searchQuery.searchTopic
   };
 

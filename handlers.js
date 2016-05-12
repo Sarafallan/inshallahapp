@@ -352,7 +352,7 @@ function twilio(messageDetails, reply) {
   }, function(err, message) {
     if (err) {
       console.log(err);
-      reply('Something went wrong, please try again later');
+      reply({success: false, message: 'Something went wrong, please try again later', arabicMessage: ''});
     } else {
       addContact('contact_sent', messageDetails.sender.uid, {uid: messageDetails.reciever.uid, name: messageDetails.reciever.display_name, star_status: 'unstarred'});
       addContact('contact_recieved', messageDetails.reciever.uid, {uid: messageDetails.sender.uid, name: messageDetails.sender.display_name, tel: messageDetails.sender.phoneCC + messageDetails.sender.phoneNumber, star_status: 'unstarred'});

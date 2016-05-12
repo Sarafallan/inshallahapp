@@ -121,7 +121,7 @@ function saveProfile() {
 function validatePhone() {
   var phoneNum = $('#tel').val();
   var digits = phoneNum.replace(nonDigit, '').replace(leadingZero, '');
-  if (digits.length < 10 || digits.length > 15) {
+  if (digits.length < 9 || digits.length > 15) {
     return '';
   } else {
     return digits;

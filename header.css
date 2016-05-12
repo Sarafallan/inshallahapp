@@ -1,7 +1,7 @@
 a.ui-btn.hamburger {
-  width: 5em;
-  height: 5em;
-  margin-top: 2.25em;
+  width: 6em;
+  height: 6em;
+  margin-top: 1.5em;
   margin-right: 2em;
   background-image: url('./burger.png');
   background-position: center;
@@ -43,6 +43,11 @@ a.ui-btn.hamburger {
 .ui-bar-a, .ui-page-theme-a .ui-bar-inherit {
   background-color: #81d5fa;
   border-color: #81d5fa;
+}
+
+.ui-header .ui-title {
+    margin-right: 10%;
+    margin-left: 10%;
 }
 
 @media (min-device-width: 1023px) {

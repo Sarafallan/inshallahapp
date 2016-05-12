@@ -3,10 +3,12 @@ a.ui-btn.hamburger {
   height: 4em;
   margin-top: 2.25em;
   margin-right: 1em;
+  z-index: 1000;
 }
 
 .burger-holder {
   width: 100%;
+  z-index: 1;
 }
 
 .burger-line {
@@ -14,6 +16,7 @@ a.ui-btn.hamburger {
   height: 0.6em;
   background-color: black;
   margin: 0.4em 0;
+  z-index: 1;
 }
 
 .burger-line:first-child {
@@ -55,4 +58,10 @@ a.ui-btn.hamburger {
 .ui-bar-a, .ui-page-theme-a .ui-bar-inherit {
   background-color: #81d5fa;
   border-color: #81d5fa;
+}
+
+@media (min-device-width: 1023px) {
+  .links {
+    font-size: 30px;
+  }
 }

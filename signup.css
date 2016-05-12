@@ -42,6 +42,7 @@ html {
   min-height: 5em;
   margin: auto;
   margin-bottom: 2em;
+  border-color: transparent;
 }
 
 .translation > p:first-child {

@@ -226,7 +226,7 @@ var menu = {
 
 //Add in when info there -> <a href="#information"><li>Information / معومات</li></a>
 
-$('.burger-holder').on('click', function(){
+$('.hamburger').on('click', function(){
   toggleMenu();
 });
 

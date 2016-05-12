@@ -43,3 +43,12 @@ h1, p {
   font-size: 1em;
   padding: 0.7em;
 }
+
+.footer {
+  background-color: #81d5fa;
+  padding: 1em;
+}
+
+.footer a {
+  color: #0484BC;
+}

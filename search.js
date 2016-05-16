@@ -47,7 +47,7 @@ function renderResults(searchResultsArray) {
       var location;
       var hasSkills;
       var skillsNeeded;
-      var recommendsString;
+      // var recommendsString;
 
       if (user[uid].locationCity && user[uid].locationCountry) {
         location = user[uid].locationCity + ', ' + user[uid].locationCountry;
@@ -75,13 +75,13 @@ function renderResults(searchResultsArray) {
         skillsNeededString = '';
       }
 
-      if (user[uid].star_count >= 1) {
-        recommendsString = '<div><img src="star.png" style="height: 35px; background-color: yellow"/> ' + user[uid].star_count +' recommends</div>';
-      } else {
-        recommendsString ='';
-      }
+      // if (user[uid].star_count >= 1) {
+      //   recommendsString = '<div><img src="star.png" style="height: 35px; background-color: yellow"/> ' + user[uid].star_count +' recommends</div>';
+      // } else {
+      //   recommendsString ='';
+      // }
 
-      resultsHTML = resultsHTML + '<div id=' + uid[0] +' class="individual"><h4>' + user[uid].display_name + '</h4>' + recommendsString + '<div class="individual-details"><p>' + 'Location: ' +  location + '</p>'+ hasSkillsString + skillsNeededString + '<a href="#profile?id=' + uid[0] + '"></div><button class="view-individual ui-btn ui-btn-inline">View Individual / إعرض الأشخاص</button></a></div>';
+      resultsHTML = resultsHTML + '<div id=' + uid[0] +' class="individual"><h4>' + user[uid].display_name + '</h4><div class="individual-details"><p>' + 'Location: ' +  location + '</p>'+ hasSkillsString + skillsNeededString + '<a href="#profile?id=' + uid[0] + '"></div><button class="view-individual ui-btn ui-btn-inline">View Individual / إعرض الأشخاص</button></a></div>';
     });
   } else {
     resultsHTML += '<p>Sorry, there are no results for your request</p><p>Please <a href="https://docs.google.com/forms/d/16EC6IcvYIWvaEvRRHBZYlpaMbo6eLCl4Dud3miyoZE0/viewform">Contact Us</a>, and we\'ll see what we can do to help.</p><p class="translation"> عفواً، لا توجد نتائج لطلبك. يرجى الإتصال بنا وسنرى ما يمكننا القيام به للمساعدة.</p>';

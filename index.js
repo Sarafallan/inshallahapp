@@ -294,7 +294,7 @@ function renderActivity() {
   });
 }
 
-//Star function
+//Star function - not displayed for now.
 
 $('.activity').on('click', '.star', function(e){
     var currentUser = JSON.parse(localStorage.getItem('firebase:session::blazing-torch-7074'));
@@ -304,10 +304,8 @@ $('.activity').on('click', '.star', function(e){
     userStar = e.target.toString();
     if (userStar.indexOf('Image') > -1){
       userStarred = $(e.target).parent();
-      console.log("image clicked");
     } else {
       userStarred = e.target;
-      console.log('button clicked');
     }
 
     var activityIndividual = $(userStarred).parent()[0].parentElement;
@@ -320,7 +318,6 @@ $('.activity').on('click', '.star', function(e){
           if (data === 'unstarred'){
             $(userStarred).removeClass('starred');
             $(userStarred).addClass('unstarred');
-         console.log('star removed', userStarred);
           }
         });
 
@@ -329,7 +326,6 @@ $('.activity').on('click', '.star', function(e){
           if (data === 'starred'){
             $(userStarred).addClass('starred');
             $(userStarred).removeClass('unstarred');
-            console.log('star added', userStarred);
           }
         });
       }

@@ -70,7 +70,7 @@ function renderResults(searchResultsArray) {
         skillsNeeded = user[uid].skillsNeeded.map(function(el){
           return '<div class="skill">' + el + ' / ' + arabicSkills[el] + '</div>';
         }).join('');
-        skillsNeededString = '<p>Needs Help With: ' + skillsNeeded + '</p>'
+        skillsNeededString = '<p>Needs Help With: ' + skillsNeeded + '</p>';
       } else {
         skillsNeededString = '';
       }
@@ -84,11 +84,15 @@ function renderResults(searchResultsArray) {
       resultsHTML = resultsHTML + '<div id=' + uid[0] +' class="individual"><h4>' + user[uid].display_name + '</h4><div class="individual-details"><p>' + 'Location: ' +  location + '</p>'+ hasSkillsString + skillsNeededString + '<a href="#profile?id=' + uid[0] + '"></div><button class="view-individual ui-btn ui-btn-inline">View Individual / إعرض الأشخاص</button></a></div>';
     });
   } else {
-    resultsHTML += '<p>Sorry, there are no results for your request</p><p>Please <a href="https://docs.google.com/forms/d/16EC6IcvYIWvaEvRRHBZYlpaMbo6eLCl4Dud3miyoZE0/viewform">Contact Us</a>, and we\'ll see what we can do to help.</p><p class="translation"> عفواً، لا توجد نتائج لطلبك. يرجى الإتصال بنا وسنرى ما يمكننا القيام به للمساعدة.</p>';
+    resultsHTML += '<p>Sorry, there are no results for your request.</p><p>Click below to send us your details and we\'ll see what we can do to help.</p><p class="translation">Arabic translation here</p><p><div class="send-query"><button id="send-query" class="ui-btn ui-shadow ui-corner-all">Send Request</button><div></p>';
   }
 
   $('.results-box').html(resultsHTML);
 }
+
+$('.results-box').on('click', '#send-query', function(e){
+  sendMessage("inshallahGeneric");
+});
 
 // -- Plugin for handling Query Strings -- //
 
@@ -151,32 +155,35 @@ function createProfile(profile, id) {
 }
 
 $('.profile').on('click', '.send-message', function(e){
-  var authData = JSON.parse(localStorage.getItem('firebase:session::blazing-torch-7074'));
-  var currentUid = authData.uid;
-  var reciever = $(".recieverid").attr("id");
-
-  var sendObject = {
-    sender : currentUid,
-    reciever : reciever,
-    searchLocation : searchQuery.searchLocation,
-    searchChoice : searchQuery.searchChoice || 'takeHelp',
-    searchTopic : searchQuery.searchTopic
-  };
-
   if (state.userProfile.profileComplete) {
-
-    $.post('/sendMessage', sendObject, function(data){
-      if (data.success){
-        state.userProfile.contact_sent[data.contact.uid] = data.contact;
-        renderActivity();
-      }
-      $('#contactMessage').popup();
-      $('#contactMessage').html('<div class="translation"><p>' + data.message + '</p><p>' + data.arabicMessage + '</p></div>');
-      $('#contactMessage').popup('open');
-    });
+      var personRecieving = $(".recieverid").attr("id");
+      sendMessage(personRecieving);
   } else {
     $( "#profileIncomplete" ).popup();
     $( "#profileIncomplete" ).popup( "open" );
   }
-
 });
+
+function sendMessage(recieverVar) {
+  var authData = JSON.parse(localStorage.getItem('firebase:session::blazing-torch-7074'));
+  var currentUid = authData.uid;
+  var reciever = recieverVar;
+
+  var sendObject = {
+    sender : currentUid,
+    reciever : reciever,
+    searchLocation : searchQuery.searchLocation || "United Kingdom",
+    searchChoice : searchQuery.searchChoice || "takeHelp",
+    searchTopic : searchQuery.searchTopic || "advice"
+  };
+
+  $.post('/sendMessage', sendObject, function(data){
+    if (data.success){
+      //state.userProfile.contact_sent[data.contact.uid] = data.contact;
+      //renderActivity();
+    }
+    $('#contactMessage').popup();
+    $('#contactMessage').html('<div class="translation"><p>' + data.message + '</p><p>' + data.arabicMessage + '</p></div>');
+    $('#contactMessage').popup('open');
+  });
+}

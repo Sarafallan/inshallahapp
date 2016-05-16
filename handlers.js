@@ -62,18 +62,21 @@ module.exports = {
 
   sendMessage : function(req, reply) {
     var messageInfo = req.payload;
+    console.log(req.payload);
+
     var details = getMessageDetails(messageInfo, function(data){
       checkTextCount(data.sender, function(boolean){
         if (boolean){
-          checkContacts(data.sender, data.reciever, function(boolean){
-            if (boolean) {
-              console.log('contacted already');
-              reply({success: false, message: 'You have already contacted this person, you can\'t contact them again but they have your number', arabicMessage: 'لقد سبق واتصلت بهذا الشخص، لا يمكنك الاتصال به مرة أخرى ولكن لديه رقمك'});
-            } else {
-              twilio(data, reply);
+          // checkContacts(data.sender, data.reciever, function(boolean){
+          //   if (boolean) {
+          //     console.log('contacted already');
+          //     reply({success: false, message: 'You have already contacted this person, you can\'t contact them again but they have your number', arabicMessage: 'لقد سبق واتصلت بهذا الشخص، لا يمكنك الاتصال به مرة أخرى ولكن لديه رقمك'});
+          //   } else {
+          //     //twilio(data, reply);
+          //   }
+          //});
 
-            }
-          });
+           console.log("message will be sent");
         } else {
           console.log('too many texts');
           reply({success: false, message: 'You have sent more than five texts today. Please wait until tomorrow to send any more', arabicMessage: 'لقد أرسلت أكثر من خمسة نصوص اليوم. يرجى الانتظار حتى الغد لإرسال المزيد'});
@@ -309,8 +312,8 @@ function getMessageDetails(messageInfo, callback) {
         var data = snapshot.val();
         messageDetails.sender = data[messageInfo.sender];
         messageDetails.sender.uid = messageInfo.sender;
-        messageDetails.reciever = data[ messageInfo.reciever];
-        messageDetails.reciever.uid =  messageInfo.reciever;
+        //messageDetails.reciever = data[ messageInfo.reciever];
+        //messageDetails.reciever.uid =  messageInfo.reciever;
         messageDetails.searchLocation = messageInfo.searchLocation;
         messageDetails.searchChoice = messageInfo.searchChoice;
         messageDetails.searchTopic = messageInfo.searchTopic;

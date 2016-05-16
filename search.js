@@ -70,7 +70,7 @@ function renderResults(searchResultsArray) {
         skillsNeeded = user[uid].skillsNeeded.map(function(el){
           return '<div class="skill">' + el + ' / ' + arabicSkills[el] + '</div>';
         }).join('');
-        skillsNeededString = '<p>Needs Help With: ' + skillsNeeded + '</p>'
+        skillsNeededString = '<p>Needs Help With: ' + skillsNeeded + '</p>';
       } else {
         skillsNeededString = '';
       }
@@ -91,7 +91,7 @@ function renderResults(searchResultsArray) {
 }
 
 $('.results-box').on('click', '#send-query', function(e){
-  console.log("hello world");
+  sendMessage("inshallahGeneric");
 });
 
 // -- Plugin for handling Query Strings -- //
@@ -155,32 +155,36 @@ function createProfile(profile, id) {
 }
 
 $('.profile').on('click', '.send-message', function(e){
-  var authData = JSON.parse(localStorage.getItem('firebase:session::blazing-torch-7074'));
-  var currentUid = authData.uid;
-  var reciever = $(".recieverid").attr("id");
-
-  var sendObject = {
-    sender : currentUid,
-    reciever : reciever,
-    searchLocation : searchQuery.searchLocation,
-    searchChoice : searchQuery.searchChoice || 'takeHelp',
-    searchTopic : searchQuery.searchTopic
-  };
-
   if (state.userProfile.profileComplete) {
-
-    $.post('/sendMessage', sendObject, function(data){
-      if (data.success){
-        state.userProfile.contact_sent[data.contact.uid] = data.contact;
-        renderActivity();
-      }
-      $('#contactMessage').popup();
-      $('#contactMessage').html('<div class="translation"><p>' + data.message + '</p><p>' + data.arabicMessage + '</p></div>');
-      $('#contactMessage').popup('open');
-    });
+      var personRecieving = $(".recieverid").attr("id");
+      sendMessage(personRecieving);
   } else {
     $( "#profileIncomplete" ).popup();
     $( "#profileIncomplete" ).popup( "open" );
   }
-
 });
+
+function sendMessage(recieverVar) {
+  var authData = JSON.parse(localStorage.getItem('firebase:session::blazing-torch-7074'));
+  var currentUid = authData.uid;
+  var reciever = recieverVar;
+
+  var sendObject = {
+    sender : currentUid,
+    reciever : reciever,
+    searchLocation : searchQuery.searchLocation || "United Kingdom",
+    searchChoice : searchQuery.searchChoice || "takeHelp",
+    searchTopic : searchQuery.searchTopic || "advice"
+  };
+
+  $.post('/sendMessage', sendObject, function(data){
+    if (data.success){
+      //state.userProfile.contact_sent[data.contact.uid] = data.contact;
+      //renderActivity();
+      console.log("Contact list function removed for now");
+    }
+    $('#contactMessage').popup();
+    $('#contactMessage').html('<div class="translation"><p>' + data.message + '</p><p>' + data.arabicMessage + '</p></div>');
+    $('#contactMessage').popup('open');
+  });
+}

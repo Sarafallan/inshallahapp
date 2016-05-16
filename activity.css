@@ -22,7 +22,7 @@
   color: black;
 }
 
-.star.ui-btn {
+/*.star.ui-btn {
   height: 4em;
   width: 4em;
   background-color: transparent;
@@ -35,16 +35,16 @@
 
 .star.ui-btn > img {
   height: 35px;
-}
+}*/
 
 .activity-name {
   width: 50%;
   display: inline;
 }
 
-.star.starred.ui-btn {
+/*.star.starred.ui-btn {
   background-color: yellow !important;
-}
+}*/
 
 
 .profile h4, .profile p {

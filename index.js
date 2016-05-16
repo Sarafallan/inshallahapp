@@ -222,11 +222,12 @@ $('.getLocation').on('click', function(e){
 // -- Header Menu -- //
 
 var menu = {
-  html: '<div class="modal"><div class="links"><ul><a href="/main"><li>My Inshallah Profile / صفحتي الشخصية</li></a><a href="#search"><li>Search / بحث</li></a><a href="#activity"><li>My Activity / نشاطي</li></a><a href="https://docs.google.com/forms/d/16EC6IcvYIWvaEvRRHBZYlpaMbo6eLCl4Dud3miyoZE0/viewform"><li>Contact Inshallah / اتصل بنا</li></a><a onclick="logout()"><li class="logout">Log Out</li></a></ul></div></div>',
+  html: '<div class="modal"><div class="links"><ul><a href="/main"><li>My Inshallah Profile / صفحتي الشخصية</li></a><a href="#search"><li>Search / بحث</li></a><a href="https://docs.google.com/forms/d/16EC6IcvYIWvaEvRRHBZYlpaMbo6eLCl4Dud3miyoZE0/viewform"><li>Contact Inshallah / اتصل بنا</li></a><a onclick="logout()"><li class="logout">Log Out</li></a></ul></div></div>',
   visible: false,
 };
 
 //Add in when info there -> <a href="#information"><li>Information / معلومات/li></a>
+//Add in when activity readdedd - <a href="#activity"><li>My Activity / نشاطي</li></a>
 
 $('.hamburger').on('click', function(){
   toggleMenu();
@@ -256,49 +257,46 @@ function logout() {
 // -- Activity Page -- //
 
 function renderActivity() {
-  console.log("renderActivity", state.contacted)
     state.contacted = [];
     state.receivedContact = [];
-    console.log("contacted", state.userProfile)
-    console.log("state", state);
 
-  for (var key in state.userProfile.contact_sent) {
-    state.contacted.push(state.userProfile.contact_sent[key]);
-    console.log("contacted", state.contacted);
-  }
-
-
-  for (var item in state.userProfile.contact_recieved) {
-    state.receivedContact.push(state.userProfile.contact_recieved[item]);
-    console.log("recieved", state.receivedContact);
-  }
-
-  $('.sent').append(state.contacted.map(function(el){
-    //var starClass = checkStar(el);
-    // <button class="star" +starClass+><img src="star.png"/></button>
-
-    return (
-      '<div class="activity-individual"><a class="profile-link" href="#profile?id=' + el.uid + '"><div class="activity-name">' + el.name + '</div></a></div>'
-    );
-  }));
-
-  $('.received').append(state.receivedContact.map(function(el){
-    //var starClass = checkStar(el);
-
-    return (
-      '<div class="activity-individual"><a class="profile-link" href="#profile?id=' + el.uid + '"><div class="activity-name">' + el.name + '</div></a></div>'
-    );
-  }));
-
-  $('.sent-nav').on('click', function(){
-    $('.sent').removeClass('hidden');
-    $('.received').addClass('hidden');
-  });
-
-  $('.received-nav').on('click', function(){
-    $('.received').removeClass('hidden');
-    $('.sent').addClass('hidden');
-  });
+  // for (var key in state.userProfile.contact_sent) {
+  //   state.contacted.push(state.userProfile.contact_sent[key]);
+  //   console.log("contacted", state.contacted);
+  // }
+  //
+  //
+  // for (var item in state.userProfile.contact_recieved) {
+  //   state.receivedContact.push(state.userProfile.contact_recieved[item]);
+  //   console.log("recieved", state.receivedContact);
+  // }
+  //
+  // $('.sent').append(state.contacted.map(function(el){
+  //   //var starClass = checkStar(el);
+  //   // <button class="star" +starClass+><img src="star.png"/></button>
+  //
+  //   return (
+  //     '<div class="activity-individual"><a class="profile-link" href="#profile?id=' + el.uid + '"><div class="activity-name">' + el.name + '</div></a></div>'
+  //   );
+  // }));
+  //
+  // $('.received').append(state.receivedContact.map(function(el){
+  //   //var starClass = checkStar(el);
+  //
+  //   return (
+  //     '<div class="activity-individual"><a class="profile-link" href="#profile?id=' + el.uid + '"><div class="activity-name">' + el.name + '</div></a></div>'
+  //   );
+  // }));
+  //
+  // $('.sent-nav').on('click', function(){
+  //   $('.sent').removeClass('hidden');
+  //   $('.received').addClass('hidden');
+  // });
+  //
+  // $('.received-nav').on('click', function(){
+  //   $('.received').removeClass('hidden');
+  //   $('.sent').addClass('hidden');
+  // });
 }
 
 //Star function - not displayed for now.

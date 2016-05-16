@@ -32,6 +32,8 @@ $(document).ready(function(){
   }
   state.userProfile.hasSkills = state.userProfile.hasSkills || [];
   state.userProfile.skillsNeeded = state.userProfile.skillsNeeded || [];
+
+  console.log("intialising app")
   renderProfile();
   renderActivity();
 });
@@ -254,8 +256,12 @@ function logout() {
 // -- Activity Page -- //
 
 function renderActivity() {
+  console.log("renderActivity", state.contacted)
     state.contacted = [];
     state.receivedContact = [];
+    console.log("contacted", state.userProfile)
+    console.log("state", state);
+
   for (var key in state.userProfile.contact_sent) {
     state.contacted.push(state.userProfile.contact_sent[key]);
     console.log("contacted", state.contacted);
@@ -268,18 +274,19 @@ function renderActivity() {
   }
 
   $('.sent').append(state.contacted.map(function(el){
-    var starClass = checkStar(el);
+    //var starClass = checkStar(el);
+    // <button class="star" +starClass+><img src="star.png"/></button>
 
     return (
-      '<div class="activity-individual"><a class="profile-link" href="#profile?id=' + el.uid + '"><div class="activity-name">' + el.name + '</div></a><button class="star ' + starClass + '"><img src="star.png"/></button></div>'
+      '<div class="activity-individual"><a class="profile-link" href="#profile?id=' + el.uid + '"><div class="activity-name">' + el.name + '</div></a></div>'
     );
   }));
 
   $('.received').append(state.receivedContact.map(function(el){
-    var starClass = checkStar(el);
+    //var starClass = checkStar(el);
 
     return (
-      '<div class="activity-individual"><a class="profile-link" href="#profile?id=' + el.uid + '"><div class="activity-name">' + el.name + '</div></a><div><button class="star ' + starClass + '"><img src="star.png"/></button></div></div>'
+      '<div class="activity-individual"><a class="profile-link" href="#profile?id=' + el.uid + '"><div class="activity-name">' + el.name + '</div></a></div>'
     );
   }));
 
@@ -294,50 +301,46 @@ function renderActivity() {
   });
 }
 
-//Star function
+//Star function - not displayed for now.
 
-$('.activity').on('click', '.star', function(e){
-    var currentUser = JSON.parse(localStorage.getItem('firebase:session::blazing-torch-7074'));
-    var currentid = currentUser.uid;
-    var userStarred;
-
-    userStar = e.target.toString();
-    if (userStar.indexOf('Image') > -1){
-      userStarred = $(e.target).parent();
-      console.log("image clicked");
-    } else {
-      userStarred = e.target;
-      console.log('button clicked');
-    }
-
-    var activityIndividual = $(userStarred).parent()[0].parentElement;
-    var link = $(activityIndividual).find('a:first').attr('href');
-    var useridToStar = link.split('id=')[1];
-
-    if (state.userProfile.profileComplete) {
-      if ($(userStarred).hasClass('starred')) {
-        $.post('/removeStar', {'currentUser' : currentid, 'useridToStar': useridToStar}, function(data){
-          if (data === 'unstarred'){
-            $(userStarred).removeClass('starred');
-            $(userStarred).addClass('unstarred');
-         console.log('star removed', userStarred);
-          }
-        });
-
-      } else {
-        $.post('/addStar', {'currentUser' : currentid,'useridToStar': useridToStar}, function(data){
-          if (data === 'starred'){
-            $(userStarred).addClass('starred');
-            $(userStarred).removeClass('unstarred');
-            console.log('star added', userStarred);
-          }
-        });
-      }
-    } else {
-      $( "#profileIncomplete" ).popup();
-      $( "#profileIncomplete" ).popup( "open" );
-    }
-});
+// $('.activity').on('click', '.star', function(e){
+//     var currentUser = JSON.parse(localStorage.getItem('firebase:session::blazing-torch-7074'));
+//     var currentid = currentUser.uid;
+//     var userStarred;
+//
+//     userStar = e.target.toString();
+//     if (userStar.indexOf('Image') > -1){
+//       userStarred = $(e.target).parent();
+//     } else {
+//       userStarred = e.target;
+//     }
+//
+//     var activityIndividual = $(userStarred).parent()[0].parentElement;
+//     var link = $(activityIndividual).find('a:first').attr('href');
+//     var useridToStar = link.split('id=')[1];
+//
+//     if (state.userProfile.profileComplete) {
+//       if ($(userStarred).hasClass('starred')) {
+//         $.post('/removeStar', {'currentUser' : currentid, 'useridToStar': useridToStar}, function(data){
+//           if (data === 'unstarred'){
+//             $(userStarred).removeClass('starred');
+//             $(userStarred).addClass('unstarred');
+//           }
+//         });
+//
+//       } else {
+//         $.post('/addStar', {'currentUser' : currentid,'useridToStar': useridToStar}, function(data){
+//           if (data === 'starred'){
+//             $(userStarred).addClass('starred');
+//             $(userStarred).removeClass('unstarred');
+//           }
+//         });
+//       }
+//     } else {
+//       $( "#profileIncomplete" ).popup();
+//       $( "#profileIncomplete" ).popup( "open" );
+//     }
+// });
 
 function checkStar(el) {
   if (el.star_status === "unstarred") {

@@ -47,7 +47,7 @@ function renderResults(searchResultsArray) {
       var location;
       var hasSkills;
       var skillsNeeded;
-      var recommendsString;
+      // var recommendsString;
 
       if (user[uid].locationCity && user[uid].locationCountry) {
         location = user[uid].locationCity + ', ' + user[uid].locationCountry;
@@ -75,13 +75,13 @@ function renderResults(searchResultsArray) {
         skillsNeededString = '';
       }
 
-      if (user[uid].star_count >= 1) {
-        recommendsString = '<div><img src="star.png" style="height: 35px; background-color: yellow"/> ' + user[uid].star_count +' recommends</div>';
-      } else {
-        recommendsString ='';
-      }
+      // if (user[uid].star_count >= 1) {
+      //   recommendsString = '<div><img src="star.png" style="height: 35px; background-color: yellow"/> ' + user[uid].star_count +' recommends</div>';
+      // } else {
+      //   recommendsString ='';
+      // }
 
-      resultsHTML = resultsHTML + '<div id=' + uid[0] +' class="individual"><h4>' + user[uid].display_name + '</h4>' + recommendsString + '<div class="individual-details"><p>' + 'Location: ' +  location + '</p>'+ hasSkillsString + skillsNeededString + '<a href="#profile?id=' + uid[0] + '"></div><button class="view-individual ui-btn ui-btn-inline">View Individual / إعرض الأشخاص</button></a></div>';
+      resultsHTML = resultsHTML + '<div id=' + uid[0] +' class="individual"><h4>' + user[uid].display_name + '</h4><div class="individual-details"><p>' + 'Location: ' +  location + '</p>'+ hasSkillsString + skillsNeededString + '<a href="#profile?id=' + uid[0] + '"></div><button class="view-individual ui-btn ui-btn-inline">View Individual / إعرض الأشخاص</button></a></div>';
     });
   } else {
     resultsHTML += '<p>Sorry, there are no results for your request</p><p>Please <a href="https://docs.google.com/forms/d/16EC6IcvYIWvaEvRRHBZYlpaMbo6eLCl4Dud3miyoZE0/viewform">Contact Us</a>, and we\'ll see what we can do to help.</p><p class="translation"> عفواً، لا توجد نتائج لطلبك. يرجى الإتصال بنا وسنرى ما يمكننا القيام به للمساعدة.</p>';
@@ -127,11 +127,11 @@ function createProfile(profile, id) {
   var skillsSentence = '';
   var skills = '';
   var needs = '';
-  var starSentence = "";
+  // var starSentence = "";
 
-  if (profile.star_count !== 0) {
-    starSentence = profile.first_name + ' has been recommended ' + profile.star_count + ' times';
-  }
+  // if (profile.star_count !== 0) {
+  //   starSentence = profile.first_name + ' has been recommended ' + profile.star_count + ' times';
+  // }
 
   if (profile.hasSkills) {
     skills = '<div class="translation"><h4>' + profile.first_name +' can help with...</h4><h4>.يستطيع المساعدة ب</h4></div>' + profile.hasSkills.map(function(el){
@@ -144,7 +144,7 @@ function createProfile(profile, id) {
     }).join('') || '';
   }
   return ('<div class="translation contact recieverid" id="' +id+ '"><h2>Contact ' + profile.first_name + '</h2><h2>جنوب</h2></div>' +
-     '<div class="has-skills">' + skills + '</div>' + '<div class="need-skills">' + needs + '</div>' + '<div>' + starSentence + '</div>' +
+     '<div class="has-skills">' + skills + '</div>' + '<div class="need-skills">' + needs + '</div>' +
     '<div class="send-details"><div class="translation"><p>Send ' + profile.first_name + ' Your Details</p><p>إرسل '+ profile.first_name +' تفاصيلك</p></div>' +
     '<button class="send-message" data-role="button">Send / إرسل</button></div>'
   );

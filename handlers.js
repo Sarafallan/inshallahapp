@@ -72,11 +72,11 @@ module.exports = {
           //     console.log('contacted already');
           //     reply({success: false, message: 'You have already contacted this person, you can\'t contact them again but they have your number', arabicMessage: 'لقد سبق واتصلت بهذا الشخص، لا يمكنك الاتصال به مرة أخرى ولكن لديه رقمك'});
           //   } else {
-          //     //twilio(data, reply);
+          twilio(data, reply);
           //   }
           //});
 
-           console.log("message will be sent");
+          console.log("message will be sent");
         } else {
           console.log('too many texts');
           reply({success: false, message: 'You have sent more than five texts today. Please wait until tomorrow to send any more', arabicMessage: 'لقد أرسلت أكثر من خمسة نصوص اليوم. يرجى الانتظار حتى الغد لإرسال المزيد'});
@@ -310,10 +310,16 @@ function getMessageDetails(messageInfo, callback) {
     } else {
       users.once("value", function(snapshot) {
         var data = snapshot.val();
+
+        if (messageInfo.reciever === "inshallahGeneric") {
+          messageDetails.reciever = "inshallahGeneric";
+          messageDetails.reciever.uid = "insh";
+        } else {
+          messageDetails.reciever = data[ messageInfo.reciever];
+          messageDetails.reciever.uid =  messageInfo.reciever;
+        }
         messageDetails.sender = data[messageInfo.sender];
         messageDetails.sender.uid = messageInfo.sender;
-        //messageDetails.reciever = data[ messageInfo.reciever];
-        //messageDetails.reciever.uid =  messageInfo.reciever;
         messageDetails.searchLocation = messageInfo.searchLocation;
         messageDetails.searchChoice = messageInfo.searchChoice;
         messageDetails.searchTopic = messageInfo.searchTopic;
@@ -327,29 +333,36 @@ function getMessageDetails(messageInfo, callback) {
 }
 
 function twilio(messageDetails, reply) {
-  console.log('message details', messageDetails.reciever.phoneCC + messageDetails.reciever.phoneNumber);
   var messageBody;
 
-  if (messageDetails.searchChoice == "takeHelp"){
-    messageBody = "Hello " + messageDetails.reciever.first_name + ", " + messageDetails.sender.first_name + " needs help with " + messageDetails.searchTopic + ". Get in touch with them at the number below or see their Inshallah page at the link below. "
-    messageBody += "مرحبا " + messageDetails.reciever.first_name + "،" + messageDetails.sender.first_name + "يحتاج إلى مساعدة مع " + messageDetails.searchTopic + " يمكنك الاتصال على " + messageDetails.sender.phoneCC + messageDetails.sender.phoneNumber + " أو راجع الصفحة من هنا :  Inshallah.herokuapp.com/main#profile?id=" + messageDetails.sender.uid;
-  } else if (messageDetails.searchChoice == "giveHelp") {
-
-    messageBody = "Hello " + messageDetails.reciever.first_name + ", " + messageDetails.sender.first_name + " can help you with " + messageDetails.searchTopic + ". Get in touch with them at the number below or see their Inshallah page at the link below. "
-    messageBody += "مرحبا " + messageDetails.reciever.first_name + "،" + messageDetails.sender.first_name + " يستطيع مساعدتك ب " + messageDetails.searchTopic + "يمكنك الاتصال على " + messageDetails.sender.phoneCC + messageDetails.sender.phoneNumber + " أو راجع الصفحة   من هنا : Inshallah.herokuapp.com/main#profile?id=" + messageDetails.sender.uid;
+  if (messageDetails.reciever === "inshallahGeneric") {
+    messageBody = "No results in search, " + messageDetails.sender.first_name + " wants to " + messageDetails.searchChoice + " with " + messageDetails.searchTopic + " in " + messageDetails.searchLocation + ". Their number is " + messageDetails.sender.phoneCC + messageDetails.sender.phoneNumber + ". Their link is www.inshallahapp.com/main#profile?id=" + messageDetails.sender.uid;
   } else {
-    console.log('error');
+    messageBody = messageDetails.sender.first_name + " wants to " + messageDetails.searchChoice + " with " + messageDetails.searchTopic + " in " + messageDetails.searchLocation + ". They clicked on " + messageDetails.reciever.display_name + " whose number is " + messageDetails.reciever.phoneCC + messageDetails.reciever.phoneNumber + ". The sender number is " +
+     messageDetails.sender.phoneCC + messageDetails.sender.phoneNumber + ". Their link is www.inshallahapp.com/main#profile?id=" + messageDetails.sender.uid;
   }
+
+  // if (messageDetails.searchChoice == "takeHelp"){
+  //   messageBody = "Hello " + messageDetails.reciever.first_name + ", " + messageDetails.sender.first_name + " needs help with " + messageDetails.searchTopic + ". Get in touch with them at the number below or see their Inshallah page at the link below. "
+  //   messageBody += "مرحبا " + messageDetails.reciever.first_name + "،" + messageDetails.sender.first_name + "يحتاج إلى مساعدة مع " + messageDetails.searchTopic + " يمكنك الاتصال على " + messageDetails.sender.phoneCC + messageDetails.sender.phoneNumber + " أو راجع الصفحة من هنا :  Inshallah.herokuapp.com/main#profile?id=" + messageDetails.sender.uid;
+  // } else if (messageDetails.searchChoice == "giveHelp") {
+  //
+  //   messageBody = "Hello " + messageDetails.reciever.first_name + ", " + messageDetails.sender.first_name + " can help you with " + messageDetails.searchTopic + ". Get in touch with them at the number below or see their Inshallah page at the link below. "
+  //   messageBody += "مرحبا " + messageDetails.reciever.first_name + "،" + messageDetails.sender.first_name + " يستطيع مساعدتك ب " + messageDetails.searchTopic + "يمكنك الاتصال على " + messageDetails.sender.phoneCC + messageDetails.sender.phoneNumber + " أو راجع الصفحة   من هنا : Inshallah.herokuapp.com/main#profile?id=" + messageDetails.sender.uid;
+  // } else {
+  //   console.log('error');
+  // }
 
 
   var accountSid = process.env.TWILIO_ACCOUNT_SID;
   var authToken = process.env.TWILIO_AUTH_TOKEN;
   var twilioPhoneNumber = process.env.TWILIO_PHONE_NUMBER;
+  var inshallahPhoneNumber = process.env.INSHALLAH_PHONE_NUMBER;
 
   var client = require('twilio')(accountSid, authToken);
 
   client.messages.create({
-      to: messageDetails.reciever.phoneCC + messageDetails.reciever.phoneNumber,
+      to: inshallahPhoneNumber,
       from: twilioPhoneNumber,
       body: messageBody,
   }, function(err, message) {
@@ -357,15 +370,18 @@ function twilio(messageDetails, reply) {
       console.log(err);
       reply({success: false, message: 'Something went wrong, please try again later', arabicMessage: ''});
     } else {
-      addContact('contact_sent', messageDetails.sender.uid, {uid: messageDetails.reciever.uid, name: messageDetails.reciever.display_name, star_status: 'unstarred'});
-      addContact('contact_recieved', messageDetails.reciever.uid, {uid: messageDetails.sender.uid, name: messageDetails.sender.display_name, tel: messageDetails.sender.phoneCC + messageDetails.sender.phoneNumber, star_status: 'unstarred'});
+      //addContact('contact_sent', messageDetails.sender.uid, {uid: messageDetails.reciever.uid, name: messageDetails.reciever.display_name, star_status: 'unstarred'});
+      //addContact('contact_recieved', messageDetails.reciever.uid, {uid: messageDetails.sender.uid, name: messageDetails.sender.display_name, tel: messageDetails.sender.phoneCC + messageDetails.sender.phoneNumber, star_status: 'unstarred'});
 
       incrementTextCount(messageDetails.sender);
-      incrementContactedCount(messageDetails.reciever);
-      reply({success: true, message: 'Message Sent!', arabicMessage: '', contact: {name: messageDetails.reciever.display_name, uid: messageDetails.reciever.uid}});
+      //incrementContactedCount(messageDetails.reciever);
+      reply({success: true, message: 'Message Sent!', arabicMessage: ''});
+      console.log("message sent");
+      //contact: {name: messageDetails.reciever.display_name, uid: messageDetails.reciever.uid};
     }
   });
 }
+
 
 function checkContacts(sender, reciever, callback) {
   var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + sender.uid + '/' + 'contact_sent');

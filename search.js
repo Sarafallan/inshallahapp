@@ -181,7 +181,6 @@ function sendMessage(recieverVar) {
     if (data.success){
       //state.userProfile.contact_sent[data.contact.uid] = data.contact;
       //renderActivity();
-      console.log("Contact list function removed for now");
     }
     $('#contactMessage').popup();
     $('#contactMessage').html('<div class="translation"><p>' + data.message + '</p><p>' + data.arabicMessage + '</p></div>');

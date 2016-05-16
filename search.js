@@ -84,11 +84,15 @@ function renderResults(searchResultsArray) {
       resultsHTML = resultsHTML + '<div id=' + uid[0] +' class="individual"><h4>' + user[uid].display_name + '</h4><div class="individual-details"><p>' + 'Location: ' +  location + '</p>'+ hasSkillsString + skillsNeededString + '<a href="#profile?id=' + uid[0] + '"></div><button class="view-individual ui-btn ui-btn-inline">View Individual / إعرض الأشخاص</button></a></div>';
     });
   } else {
-    resultsHTML += '<p>Sorry, there are no results for your request</p><p>Please <a href="https://docs.google.com/forms/d/16EC6IcvYIWvaEvRRHBZYlpaMbo6eLCl4Dud3miyoZE0/viewform">Contact Us</a>, and we\'ll see what we can do to help.</p><p class="translation"> عفواً، لا توجد نتائج لطلبك. يرجى الإتصال بنا وسنرى ما يمكننا القيام به للمساعدة.</p>';
+    resultsHTML += '<p>Sorry, there are no results for your request.</p><p>Click below to send us your details and we\'ll see what we can do to help.</p><p class="translation">Arabic translation here</p><p><div class="send-query"><button id="send-query" class="ui-btn ui-shadow ui-corner-all">Send Request</button><div></p>';
   }
 
   $('.results-box').html(resultsHTML);
 }
+
+$('.results-box').on('click', '#send-query', function(e){
+  console.log("hello world");
+});
 
 // -- Plugin for handling Query Strings -- //
 

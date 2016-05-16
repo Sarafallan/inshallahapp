@@ -54,7 +54,7 @@ html {
   margin-bottom: 0.5em;
 }
 
-.save button, .next button, .search-button button {
+.save button, .next button, .search-button button, .send-query button {
   font-size: 1em;
   margin-top: 2em;
   padding: 0em;

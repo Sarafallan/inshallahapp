@@ -29,6 +29,13 @@ var routes = [
   },
   {
     method: 'GET',
+    path: '/about',
+    handler: function(req, reply){
+      reply.file(__dirname + '/about.html');
+    }
+  },
+  {
+    method: 'GET',
     path: '/search',
     handler: function(req, reply){
       reply.file(__dirname + '/index.html');

@@ -9,9 +9,23 @@ body {
   font-family: sans-serif;
 }
 
+
+h1 {
+  font-size: 20px;
+}
+
 h1, p {
   margin-top: 0;
   margin-bottom: 0;
+}
+
+h1, h2, h3 {
+ font-weight:100;
+}
+
+.login-middle {
+  margin-top: 2em;
+  margin-bottom: 3em;
 }
 
 
@@ -34,7 +48,7 @@ h1, p {
 /*Buttons*/
 
 .login-button {
-  background-color: #0484BC;
+  background-color: #219DCC;
   color: white;
   cursor: pointer;
   font-size: 0.75em;
@@ -43,6 +57,7 @@ h1, p {
   -webkit-border-radius: 50px;
   border: none;
   padding: 0.75em 2.3em 0.75em 2.3em;
+  font-weight: 100;
 }
 
 .login-button:focus {
@@ -52,7 +67,7 @@ h1, p {
 
 #login-button-arabic {
   margin-top: 1em;
-  background-color: #0A0A9B;
+  background-color: #3A4F88;
   padding: 0.8em 2.6em 0.8em 2.6em;
 }
 
@@ -64,4 +79,6 @@ h1, p {
 .footer a {
   color: white;
   padding-bottom: 4em;
+  font-weight: 100;
+  font-size: 0.75em;
 }

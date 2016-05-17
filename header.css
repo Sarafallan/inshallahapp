@@ -3,7 +3,7 @@ a.ui-btn.hamburger {
   height: 6em;
   margin-top: 1.5em;
   margin-right: 2em;
-  background-image: url('./burger.png');
+  background-image: url('./assets/burger.png');
   background-position: center;
   background-size: contain;
 }

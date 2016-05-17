@@ -48,7 +48,7 @@ h1, h2, h3 {
 /*Buttons*/
 
 .login-button {
-  background-color: #0484BC;
+  background-color: #219DCC;
   color: white;
   cursor: pointer;
   font-size: 0.75em;
@@ -67,7 +67,7 @@ h1, h2, h3 {
 
 #login-button-arabic {
   margin-top: 1em;
-  background-color: #0A0A9B;
+  background-color: #3A4F88;
   padding: 0.8em 2.6em 0.8em 2.6em;
 }
 

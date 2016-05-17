@@ -24,8 +24,10 @@
       <div class="need-help">
         <div class="translation greeting">
           <p>Hi <span class="first-name"></span>, What do you need help with?</p>
-          <p>مرحبا <span class="first-name"></span>، بماذا تريدني أن أساعدك؟</p>
+          <p> بماذا تريدني أن أساعدك؟<span class="first-name"></span> مرحبا</p>
+
         </div>
+
         <div class="help ui-field-contain">
           <div class="translation">
             <p>I need help with...</p>
@@ -33,27 +35,26 @@
           </div>
           <div data-mini="true" class="skills-select">
             <select class="need-skill-select select">
-              <option value="" disabled selected>Select Skill / إختر مهارة</option>
+              <option value="" disabled selected>Categories / الفئات </option>
               <option value="Accommodation">Accommodation / سكن</option>
-              <option value="Advice">Advice / إستشارة</option>
               <option value="Arabic Lessons">Arabic Lessons / دروس عربي</option>
               <option value="Asylum System">Asylum System / نظام اللجوء</option>
               <option value="Border Updates">Border Updates / آخر تطورات الحدود</option>
               <option value="Child Support">Child Support / دعم الطفل'</option>
+              <option value="Counselling"> Counselling / استشارات</option>
+              <option value="Education">Education / التعليم</option>
               <option value="English Lessons">English Lessons / دروس انجليزي</option>
-              <option value="Emotional Support">Emotional Support / دعم نفسي</option>
-              <option value="Form Filling">Form Filling / تعبئة الطلبات</option>
               <option value="French Lessons">French Lessons / دروس فرنسي</option>
-              <option value="Friendship">Friendship / صداقةلا</option>
+              <option value="Friendship">Friendship / الصداقة</option>
               <option value="German Lessons">German Lessons / دروس ألماني</option>
+              <option value="Interview Advice">Interview Advice / حول المقابلة</option>
               <option value="Jobs">Jobs / أعمال</option>
               <option value="Legal Help">Legal Help / مساعدة قانونية</option>
               <option value="Medical Care">Medical Care / عناية طبية</option>
               <option value="Mentoring">Mentoring / التوجيه</option>
               <option value="Phone Credit">Phone Credit / تعبئة رصيد هاتف</option>
               <option value="Psychologist">Psychologist / معالج نفسيلا</option>
-              <option value="Studying">Studying / دراسة</option>
-              <option value="Translation">Translation / ترجماتلا</option>
+              <option value="Translation">Translation / الترجمة</option>
             </select>
           </div>
         </div>
@@ -72,27 +73,26 @@
           </div>
           <div class="skills-select">
             <select class="have-skill-select select">
-              <option value="" disabled selected>Select Skill / إختر مهارة</option>
+              <option value="" disabled selected>Categories / الفئات </option>
               <option value="Accommodation">Accommodation / سكن</option>
-              <option value="Advice">Advice / إستشارة</option>
               <option value="Arabic Lessons">Arabic Lessons / دروس عربي</option>
               <option value="Asylum System">Asylum System / نظام اللجوء</option>
               <option value="Border Updates">Border Updates / آخر تطورات الحدود</option>
               <option value="Child Support">Child Support / دعم الطفل'</option>
+              <option value="Counselling"> Counselling / استشارات</option>
+              <option value="Education">Education / التعليم</option>
               <option value="English Lessons">English Lessons / دروس انجليزي</option>
-              <option value="Emotional Support">Emotional Support / دعم نفسي</option>
-              <option value="Form Filling">Form Filling / تعبئة الطلبات</option>
               <option value="French Lessons">French Lessons / دروس فرنسي</option>
-              <option value="Friendship">Friendship / صداقةلا</option>
+              <option value="Friendship">Friendship / الصداقة</option>
               <option value="German Lessons">German Lessons / دروس ألماني</option>
+              <option value="Interview Advice">Interview Advice / حول المقابلة</option>
               <option value="Jobs">Jobs / أعمال</option>
               <option value="Legal Help">Legal Help / مساعدة قانونية</option>
               <option value="Medical Care">Medical Care / عناية طبية</option>
               <option value="Mentoring">Mentoring / التوجيه</option>
               <option value="Phone Credit">Phone Credit / تعبئة رصيد هاتف</option>
               <option value="Psychologist">Psychologist / معالج نفسيلا</option>
-              <option value="Studying">Studying / دراسة</option>
-              <option value="Translation">Translation / ترجماتلا</option>
+              <option value="Translation">Translation / الترجمة</option>
             </select>
           </div>
         </div>
@@ -205,12 +205,12 @@
           <div class="ui-grid-a">
             <div class="translation ui-block-a">
               <p>Find People...</p>
-              <p>البحث عن من يحتاج المساعدة</p>
+              <p>البحث عن </p>
             </div>
             <div class="ui-block-b">
               <select id="search-choice" class="select">
-                <option value="takeHelp">To Help Me / لمساعدتيلا</option>
-                <option value="giveHelp">That I can Help /  أن أتمكن من المساعدةلا</option>
+                <option value="takeHelp">To Help Me / لمساعدتي</option>
+                <option value="giveHelp">That I can Help /  أشخاص بمقدوري مساعدتهم</option>
               </select>
             </div>
           </div>
@@ -219,31 +219,30 @@
           <div class="ui-grid-a">
             <div class="translation ui-block-a">
               <p>With...</p>
-              <p>في</p>
+              <p> حول</p>
             </div>
             <div class="ui-block-b">
               <select id="search-topic" class="select">
-                <option value="" disabled selected>Select Skill / إختر مهارة</option>
+                <option value="" disabled selected>Categories / الفئات </option>
                 <option value="Accommodation">Accommodation / سكن</option>
-                <option value="Advice">Advice / إستشارة</option>
                 <option value="Arabic Lessons">Arabic Lessons / دروس عربي</option>
                 <option value="Asylum System">Asylum System / نظام اللجوء</option>
                 <option value="Border Updates">Border Updates / آخر تطورات الحدود</option>
                 <option value="Child Support">Child Support / دعم الطفل'</option>
+                <option value="Counselling"> Counselling / استشارات</option>
+                <option value="Education">Education / التعليم</option>
                 <option value="English Lessons">English Lessons / دروس انجليزي</option>
-                <option value="Emotional Support">Emotional Support / دعم نفسي</option>
-                <option value="Form Filling">Form Filling / تعبئة الطلبات</option>
                 <option value="French Lessons">French Lessons / دروس فرنسي</option>
-                <option value="Friendship">Friendship / صداقةلا</option>
+                <option value="Friendship">Friendship / الصداقة</option>
                 <option value="German Lessons">German Lessons / دروس ألماني</option>
+                <option value="Interview Advice">Interview Advice / حول المقابلة</option>
                 <option value="Jobs">Jobs / أعمال</option>
                 <option value="Legal Help">Legal Help / مساعدة قانونية</option>
                 <option value="Medical Care">Medical Care / عناية طبية</option>
                 <option value="Mentoring">Mentoring / التوجيه</option>
                 <option value="Phone Credit">Phone Credit / تعبئة رصيد هاتف</option>
                 <option value="Psychologist">Psychologist / معالج نفسيلا</option>
-                <option value="Studying">Studying / دراسة</option>
-                <option value="Translation">Translation / ترجماتلا</option>
+                <option value="Translation">Translation / الترجمة</option>
               </select>
             </div>
           </div>

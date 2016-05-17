@@ -76,7 +76,7 @@ function renderResults(searchResultsArray) {
       }
 
       // if (user[uid].star_count >= 1) {
-      //   recommendsString = '<div><img src="star.png" style="height: 35px; background-color: yellow"/> ' + user[uid].star_count +' recommends</div>';
+      //   recommendsString = '<div><img src="./assets/star.png" style="height: 35px; background-color: yellow"/> ' + user[uid].star_count +' recommends</div>';
       // } else {
       //   recommendsString ='';
       // }

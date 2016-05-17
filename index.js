@@ -273,7 +273,7 @@ function renderActivity() {
   //
   // $('.sent').append(state.contacted.map(function(el){
   //   //var starClass = checkStar(el);
-  //   // <button class="star" +starClass+><img src="star.png"/></button>
+  //   // <button class="star" +starClass+><img src="./assets/star.png"/></button>
   //
   //   return (
   //     '<div class="activity-individual"><a class="profile-link" href="#profile?id=' + el.uid + '"><div class="activity-name">' + el.name + '</div></a></div>'

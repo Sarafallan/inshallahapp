@@ -2,11 +2,10 @@ var ref = new Firebase('https://blazing-torch-7074.firebaseio.com');
 
 if (document.getElementById('login-button')){
   document.getElementById("login-button").addEventListener('click', function(){
-    ref.authWithOAuthRedirect("facebook", function(error, authData) {
-      if (error) {
-        console.log(error);
-      }
-    });
+    callAuth();
+  });
+  document.getElementById('login-button-arabic').addEventListener('click', function(){
+    callAuth();
   });
 }
 
@@ -38,6 +37,14 @@ ref.onAuth(function(authData){
   }
 
 });
+
+function callAuth(){
+  ref.authWithOAuthRedirect("facebook", function(error, authData) {
+    if (error) {
+      console.log(error);
+    }
+  });
+}
 
 function buildProfile(databaseProfile) {
   var newProfile = {};

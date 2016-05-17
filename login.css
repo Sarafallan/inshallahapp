@@ -45,6 +45,11 @@ h1, p {
   padding: 0.75em 2.3em 0.75em 2.3em;
 }
 
+.login-button:focus {
+  outline: 0 !important;
+  border: 0.8px solid white;
+}
+
 #login-button-arabic {
   margin-top: 1em;
   background-color: #0A0A9B;

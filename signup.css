@@ -2,6 +2,11 @@ html {
   font-size: 50px;
 }
 
+.about-us {
+  background-color: #e1f5fe;
+  padding: 2em;
+}
+
 .signupTwo {
   padding-left: 2em;
   padding-right: 2em;

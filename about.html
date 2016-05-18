@@ -2,23 +2,48 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Inshallah</title>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
     <link rel="stylesheet" href="signup.css" />
+    <link rel="stylesheet" href="header.css" />
 
   </head>
 <body>
   <div class="main-content">
     <div class="page">
-        <div class="about-us">
-          <h1>About Inshallah</h1>
-          <p>We believe everyone has the power to help someone. Inshallah brings individuals together who can offer advice, asylum information, teach a language or share their experiences. If you had to leave your country and need support, tell us what you need help with. We will try to connect you with a person who can help.</p>
-          <p>نحن نعتقد بأن كل شخص لديه المقدرة على مساعدة أحدهم . ""إنشالله""يقرب الأفراد القادرين على منح نصيحة ، معلومات لجوء ، تعليم لغة او مشاركة خبرات . اذا كنت قد اضطررت لمغادرة بلدك وانت بحاجة لدعم ، أخبرنا بماذا تحتاج مساعدة . سوف نحاول أن نضعك في تواصل مع شخص يمكنه المساعدة</p>
+        <div data-role="page about-us">
+          <div data-role="header" class="header" data-position="fixed" data-tap-toggle="false">
+            <img class="in-app-logo ui-btn-left" src="./assets/logo-in-app.svg" alt="Inshallah Orange Logo">
+            <h1>How it works</h1>
+          </div>
+          <div class="page">
+              <div class="about-us">
+                <div class="about-step">
+                  <p class="about-num">Step 1</p>
+                  <p>Create your Profile to get help or give help</p>
+                  <p class="translation"> الخطوة الأولى : أنشئ ملفك الخاص للحصول على المساعدة أو تقديم المساعدة </p>
+                </div>
+                <div class="about-step">
+                  <p class="about-num">Step 2</p>
+                  <p>Search for people who can give you help or you can help</p>
+                  <p class="translation">الخطوة الثانية: إبحث عن الأشخاص الذين يمكنهم مساعدتك أو يمكنك مساعدتهم </p>
+                </div>
+                <div class="about-step">
+                  <p class="about-num">Step 3</p>
+                  <p>Ask us to connect you with them</p>
+                  <p class="translation">الخطوة الثالثة: إطلب منا أن نوصلك بهم </p>
+                </div>
 
-          <a href="/main">
-            <button id="get-started">Get Started</button>
-          </a>
+                <a href="/main">
+                  <button id="get-started">Get Started</button>
+                </a>
+              </div>
+          </div>
         </div>
+
+
     </div>
 
 

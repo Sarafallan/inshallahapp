@@ -100,8 +100,9 @@ html {
 }
 
 .disclaimer {
-  margin-top: 0;
-  font-size: 0.75em;
+  margin-top: 0.30em;
+  font-size: 0.6em;
+  color: #E25800;
 }
 
 .select {
@@ -153,6 +154,11 @@ html {
   width: 70%;
   margin-bottom: 0;
 }
+
+.ui-page-theme-a {
+  background-color: white;
+}
+
 
 .ui-page-theme-a .ui-btn, .ui-page-theme-a .ui-btn, html .ui-bar-a .ui-btn {
   /*background-color: white;*/

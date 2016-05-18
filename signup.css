@@ -76,9 +76,9 @@ html {
   margin-bottom: 0.5em;
 }
 
-#save-button, #next-button, #search-button, #send-query, #view-individual, #send-message-button {
+#save-button, #next-button, #search-button, #send-query, #send-message-button {
   font-size: 1em;
-  font-weight: 100;
+  font-weight: normal;
   margin-top: 2em;
   padding: 0.3em;
   background-color: #E25800;
@@ -86,6 +86,17 @@ html {
   width: 60%;
   margin-left: 20%;
   text-shadow: none;
+}
+
+#view-individual {
+  font-weight: normal;
+  width: 80%;
+  margin-top: 1em;
+  text-shadow: none;
+  color: white;
+  background-color: #E25800;
+  padding: 0.3em;
+  font-size: 1em;
 }
 
 .disclaimer {
@@ -119,6 +130,7 @@ html {
   border-radius: 0.4em;
   padding: 0 0.3em;
   z-index: 100;
+  text-shadow: none;
 }
 
 .skill > * {
@@ -143,7 +155,10 @@ html {
 }
 
 .ui-page-theme-a .ui-btn, .ui-page-theme-a .ui-btn, html .ui-bar-a .ui-btn {
-  background-color: white;
+  /*background-color: white;*/
+  background-color: #FF9957;
+  font-weight: normal;
+  text-shadow: none;
 }
 
 .hidden {
@@ -151,8 +166,9 @@ html {
 }
 
 .ui-page-theme-a .ui-btn:hover, html .ui-bar-a .ui-btn:hover, html .ui-body-a .ui-btn:hover, html body .ui-group-theme-a .ui-btn:hover, html head+body .ui-btn.ui-btn-a:hover {
-  background-color: #6fc4ea;
-  /*background-color: #4A4A4A;*/
+  background-color: #FF9957;
+  font-weight: normal;
+  text-shadow: none;
 }
 
 .alert {
@@ -166,6 +182,9 @@ html {
 
 #getLocation {
   background-color: #FF9957;
+  font-weight: normal;
+  color: black;
+  text-shadow: none;
 }
 
 .getLocation .translation p {

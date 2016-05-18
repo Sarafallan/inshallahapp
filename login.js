@@ -1,10 +1,8 @@
 var ref = new Firebase('https://blazing-torch-7074.firebaseio.com');
 
 if (document.getElementById('login-button')){
-  console.log("on-load")
   document.getElementById("login-button").addEventListener('click', function(){
     callAuth();
-    console.log("on-click")
   });
   document.getElementById('login-button-arabic').addEventListener('click', function(){
     callAuth();

@@ -34,7 +34,7 @@ a {
 
 .search, .profile, .activity {
   padding: 2em;
-  background-color: #EFFAFF;
+  background-color: white;
   min-height: 100vh;
 }
 

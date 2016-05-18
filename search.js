@@ -81,7 +81,7 @@ function renderResults(searchResultsArray) {
       //   recommendsString ='';
       // }
 
-      resultsHTML = resultsHTML + '<div id=' + uid[0] +' class="individual"><h4>' + user[uid].display_name + '</h4><div class="individual-details"><p>' + 'Location: ' +  location + '</p>'+ hasSkillsString + skillsNeededString + '<a href="#profile?id=' + uid[0] + '"></div><button class="view-individual ui-btn ui-btn-inline">View Individual / إعرض الأشخاص</button></a></div>';
+      resultsHTML = resultsHTML + '<div id=' + uid[0] +' class="individual"><h4>' + user[uid].display_name + '</h4><div class="individual-details"><p>' + 'Location: ' +  location + '</p>'+ hasSkillsString + skillsNeededString + '<a href="#profile?id=' + uid[0] + '"></div><button id="view-individual" class="view-individual ui-btn ui-btn-inline">View Individual / إعرض الأشخاص</button></a></div>';
     });
   } else {
     resultsHTML += '<p>We can\'t find you anyone right now. Click below to send us your details and we will try to help.</p><p class="translation"> لارسال معلوماتك و سنحاول مساعدتك لم نستطع ايجاد احد حاليا ,اضغط اسفل </p><p><div class="send-query"><button id="send-query" class="ui-btn ui-shadow ui-corner-all">Send Request</button><div></p>'
@@ -150,7 +150,7 @@ function createProfile(profile, id) {
   return ('<div class="translation contact recieverid" id="' +id+ '"><h2>Contact ' + profile.first_name + '</h2><h2>جنوب</h2></div>' +
      '<div class="has-skills">' + skills + '</div>' + '<div class="need-skills">' + needs + '</div>' +
     '<div class="send-details"><div class="translation"><p>Send ' + profile.first_name + ' Your Details</p><p>إرسل '+ profile.first_name +' تفاصيلك</p></div>' +
-    '<button class="send-message" data-role="button">Send / إرسل</button></div>'
+    '<button id="send-message-button" class="send-message" data-role="button">Send / إرسل</button></div>'
   );
 }
 

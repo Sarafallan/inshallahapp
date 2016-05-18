@@ -3,7 +3,7 @@ html {
 }
 
 .about-us {
-  background-color: #e1f5fe;
+  background-color: white;
   padding: 2em;
 }
 
@@ -29,7 +29,7 @@ html {
 .signupTwo {
   padding-left: 2em;
   padding-right: 2em;
-  background-color: #EFFAFF;
+  background-color: white;
   height: 100vh;
   padding: 1em;
 }
@@ -38,13 +38,8 @@ html {
   display: inline-block;
 }
 
-.need-help, .location, .next {
-  background-color: #EFFAFF;
-  padding: 1em;
-}
-
-.can-help {
-  background-color: #e1f5fe;
+.need-help, .location, .next, .can-help {
+  background-color: white;
   padding: 1em;
 }
 
@@ -67,6 +62,9 @@ html {
   margin: auto;
   margin-bottom: 2em;
   border-color: transparent;
+  text-shadow: none;
+  padding: 0.5em;
+  font-weight: 100;
 }
 
 .translation > p:first-child {
@@ -78,10 +76,16 @@ html {
   margin-bottom: 0.5em;
 }
 
-.save button, .next button, .search-button button, .send-query button {
+#save-button, #next-button, #search-button, #send-query, #view-individual, #send-message-button {
   font-size: 1em;
+  font-weight: 100;
   margin-top: 2em;
-  padding: 0em;
+  padding: 0.3em;
+  background-color: #E25800;
+  color: white;
+  width: 60%;
+  margin-left: 20%;
+  text-shadow: none;
 }
 
 .disclaimer {
@@ -110,7 +114,7 @@ html {
 
 .skill {
   display: inline-block;
-  background-color: #81d5fa;
+  background-color: #FE7D29;
   margin: 0.1em;
   border-radius: 0.4em;
   padding: 0 0.3em;
@@ -146,13 +150,9 @@ html {
   display: none;
 }
 
-.ui-page-theme-a .ui-btn:hover, html .ui-body-a .ui-btn:hover, html body .ui-group-theme-a .ui-btn:hover, html head+body .ui-btn.ui-btn-a:hover {
+.ui-page-theme-a .ui-btn:hover, html .ui-bar-a .ui-btn:hover, html .ui-body-a .ui-btn:hover, html body .ui-group-theme-a .ui-btn:hover, html head+body .ui-btn.ui-btn-a:hover {
   background-color: #6fc4ea;
   /*background-color: #4A4A4A;*/
-}
-
-html .ui-bar-a .ui-button:hover {
-  background-color: #E25800;
 }
 
 .alert {
@@ -162,6 +162,10 @@ html .ui-bar-a .ui-button:hover {
 
 #phoneAlert-screen, #geoUnavailable-screen, #geoDenied-screen, #geoError-screen, #contactMessage-screen, #profileIncomplete-screen {
   background-color: black;
+}
+
+#getLocation {
+  background-color: #FF9957;
 }
 
 .getLocation .translation p {

@@ -7,6 +7,25 @@ html {
   padding: 2em;
 }
 
+#get-started {
+  background-color: #219DCC;
+  color: white;
+  cursor: pointer;
+  font-size: 0.75em;
+  border-radius: 50px;
+  -moz-border-radius: 50px;
+  -webkit-border-radius: 50px;
+  border: none;
+  padding: 0.75em 2.3em 0.75em 2.3em;
+  font-weight: 100;
+}
+
+#get-started:focus {
+  outline: 0 !important;
+  border: 0.8px solid white;
+}
+
+
 .signupTwo {
   padding-left: 2em;
   padding-right: 2em;

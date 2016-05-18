@@ -1,13 +1,16 @@
 var ref = new Firebase('https://blazing-torch-7074.firebaseio.com');
 
 if (document.getElementById('login-button')){
+  console.log("on-load")
   document.getElementById("login-button").addEventListener('click', function(){
     callAuth();
+    console.log("on-click")
   });
   document.getElementById('login-button-arabic').addEventListener('click', function(){
     callAuth();
   });
 }
+
 
 ref.onAuth(function(authData){
   if(authData) {
@@ -27,7 +30,7 @@ ref.onAuth(function(authData){
               window.location.href = '/main#search';
             };
           } else {
-            window.location.href = '/main';
+            window.location.href = '/about';
           }
         } else {
           console.log(request.status);
@@ -35,7 +38,6 @@ ref.onAuth(function(authData){
       }
     };
   }
-
 });
 
 function callAuth(){

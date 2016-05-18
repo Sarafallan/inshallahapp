@@ -149,7 +149,7 @@ function createProfile(profile, id) {
   }
   return ('<div class="translation contact recieverid" id="' +id+ '"><h2>Contact ' + profile.first_name + '</h2><h2>جنوب</h2></div>' +
      '<div class="has-skills">' + skills + '</div>' + '<div class="need-skills">' + needs + '</div>' +
-    '<div class="send-details"><div class="translation"><p>Send ' + profile.first_name + ' Your Details</p><p>إرسل '+ profile.first_name +' تفاصيلك</p></div>' +
+    '<div class="send-details"><div class="translation"><p>Ask Inshallah to connect you with ' + profile.first_name + '</p><p>'+ profile.first_name +' اطلب منا أن نوصلك ب</p></div>' +
     '<button id="send-message-button" class="send-message" data-role="button">Send / إرسل</button></div>'
   );
 }

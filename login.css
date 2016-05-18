@@ -7,11 +7,13 @@ html {
 body {
   box-sizing: border-box;
   font-family: sans-serif;
+  height: 100%;
+  /*position: fixed;*/
 }
 
 
 h1 {
-  font-size: 20px;
+  font-size: 1.5em;
 }
 
 h1, p {
@@ -30,10 +32,10 @@ h1, h2, h3 {
 
 
 .main-content {
-  margin-top: 8em;
+  margin-top: 5em;
   text-align: center;
   color: white;
-  font-size: 25px;
+  font-size: 1.4em;
 }
 
 .login-top {
@@ -78,7 +80,7 @@ h1, h2, h3 {
 
 .footer a {
   color: white;
-  padding-bottom: 4em;
+  padding-bottom: 3em;
   font-weight: 100;
   font-size: 0.75em;
 }

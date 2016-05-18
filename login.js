@@ -9,6 +9,7 @@ if (document.getElementById('login-button')){
   });
 }
 
+
 ref.onAuth(function(authData){
   if(authData) {
     var request = new XMLHttpRequest();
@@ -27,7 +28,7 @@ ref.onAuth(function(authData){
               window.location.href = '/main#search';
             };
           } else {
-            window.location.href = '/main';
+            window.location.href = '/about';
           }
         } else {
           console.log(request.status);
@@ -35,7 +36,6 @@ ref.onAuth(function(authData){
       }
     };
   }
-
 });
 
 function callAuth(){

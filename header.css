@@ -8,6 +8,17 @@ a.ui-btn.hamburger {
   background-size: contain;
 }
 
+a.ui-btn.hamburger:hover{
+  background-color: white;
+}
+
+.in-app-logo {
+  padding-top: 1.8em;
+  padding-left: 2em;
+  width: 6em;
+  height: 6em;
+}
+
 .modal {
   position: fixed;
   height: 100%;
@@ -36,18 +47,20 @@ a.ui-btn.hamburger {
 }
 
 .links ul a:active {
-  background-color: #dddddd;
+  background-color: #E25800;;
   text-decoration: none;
 }
 
 .ui-bar-a, .ui-page-theme-a .ui-bar-inherit {
-  background-color: #81d5fa;
-  border-color: #81d5fa;
+  background-color: white;
+  border-color: #E25800;
+  color: #E25800;
 }
 
 .ui-header .ui-title {
     margin-right: 10%;
     margin-left: 10%;
+    font-weight: 100;
 }
 
 @media (min-device-width: 1023px) {

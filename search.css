@@ -27,14 +27,14 @@ a {
 }
 
 .individual-details {
-  border-bottom: 1px solid #81d5fa;
+  border-bottom: 1px solid #FF9957;
   padding-bottom: 0.5em;
   margin-bottom: 0.5em;
 }
 
-.search, .profile, .activity {
+.search, .profile, .activity, .about-us {
   padding: 2em;
-  background-color: #EFFAFF;
+  background-color: white;
   min-height: 100vh;
 }
 

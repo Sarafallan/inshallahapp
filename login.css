@@ -32,10 +32,10 @@ h1, h2, h3 {
 
 
 .main-content {
-  margin-top: 5em;
+  margin-top: 3em;
   text-align: center;
   color: white;
-  font-size: 1.4em;
+  font-size: 1.3em;
 }
 
 .login-top {
@@ -43,7 +43,7 @@ h1, h2, h3 {
 }
 
 .about-us {
-  background-color: #e1f5fe;
+  background-color: #white;
   padding: 2em;
 }
 

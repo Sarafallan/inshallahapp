@@ -33,7 +33,7 @@ a {
   margin-bottom: 0.5em;
 }
 
-.search, .profile, .activity, .about-us {
+.search, .profile, .activity {
   padding: 2em;
   background-color: white;
   min-height: 100vh;

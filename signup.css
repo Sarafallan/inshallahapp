@@ -4,7 +4,29 @@ html {
 
 .about-us {
   background-color: white;
+  margin-top: 0;
   padding: 2em;
+  font-weight: 200;
+}
+
+div.about-step {
+  margin: 1.5em;
+}
+
+.about-step p {
+  margin: 0;
+  text-align: center;
+}
+
+.about-num {
+  color: #E25800;
+  text-align: center;
+  font-size: 1em;
+  border-bottom: 1px solid #E25800;
+}
+
+.join-family {
+  text-align: center;
 }
 
 #get-started {

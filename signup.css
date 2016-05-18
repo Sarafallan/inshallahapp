@@ -139,15 +139,20 @@ html {
 }
 
 .ui-page-theme-a .ui-btn, .ui-page-theme-a .ui-btn, html .ui-bar-a .ui-btn {
-  background-color: #81d5fa;
+  background-color: white;
 }
 
 .hidden {
   display: none;
 }
 
-.ui-page-theme-a .ui-btn:hover, html .ui-bar-a .ui-btn:hover, html .ui-body-a .ui-btn:hover, html body .ui-group-theme-a .ui-btn:hover, html head+body .ui-btn.ui-btn-a:hover {
+.ui-page-theme-a .ui-btn:hover, html .ui-body-a .ui-btn:hover, html body .ui-group-theme-a .ui-btn:hover, html head+body .ui-btn.ui-btn-a:hover {
   background-color: #6fc4ea;
+  /*background-color: #4A4A4A;*/
+}
+
+html .ui-bar-a .ui-button:hover {
+  background-color: #E25800;
 }
 
 .alert {

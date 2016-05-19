@@ -23,6 +23,10 @@ var arabicSkills = {
 var nonDigit = new RegExp(/[^0-9]/g);
 var leadingZero = new RegExp(/\b0+/g);
 
+$("#get-started").on('click', function(){
+  window.location.href = '/main';
+});
+
 // -- Initialise App -- //
 
 $(document).ready(function(){
@@ -173,6 +177,7 @@ function addSkill(e, skillsArray, box) {
 }
 
 function displaySkill(box, skill, skillsArray){
+  console.log("render");
   $(box).append('<div class="skill"><a href="#" id="' + skill.replace(' ', '') + '-' + skillsArray + '" class="delete-skill ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-b ui-btn-inline">Delete</a>' + skill + ' / ' + arabicSkills[skill] + '</div>');
   $('#' + skill.replace(' ', '') + '-' + skillsArray).on('click', function(ev){
     deleteSkill(ev, skill, state.userProfile[skillsArray]);
@@ -230,6 +235,7 @@ var menu = {
 //Add in when activity readdedd - <a href="#activity"><li>My Activity / نشاطي</li></a>
 
 $('.hamburger').on('click', function(){
+  console.log("menu click");
   toggleMenu();
 });
 

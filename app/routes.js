@@ -1,18 +1,20 @@
 var handlers = require('./handlers.js');
 
+var public_dir = __dirname + '/../public';
+
 var routes = [
   {
     method: 'GET',
     path: '/',
     handler: function(req, reply){
-      reply.file(__dirname + '/login.html');
+      reply.file(public_dir + '/login.html');
     },
   },
   {
     method: 'GET',
     path: '/{path*}',
     handler: function(req, reply){
-      reply.file(__dirname + '/' + req.params.path);
+      reply.file(public_dir + '/' + req.params.path);
     },
   },
   {
@@ -24,21 +26,21 @@ var routes = [
     method: 'GET',
     path: '/main',
     handler: function(req, reply){
-      reply.file(__dirname + '/index.html');
+      reply.file(public_dir + '/index.html');
     }
   },
   {
     method: 'GET',
     path: '/about',
     handler: function(req, reply){
-      reply.file(__dirname + '/about.html');
+      reply.file(public_dir + '/about.html');
     }
   },
   {
     method: 'GET',
     path: '/search',
     handler: function(req, reply){
-      reply.file(__dirname + '/index.html');
+      reply.file(public_dir + '/index.html');
     }
   },
   {

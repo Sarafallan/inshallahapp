@@ -1,5 +1,4 @@
-var ref = new Firebase(FIREBASE_DOMAIN);
-console.log(FIREBASE_DOMAIN);
+var ref = new Firebase(Settings.FIREBASE_DOMAIN);
 
 if (document.getElementById('login-button')){
   document.getElementById("login-button").addEventListener('click', function(){

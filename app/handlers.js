@@ -201,8 +201,14 @@ module.exports = {
     });
   },
 
-  getFirebaseDomain: function (req, reply) {
-    reply('var FIREBASE_DOMAIN = "' + Settings.FIREBASE_DOMAIN + '";').type('application/javascript');
+  getSettings: function (req, reply) {
+    // we don't want to supply all settings as some are confidential
+    var s = {
+      FIREBASE_ACCOUNT: Settings.FIREBASE_ACCOUNT,
+      FIREBASE_DOMAIN: Settings.FIREBASE_DOMAIN,
+      FIREBASE_STORAGE_KEY: 'firebase:session::' + Settings.FIREBASE_ACCOUNT
+    };
+    reply('var Settings = ' + JSON.stringify(s) + ';').type('application/javascript');
   }
 };
 

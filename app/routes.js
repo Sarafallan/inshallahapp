@@ -80,8 +80,8 @@ var routes = [
   },
   {
     method: 'GET',
-    path: '/firebase_domain.js',
-    handler: handlers.getFirebaseDomain
+    path: '/settings.js',
+    handler: handlers.getSettings
   }
 ];
 

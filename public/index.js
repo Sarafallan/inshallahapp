@@ -31,19 +31,19 @@ $("#get-started").on('click', function(){
 
 $(document).ready(function(){
   state = JSON.parse(localStorage.getItem('state')) || state;
-  if (!localStorage.getItem('firebase:session::inshallahapp') && !state.authData){
+  if (!localStorage.getItem(Settings.FIREBASE_STORAGE_KEY) && !state.authData){
     window.location.href = '/';
   }
   state.userProfile.hasSkills = state.userProfile.hasSkills || [];
   state.userProfile.skillsNeeded = state.userProfile.skillsNeeded || [];
 
-  console.log("intialising app")
+  console.log("intialising app");
   renderProfile();
   renderActivity();
 });
 
 function renderProfile(){
-  var profile = JSON.parse(localStorage.getItem('firebase:session::inshallahapp'));
+  var profile = JSON.parse(localStorage.getItem(Settings.FIREBASE_STORAGE_KEY));
 
   $('.first-name').html(profile.facebook.cachedUserProfile.first_name);
 
@@ -78,7 +78,7 @@ $('#save-button').on('click', function(){
 });
 
 function saveProfile() {
-  var authData = JSON.parse(localStorage.getItem('firebase:session::inshallahapp'));
+  var authData = JSON.parse(localStorage.getItem(Settings.FIREBASE_STORAGE_KEY));
   var currentUid = authData.uid;
 
   state.userProfile.locationCity = sanitise($('#locationCity').val()) || '';
@@ -308,7 +308,7 @@ function renderActivity() {
 //Star function - not displayed for now.
 
 // $('.activity').on('click', '.star', function(e){
-//     var currentUser = JSON.parse(localStorage.getItem('firebase:session::inshallahapp'));
+//     var currentUser = JSON.parse(localStorage.getItem(Settings.FIREBASE_STORAGE_KEY));
 //     var currentid = currentUser.uid;
 //     var userStarred;
 //

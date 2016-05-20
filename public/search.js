@@ -5,7 +5,7 @@ $('#search-button').bind('click', function(e){
   var searchChoice = $('#search-choice').val();
   var searchTopic = $('#search-topic').val();
   var searchLocation = state.userProfile.locationCountry;
-  var profile = JSON.parse(localStorage.getItem('firebase:session::inshallahapp'));
+  var profile = JSON.parse(localStorage.getItem(Settings.FIREBASE_STORAGE_KEY));
 
   searchQuery = {
     'uid' : profile.uid,
@@ -165,7 +165,7 @@ $('.profile').on('click', '.send-message', function(e){
 });
 
 function sendMessage(recieverVar) {
-  var authData = JSON.parse(localStorage.getItem('firebase:session::inshallahapp'));
+  var authData = JSON.parse(localStorage.getItem(Settings.FIREBASE_STORAGE_KEY));
   var currentUid = authData.uid;
   var reciever = recieverVar;
 

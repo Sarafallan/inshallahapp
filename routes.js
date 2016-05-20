@@ -75,6 +75,11 @@ var routes = [
     method: 'POST',
     path: '/removeStar',
     handler: handlers.removeStar
+  },
+  {
+    method: 'GET',
+    path: '/firebase_domain.js',
+    handler: handlers.getFirebaseDomain
   }
 ];
 

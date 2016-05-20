@@ -1,7 +1,9 @@
 var request = require('request');
 var Firebase = require('firebase');
 var FirebaseTokenGenerator = require('firebase-token-generator');
-var tokenGenerator = new FirebaseTokenGenerator(process.env.FIREBASESECRET);
+var Settings = require('./settings');
+
+var tokenGenerator = new FirebaseTokenGenerator(Settings.FIREBASE_SECRET);
 
 var adminToken = tokenGenerator.createToken(
   { uid: "1"},
@@ -12,7 +14,7 @@ module.exports = {
 
   addStar : function(req, reply) {
     var starredUser = req.payload.useridToStar;
-    var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + req.payload.currentUser + '/contact_sent/' + starredUser);
+    var user = new Firebase(Settings.FIREBASE_DOMAIN + '/users/' + req.payload.currentUser + '/contact_sent/' + starredUser);
 
     var onComplete = function(error) {
       if (error) {
@@ -37,7 +39,7 @@ module.exports = {
 
   removeStar : function(req, reply) {
     var starredUser = req.payload.useridToStar;
-    var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + req.payload.currentUser + '/contact_sent/' + starredUser);
+    var user = new Firebase(Settings.FIREBASE_DOMAIN + '/users/' + req.payload.currentUser + '/contact_sent/' + starredUser);
 
     var onComplete = function(error) {
       if (error) {
@@ -96,7 +98,7 @@ module.exports = {
   saveProfile : function(req, reply){
     var profileObject = JSON.parse(req.payload).userProfile;
     var profileKey = profileObject['uid'];
-    var users = new Firebase('https://blazing-torch-7074.firebaseio.com/users/');
+    var users = new Firebase(Settings.FIREBASE_DOMAIN + '/users/');
     var userProfile = users.child(profileKey);
     var token = JSON.parse(req.payload).token;
 
@@ -132,7 +134,7 @@ module.exports = {
   login : function(req, reply) {
     var userDetails = JSON.parse(req.payload);
     var token = userDetails.token;
-    var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + userDetails.uid);
+    var user = new Firebase(Settings.FIREBASE_DOMAIN + '/users/' + userDetails.uid);
     user.authWithCustomToken(token, function(error, authData) {
       if (error) {
         console.log(error);
@@ -173,7 +175,7 @@ module.exports = {
 
   getProfileDetails: function(req, reply) {
     var id = req.payload.id;
-    var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + id);
+    var user = new Firebase(Settings.FIREBASE_DOMAIN + '/users/' + id);
     user.authWithCustomToken(adminToken, function(error) {
       if (error) {
         console.log(error);
@@ -197,11 +199,15 @@ module.exports = {
         });
       }
     });
+  },
+
+  getFirebaseDomain: function (req, reply) {
+    reply('var FIREBASE_DOMAIN = "' + Settings.FIREBASE_DOMAIN + '";').type('application/javascript');
   }
 };
 
 function createUser(user, callback) {
-  var users = new Firebase('https://blazing-torch-7074.firebaseio.com/users/');
+  var users = new Firebase(Settings.FIREBASE_DOMAIN + '/users/');
   var newUser = {};
   newUser[user.uid] = {first_name: user.facebook.cachedUserProfile.first_name, last_name: user.facebook.cachedUserProfile.last_name, display_name: user.facebook.displayName, star_count: 0};
   users.update(newUser);
@@ -210,7 +216,7 @@ function createUser(user, callback) {
 
 
 function searchFunction(searchObject, callback) {
-  var users = new Firebase('https://blazing-torch-7074.firebaseio.com/users/');
+  var users = new Firebase(Settings.FIREBASE_DOMAIN + '/users/');
   var searchTerms = searchObject;
 
   users.authWithCustomToken(adminToken, function(error) {
@@ -301,7 +307,7 @@ function extractCountry(data) {
 }
 
 function getMessageDetails(messageInfo, callback) {
-  var users = new Firebase('https://blazing-torch-7074.firebaseio.com/users/');
+  var users = new Firebase(Settings.FIREBASE_DOMAIN + '/users/');
   var messageDetails = {};
 
   users.authWithCustomToken(adminToken, function(error) {
@@ -384,7 +390,7 @@ function twilio(messageDetails, reply) {
 
 
 function checkContacts(sender, reciever, callback) {
-  var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + sender.uid + '/' + 'contact_sent');
+  var user = new Firebase(Settings.FIREBASE_DOMAIN + '/users/' + sender.uid + '/' + 'contact_sent');
 
   user.once("value", function(snapshot){
     var contacts = snapshot.val();
@@ -399,7 +405,7 @@ function checkContacts(sender, reciever, callback) {
 
 function checkTextCount(sender, callback) {
   var newObj = {};
-  var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + sender.uid + '/text_count');
+  var user = new Firebase(Settings.FIREBASE_DOMAIN + '/users/' + sender.uid + '/text_count');
 
   var dateString = getCurrentDate();
 
@@ -422,7 +428,7 @@ function checkTextCount(sender, callback) {
 }
 
 function incrementTextCount(sender) {
-  var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + sender.uid + '/text_count');
+  var user = new Firebase(Settings.FIREBASE_DOMAIN + '/users/' + sender.uid + '/text_count');
   var newObj = {};
   var dateString = getCurrentDate();
 
@@ -434,7 +440,7 @@ function incrementTextCount(sender) {
 }
 
 function addContact(contactKey, userid, contactObject) {
-  var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + userid + '/' + contactKey + '/' + contactObject.uid);
+  var user = new Firebase(Settings.FIREBASE_DOMAIN + '/users/' + userid + '/' + contactKey + '/' + contactObject.uid);
 
   user.authWithCustomToken(adminToken, function(error) {
     if (error) {
@@ -446,7 +452,7 @@ function addContact(contactKey, userid, contactObject) {
 }
 
 function incrementContactedCount(reciever) {
-  var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + reciever.uid);
+  var user = new Firebase(Settings.FIREBASE_DOMAIN + '/users/' + reciever.uid);
 
   user.once("value", function(snapshot){
     if (snapshot.val()['contacted_count']) {
@@ -476,7 +482,7 @@ function getCurrentDate(){
 }
 
 function incrementStar(userid, increment) {
-  var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + userid);
+  var user = new Firebase(Settings.FIREBASE_DOMAIN + '/users/' + userid);
 
   user.authWithCustomToken(adminToken, function(error) {
     if (error) {

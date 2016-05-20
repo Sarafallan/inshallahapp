@@ -31,7 +31,7 @@ $("#get-started").on('click', function(){
 
 $(document).ready(function(){
   state = JSON.parse(localStorage.getItem('state')) || state;
-  if (!localStorage.getItem('firebase:session::blazing-torch-7074') && !state.authData){
+  if (!localStorage.getItem('firebase:session::inshallahapp') && !state.authData){
     window.location.href = '/';
   }
   state.userProfile.hasSkills = state.userProfile.hasSkills || [];
@@ -43,7 +43,7 @@ $(document).ready(function(){
 });
 
 function renderProfile(){
-  var profile = JSON.parse(localStorage.getItem('firebase:session::blazing-torch-7074'));
+  var profile = JSON.parse(localStorage.getItem('firebase:session::inshallahapp'));
 
   $('.first-name').html(profile.facebook.cachedUserProfile.first_name);
 
@@ -78,7 +78,7 @@ $('#save-button').on('click', function(){
 });
 
 function saveProfile() {
-  var authData = JSON.parse(localStorage.getItem('firebase:session::blazing-torch-7074'));
+  var authData = JSON.parse(localStorage.getItem('firebase:session::inshallahapp'));
   var currentUid = authData.uid;
 
   state.userProfile.locationCity = sanitise($('#locationCity').val()) || '';
@@ -308,7 +308,7 @@ function renderActivity() {
 //Star function - not displayed for now.
 
 // $('.activity').on('click', '.star', function(e){
-//     var currentUser = JSON.parse(localStorage.getItem('firebase:session::blazing-torch-7074'));
+//     var currentUser = JSON.parse(localStorage.getItem('firebase:session::inshallahapp'));
 //     var currentid = currentUser.uid;
 //     var userStarred;
 //

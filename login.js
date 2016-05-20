@@ -1,4 +1,5 @@
-var ref = new Firebase('https://blazing-torch-7074.firebaseio.com');
+var ref = new Firebase(FIREBASE_DOMAIN);
+console.log(FIREBASE_DOMAIN);
 
 if (document.getElementById('login-button')){
   document.getElementById("login-button").addEventListener('click', function(){
@@ -8,7 +9,6 @@ if (document.getElementById('login-button')){
     callAuth();
   });
 }
-
 
 ref.onAuth(function(authData){
   if(authData) {
@@ -26,7 +26,7 @@ ref.onAuth(function(authData){
           if (response.userSetupComplete){
             if(window.location.pathname === '/'){
               window.location.href = '/main#search';
-            };
+            }
           } else {
             window.location.href = '/about';
           }

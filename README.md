@@ -31,6 +31,12 @@ node server.js
 
 With that the app should be running on `localhost:8000`.
 
+You can also check the linting on the serverside javscript with
+
+```shell
+npm run-script lint
+```
+
 ## Notes on firebase and facebook
 
 Currently inshallahapp only works with legacy firebase accounts. To aquire such an account:
@@ -41,3 +47,5 @@ Currently inshallahapp only works with legacy firebase accounts. To aquire such 
 For authentication the app requires you to have an active facebook app connected to the firebase account.
 
 To setup a facebook app follow [these](https://www.firebase.com/docs/web/guide/login/facebook.html) instructions.
+The instructions are slightly out of date, to set the "Valid OAuth redirect URI" go "Add Product" > "Facebook Login"
+and set the redirect URI there.

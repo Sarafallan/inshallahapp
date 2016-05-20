@@ -97,7 +97,7 @@ module.exports = {
 
   saveProfile : function(req, reply){
     var profileObject = JSON.parse(req.payload).userProfile;
-    var profileKey = profileObject['uid'];
+    var profileKey = profileObject.uid;
     var users = new Firebase(Settings.FIREBASE_DOMAIN + '/users/');
     var userProfile = users.child(profileKey);
     var token = JSON.parse(req.payload).token;
@@ -428,7 +428,7 @@ function checkTextCount(sender, callback) {
     } else if (!textCount){
       newObj[dateString] = 0;
       user.set(newObj);
-      callback(true)
+      callback(true);
     }
   });
 }
@@ -461,8 +461,9 @@ function incrementContactedCount(reciever) {
   var user = new Firebase(Settings.FIREBASE_DOMAIN + '/users/' + reciever.uid);
 
   user.once("value", function(snapshot){
-    if (snapshot.val()['contacted_count']) {
-      contactedCount = snapshot.val()['contacted_count'] + 1;
+    var contacted_count = snapshot.val().contacted_count;
+    if (contacted_count) {
+      contactedCount = contacted_count + 1;
       user.update({
         "contacted_count": contactedCount
       });

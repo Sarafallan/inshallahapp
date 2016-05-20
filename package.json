@@ -1,22 +1,26 @@
 {
-  "name": "Inshallahapp",
+  "name": "inshallahapp",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "start": "node server.js",
+    "lint": "jshint app/"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/katpas/Inshallahapp.git"
+    "url": "git+https://github.com/Sarafallan/inshallahapp.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/katpas/Inshallahapp/issues"
+    "url": "https://github.com/Sarafallan/inshallahapp/issues"
   },
-  "homepage": "https://github.com/katpas/Inshallahapp#readme",
+  "homepage": "https://github.com/Sarafallan/inshallahapp",
+  "devDependencies": {
+    "jshint": "latest"
+  },
   "dependencies": {
     "firebase": "^2.4.2",
     "firebase-token-generator": "^2.0.0",

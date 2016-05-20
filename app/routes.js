@@ -8,14 +8,14 @@ var routes = [
     path: '/',
     handler: function(req, reply){
       reply.file(public_dir + '/login.html');
-    },
+    }
   },
   {
     method: 'GET',
     path: '/{path*}',
     handler: function(req, reply){
       reply.file(public_dir + '/' + req.params.path);
-    },
+    }
   },
   {
     method: 'POST',

@@ -36,3 +36,6 @@ exampleAuth.json
 
 # jetbrains
 .idea
+
+# environment variables
+.env

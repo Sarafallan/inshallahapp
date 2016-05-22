@@ -1,7 +1,9 @@
 var request = require('request');
 var Firebase = require('firebase');
 var FirebaseTokenGenerator = require('firebase-token-generator');
-var tokenGenerator = new FirebaseTokenGenerator(process.env.FIREBASESECRET);
+var Settings = require('./settings');
+
+var tokenGenerator = new FirebaseTokenGenerator(Settings.FIREBASE_SECRET);
 
 var adminToken = tokenGenerator.createToken(
   { uid: "1"},
@@ -12,11 +14,11 @@ module.exports = {
 
   addStar : function(req, reply) {
     var starredUser = req.payload.useridToStar;
-    var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + req.payload.currentUser + '/contact_sent/' + starredUser);
+    var user = new Firebase(Settings.FIREBASE_DOMAIN + '/users/' + req.payload.currentUser + '/contact_sent/' + starredUser);
 
     var onComplete = function(error) {
       if (error) {
-        console.log('Synchronization failed');
+        console.warn('Synchronization failed');
         reply(error);
       } else {
         incrementStar(starredUser, "increase");
@@ -26,7 +28,7 @@ module.exports = {
 
     user.authWithCustomToken(adminToken, function(error, authData) {
       if (error) {
-        console.log(error);
+        console.error(error);
       } else {
         user.update ({
           'star_status': 'starred'
@@ -37,11 +39,11 @@ module.exports = {
 
   removeStar : function(req, reply) {
     var starredUser = req.payload.useridToStar;
-    var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + req.payload.currentUser + '/contact_sent/' + starredUser);
+    var user = new Firebase(Settings.FIREBASE_DOMAIN + '/users/' + req.payload.currentUser + '/contact_sent/' + starredUser);
 
     var onComplete = function(error) {
       if (error) {
-        console.log('Synchronization failed');
+        console.warn('Synchronization failed');
         reply(error);
       } else {
         incrementStar(starredUser, "decrease");
@@ -51,7 +53,7 @@ module.exports = {
 
     user.authWithCustomToken(adminToken, function(error, authData) {
       if (error) {
-        console.log(error);
+        console.error(error);
       } else {
         user.update ({
           'star_status': 'unstarred'
@@ -78,7 +80,7 @@ module.exports = {
 
           console.log("message will be sent");
         } else {
-          console.log('too many texts');
+          console.error('too many texts');
           reply({success: false, message: 'You have sent more than five texts today. Please wait until tomorrow to send any more', arabicMessage: 'لقد أرسلت أكثر من خمسة نصوص اليوم. يرجى الانتظار حتى الغد لإرسال المزيد'});
         }
       });
@@ -95,14 +97,14 @@ module.exports = {
 
   saveProfile : function(req, reply){
     var profileObject = JSON.parse(req.payload).userProfile;
-    var profileKey = profileObject['uid'];
-    var users = new Firebase('https://blazing-torch-7074.firebaseio.com/users/');
+    var profileKey = profileObject.uid;
+    var users = new Firebase(Settings.FIREBASE_DOMAIN + '/users/');
     var userProfile = users.child(profileKey);
     var token = JSON.parse(req.payload).token;
 
     var onComplete = function(error) {
       if (error) {
-        console.log('Synchronization failed');
+        console.warn('Synchronization failed');
         reply(error);
       } else {
         console.log('Synchronization succeeded');
@@ -112,7 +114,7 @@ module.exports = {
 
     userProfile.authWithCustomToken(token, function(error, authData) {
       if (error) {
-        console.log(error);
+        console.error(error);
       } else {
         userProfile.update({
          'phoneNumber' : profileObject.phoneNumber,
@@ -132,12 +134,10 @@ module.exports = {
   login : function(req, reply) {
     var userDetails = JSON.parse(req.payload);
     var token = userDetails.token;
-    var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + userDetails.uid);
-    user.authWithCustomToken(token, function(error, authData) {
+    var user = new Firebase(Settings.FIREBASE_DOMAIN + '/users/' + userDetails.uid);
+    user.authWithCustomToken(token, function(error) {
       if (error) {
-        console.log(error);
-      } else {
-        console.log('authData');
+        console.error(error);
       }
     });
 
@@ -159,7 +159,9 @@ module.exports = {
 
   getLocation: function(req, reply) {
     var coords = req.payload;
-    request( "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + coords.latitude + "," + coords.longitude + "&result_type=country|locality&key=" + process.env.GOOGLEMAPSAPI, function(error, response, body) {
+    var google_maps_url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' +
+        coords.latitude + ',' + coords.longitude + '&result_type=country|locality&key=' + Settings.GOOGLE_MAPS_API_KEY;
+    request(google_maps_url, function(error, response, body) {
       var data = JSON.parse(body);
       if (data.status === 'OK') {
         var city = extractCity(data.results);
@@ -173,10 +175,10 @@ module.exports = {
 
   getProfileDetails: function(req, reply) {
     var id = req.payload.id;
-    var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + id);
+    var user = new Firebase(Settings.FIREBASE_DOMAIN + '/users/' + id);
     user.authWithCustomToken(adminToken, function(error) {
       if (error) {
-        console.log(error);
+        console.error(error);
       } else {
         user.once('value', function(snapshot){
           var profile = snapshot.val();
@@ -197,11 +199,20 @@ module.exports = {
         });
       }
     });
+  },
+
+  getSettings: function (req, reply) {
+    // we don't want to supply all settings as some are confidential
+    var s = {
+      FIREBASE_DOMAIN: Settings.FIREBASE_DOMAIN,
+      FIREBASE_STORAGE_KEY: Settings.FIREBASE_STORAGE_KEY
+    };
+    reply('var Settings = ' + JSON.stringify(s) + ';').type('application/javascript');
   }
 };
 
 function createUser(user, callback) {
-  var users = new Firebase('https://blazing-torch-7074.firebaseio.com/users/');
+  var users = new Firebase(Settings.FIREBASE_DOMAIN + '/users/');
   var newUser = {};
   newUser[user.uid] = {first_name: user.facebook.cachedUserProfile.first_name, last_name: user.facebook.cachedUserProfile.last_name, display_name: user.facebook.displayName, star_count: 0};
   users.update(newUser);
@@ -210,7 +221,7 @@ function createUser(user, callback) {
 
 
 function searchFunction(searchObject, callback) {
-  var users = new Firebase('https://blazing-torch-7074.firebaseio.com/users/');
+  var users = new Firebase(Settings.FIREBASE_DOMAIN + '/users/');
   var searchTerms = searchObject;
 
   users.authWithCustomToken(adminToken, function(error) {
@@ -301,7 +312,7 @@ function extractCountry(data) {
 }
 
 function getMessageDetails(messageInfo, callback) {
-  var users = new Firebase('https://blazing-torch-7074.firebaseio.com/users/');
+  var users = new Firebase(Settings.FIREBASE_DOMAIN + '/users/');
   var messageDetails = {};
 
   users.authWithCustomToken(adminToken, function(error) {
@@ -326,7 +337,7 @@ function getMessageDetails(messageInfo, callback) {
 
         callback(messageDetails);
       }, function (errorObject) {
-        console.log("The read failed: " + errorObject.code);
+        console.error("The read failed: " + errorObject.code);
       });
     }
   });
@@ -350,14 +361,14 @@ function twilio(messageDetails, reply) {
   //   messageBody = "Hello " + messageDetails.reciever.first_name + ", " + messageDetails.sender.first_name + " can help you with " + messageDetails.searchTopic + ". Get in touch with them at the number below or see their Inshallah page at the link below. "
   //   messageBody += "مرحبا " + messageDetails.reciever.first_name + "،" + messageDetails.sender.first_name + " يستطيع مساعدتك ب " + messageDetails.searchTopic + "يمكنك الاتصال على " + messageDetails.sender.phoneCC + messageDetails.sender.phoneNumber + " أو راجع الصفحة   من هنا : Inshallah.herokuapp.com/main#profile?id=" + messageDetails.sender.uid;
   // } else {
-  //   console.log('error');
+  //   console.error('error');
   // }
 
 
-  var accountSid = process.env.TWILIO_ACCOUNT_SID;
-  var authToken = process.env.TWILIO_AUTH_TOKEN;
-  var twilioPhoneNumber = process.env.TWILIO_PHONE_NUMBER;
-  var inshallahPhoneNumber = process.env.INSHALLAH_PHONE_NUMBER;
+  var accountSid = Settings.TWILIO_ACCOUNT_SID;
+  var authToken = Settings.TWILIO_AUTH_TOKEN;
+  var twilioPhoneNumber = Settings.TWILIO_PHONE_NUMBER;
+  var inshallahPhoneNumber = Settings.INSHALLAH_PHONE_NUMBER;
 
   var client = require('twilio')(accountSid, authToken);
 
@@ -367,7 +378,7 @@ function twilio(messageDetails, reply) {
       body: messageBody,
   }, function(err, message) {
     if (err) {
-      console.log(err);
+      console.error(err);
       reply({success: false, message: 'Something went wrong, please try again later', arabicMessage: ''});
     } else {
       //addContact('contact_sent', messageDetails.sender.uid, {uid: messageDetails.reciever.uid, name: messageDetails.reciever.display_name, star_status: 'unstarred'});
@@ -384,7 +395,7 @@ function twilio(messageDetails, reply) {
 
 
 function checkContacts(sender, reciever, callback) {
-  var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + sender.uid + '/' + 'contact_sent');
+  var user = new Firebase(Settings.FIREBASE_DOMAIN + '/users/' + sender.uid + '/' + 'contact_sent');
 
   user.once("value", function(snapshot){
     var contacts = snapshot.val();
@@ -399,7 +410,7 @@ function checkContacts(sender, reciever, callback) {
 
 function checkTextCount(sender, callback) {
   var newObj = {};
-  var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + sender.uid + '/text_count');
+  var user = new Firebase(Settings.FIREBASE_DOMAIN + '/users/' + sender.uid + '/text_count');
 
   var dateString = getCurrentDate();
 
@@ -416,13 +427,13 @@ function checkTextCount(sender, callback) {
     } else if (!textCount){
       newObj[dateString] = 0;
       user.set(newObj);
-      callback(true)
+      callback(true);
     }
   });
 }
 
 function incrementTextCount(sender) {
-  var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + sender.uid + '/text_count');
+  var user = new Firebase(Settings.FIREBASE_DOMAIN + '/users/' + sender.uid + '/text_count');
   var newObj = {};
   var dateString = getCurrentDate();
 
@@ -434,11 +445,11 @@ function incrementTextCount(sender) {
 }
 
 function addContact(contactKey, userid, contactObject) {
-  var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + userid + '/' + contactKey + '/' + contactObject.uid);
+  var user = new Firebase(Settings.FIREBASE_DOMAIN + '/users/' + userid + '/' + contactKey + '/' + contactObject.uid);
 
   user.authWithCustomToken(adminToken, function(error) {
     if (error) {
-      console.log(error);
+      console.error(error);
     } else {
       user.set(contactObject);
     }
@@ -446,11 +457,12 @@ function addContact(contactKey, userid, contactObject) {
 }
 
 function incrementContactedCount(reciever) {
-  var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + reciever.uid);
+  var user = new Firebase(Settings.FIREBASE_DOMAIN + '/users/' + reciever.uid);
 
   user.once("value", function(snapshot){
-    if (snapshot.val()['contacted_count']) {
-      contactedCount = snapshot.val()['contacted_count'] + 1;
+    var contacted_count = snapshot.val().contacted_count;
+    if (contacted_count) {
+      var contactedCount = contacted_count + 1;
       user.update({
         "contacted_count": contactedCount
       });
@@ -476,11 +488,11 @@ function getCurrentDate(){
 }
 
 function incrementStar(userid, increment) {
-  var user = new Firebase('https://blazing-torch-7074.firebaseio.com/users/' + userid);
+  var user = new Firebase(Settings.FIREBASE_DOMAIN + '/users/' + userid);
 
   user.authWithCustomToken(adminToken, function(error) {
     if (error) {
-      console.log(error);
+      console.error(error);
     } else {
       user.once("value", function(snapshot){
         var currentCount = snapshot.val().star_count;

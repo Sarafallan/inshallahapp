@@ -1,17 +1,25 @@
-var Hapi = require('hapi');
+const Hapi = require('hapi');
+const Inert = require('inert');
 
-var server = new Hapi.Server();
 
-server.connection({
-  port: process.env.PORT || "8000",
+var server = new Hapi.Server({
+  connections: {
+    routes: {
+      files: {relativeTo: __dirname + '/public'}
+    }
+  }
 });
 
-server.route(require('./routes.js'));
+server.connection({
+  port: process.env.PORT || '8000'
+});
 
-server.register(require('inert'), function(err){
-    if (err) {
-        console.error('Failed to load plugin:', err);
-    }
+server.route(require('./app/routes.js'));
+
+server.register(Inert, function(err){
+  if (err) {
+    console.error('Failed to load plugin:', err);
+  }
 });
 
 server.start(function(err){

@@ -4,6 +4,7 @@ var arabicSkills = {
   "Asylum System" : 'نظام اللجوء',
   "Border Updates" : 'آخر تطورات الحدود',
   "Child Support" : 'دعم الطفل',
+  "Cooking" : 'طهي',
   "Counselling" : 'استشارات',
   "Education" : 'التعليم',
   "English Lessons" : 'دروس انجليزي',

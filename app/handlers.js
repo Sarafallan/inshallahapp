@@ -95,15 +95,14 @@ module.exports = {
     });
   },
 
-  saveProfile : function(req, reply){
+  saveProfile: function(req, reply) {
     var profileObject = JSON.parse(req.payload).userProfile;
     var profileKey = profileObject.uid;
     var users = new Firebase(Settings.FIREBASE_DOMAIN + "/users/");
     var userProfile = users.child(profileKey);
-    var token = JSON.parse(req.payload).token;
-
+    let token = tokenGenerator.createToken({uid:profileKey});    
     var onComplete = function(error) {
-      if (error) {
+      if (error) {        
         console.warn("Synchronization failed");
         reply(error);
       } else {

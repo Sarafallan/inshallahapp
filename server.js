@@ -1,6 +1,6 @@
 const Hapi = require('hapi');
 const Inert = require('inert');
-
+require('env2')('.env')
 
 var server = new Hapi.Server({
   connections: {

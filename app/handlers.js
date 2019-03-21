@@ -95,15 +95,14 @@ module.exports = {
     });
   },
 
-  saveProfile : function(req, reply){
+  saveProfile: function(req, reply) {
     var profileObject = JSON.parse(req.payload).userProfile;
     var profileKey = profileObject.uid;
     var users = new Firebase(Settings.FIREBASE_DOMAIN + "/users/");
     var userProfile = users.child(profileKey);
-    var token = JSON.parse(req.payload).token;
-
+    let token = tokenGenerator.createToken({uid:profileKey});    
     var onComplete = function(error) {
-      if (error) {
+      if (error) {        
         console.warn("Synchronization failed");
         reply(error);
       } else {
@@ -131,27 +130,31 @@ module.exports = {
     });
   },
 
-  login : function(req, reply) {
-    var userDetails = JSON.parse(req.payload);
-    var token = userDetails.token;
-    var user = new Firebase(Settings.FIREBASE_DOMAIN + "/users/" + userDetails.uid);
-    user.authWithCustomToken(token, function(error) {
-      if (error) {
+  login: function(req, reply) {
+    var userDetails = JSON.parse(req.payload);    
+    var user = new Firebase(
+      Settings.FIREBASE_DOMAIN + "/users/" + userDetails.user.uid
+    );    
+    let token = tokenGenerator.createToken({uid: userDetails.user.uid});    
+    user.authWithCustomToken(token, function(error) {      
+      if (error) {        
         console.error(error);
       }
     });
-
     user.once("value", function(snapshot) {
-      if (snapshot.exists() && snapshot.val().phoneNumber && snapshot.val().phoneCC) {
-        reply({userProfile: snapshot.val(), userSetupComplete: true});
+      if (
+        snapshot.exists() &&
+        snapshot.val().phoneNumber &&
+        snapshot.val().phoneCC
+      ) {
+        reply({ userProfile: snapshot.val(), userSetupComplete: true });
       } else {
         if (!snapshot.exists()) {
-          createUser(userDetails, function(profile){
-            reply({userProfile: profile, userSetupComplete: false});
+          createUser(userDetails, function(profile) {
+            reply({ userProfile: profile, userSetupComplete: false });
           });
-
         } else {
-          reply({userProfile: snapshot.val(), userSetupComplete: false});
+          reply({ userProfile: snapshot.val(), userSetupComplete: false });
         }
       }
     });
@@ -205,7 +208,9 @@ module.exports = {
     // we don't want to supply all settings as some are confidential
     var s = {
       FIREBASE_DOMAIN: Settings.FIREBASE_DOMAIN,
-      FIREBASE_STORAGE_KEY: Settings.FIREBASE_STORAGE_KEY
+      FIREBASE_STORAGE_KEY: Settings.FIREBASE_STORAGE_KEY,
+      API_KEY: Settings.API_KEY,
+      AUTH_DOMAIN: Settings.AUTH_DOMAIN
     };
     reply("var Settings = " + JSON.stringify(s) + ";").type("application/javascript");
   }

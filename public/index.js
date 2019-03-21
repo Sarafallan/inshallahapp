@@ -32,7 +32,7 @@ $("#get-started").on('click', function(){
 
 $(document).ready(function(){
   state = JSON.parse(localStorage.getItem('state')) || state;
-  if (!localStorage.getItem(Settings.FIREBASE_STORAGE_KEY) && !state.authData){
+  if (!localStorage.getItem('result') && !state.authData){
     window.location.href = '/';
   }
   state.userProfile.hasSkills = state.userProfile.hasSkills || [];
@@ -44,9 +44,8 @@ $(document).ready(function(){
 });
 
 function renderProfile(){
-  var profile = JSON.parse(localStorage.getItem(Settings.FIREBASE_STORAGE_KEY));
-
-  $('.first-name').html(profile.facebook.cachedUserProfile.first_name);
+  var profile = JSON.parse(localStorage.getItem('result'));
+  $('.first-name').html(profile.additionalUserInfo.profile.first_name);
 
   state.userProfile.skillsNeeded.map(function(el){
     displaySkill('.need-skill-box', el, 'skillsNeeded');
@@ -79,9 +78,8 @@ $('#save-button').on('click', function(){
 });
 
 function saveProfile() {
-  var authData = JSON.parse(localStorage.getItem(Settings.FIREBASE_STORAGE_KEY));
-  var currentUid = authData.uid;
-
+  var authData = JSON.parse(localStorage.getItem('result'));
+  var currentUid = authData.user.uid;
   state.userProfile.locationCity = sanitise($('#locationCity').val()) || '';
   state.userProfile.locationCountry = sanitise($('#locationCountry').val()) || 'Anywhere';
 
@@ -90,7 +88,7 @@ function saveProfile() {
 
   state.userProfile.profileComplete = true;
 
-  var authToken = authData.token;
+  var authToken = authData.credential.accessToken;
 
   var updateUser = {
     'uid' : currentUid,

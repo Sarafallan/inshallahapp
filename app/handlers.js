@@ -205,7 +205,9 @@ module.exports = {
     // we don't want to supply all settings as some are confidential
     var s = {
       FIREBASE_DOMAIN: Settings.FIREBASE_DOMAIN,
-      FIREBASE_STORAGE_KEY: Settings.FIREBASE_STORAGE_KEY
+      FIREBASE_STORAGE_KEY: Settings.FIREBASE_STORAGE_KEY,
+      API_KEY: Settings.API_KEY,
+      AUTH_DOMAIN: Settings.AUTH_DOMAIN
     };
     reply("var Settings = " + JSON.stringify(s) + ";").type("application/javascript");
   }

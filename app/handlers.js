@@ -1,7 +1,7 @@
-var request = require('request');
-var Firebase = require('firebase');
-var FirebaseTokenGenerator = require('firebase-token-generator');
-var Settings = require('./settings');
+var request = require("request");
+var Firebase = require("firebase");
+var FirebaseTokenGenerator = require("firebase-token-generator");
+var Settings = require("./settings");
 
 var tokenGenerator = new FirebaseTokenGenerator(Settings.FIREBASE_SECRET);
 
@@ -14,15 +14,15 @@ module.exports = {
 
   addStar : function(req, reply) {
     var starredUser = req.payload.useridToStar;
-    var user = new Firebase(Settings.FIREBASE_DOMAIN + '/users/' + req.payload.currentUser + '/contact_sent/' + starredUser);
+    var user = new Firebase(Settings.FIREBASE_DOMAIN + "/users/" + req.payload.currentUser + "/contact_sent/" + starredUser);
 
     var onComplete = function(error) {
       if (error) {
-        console.warn('Synchronization failed');
+        console.warn("Synchronization failed");
         reply(error);
       } else {
         incrementStar(starredUser, "increase");
-        reply('starred');
+        reply("starred");
       }
     };
 
@@ -31,7 +31,7 @@ module.exports = {
         console.error(error);
       } else {
         user.update ({
-          'star_status': 'starred'
+          "star_status": "starred"
         }, onComplete);
       }
     });
@@ -39,15 +39,15 @@ module.exports = {
 
   removeStar : function(req, reply) {
     var starredUser = req.payload.useridToStar;
-    var user = new Firebase(Settings.FIREBASE_DOMAIN + '/users/' + req.payload.currentUser + '/contact_sent/' + starredUser);
+    var user = new Firebase(Settings.FIREBASE_DOMAIN + "/users/" + req.payload.currentUser + "/contact_sent/" + starredUser);
 
     var onComplete = function(error) {
       if (error) {
-        console.warn('Synchronization failed');
+        console.warn("Synchronization failed");
         reply(error);
       } else {
         incrementStar(starredUser, "decrease");
-        reply('unstarred');
+        reply("unstarred");
       }
     };
 
@@ -56,7 +56,7 @@ module.exports = {
         console.error(error);
       } else {
         user.update ({
-          'star_status': 'unstarred'
+          "star_status": "unstarred"
         }, onComplete);
       }
     });
@@ -80,8 +80,8 @@ module.exports = {
 
           console.log("message will be sent");
         } else {
-          console.error('too many texts');
-          reply({success: false, message: 'You have sent more than five texts today. Please wait until tomorrow to send any more', arabicMessage: 'لقد أرسلت أكثر من خمسة نصوص اليوم. يرجى الانتظار حتى الغد لإرسال المزيد'});
+          console.error("too many texts");
+          reply({success: false, message: "You have sent more than five texts today. Please wait until tomorrow to send any more", arabicMessage: "لقد أرسلت أكثر من خمسة نصوص اليوم. يرجى الانتظار حتى الغد لإرسال المزيد"});
         }
       });
     });
@@ -98,16 +98,16 @@ module.exports = {
   saveProfile : function(req, reply){
     var profileObject = JSON.parse(req.payload).userProfile;
     var profileKey = profileObject.uid;
-    var users = new Firebase(Settings.FIREBASE_DOMAIN + '/users/');
+    var users = new Firebase(Settings.FIREBASE_DOMAIN + "/users/");
     var userProfile = users.child(profileKey);
     var token = JSON.parse(req.payload).token;
 
     var onComplete = function(error) {
       if (error) {
-        console.warn('Synchronization failed');
+        console.warn("Synchronization failed");
         reply(error);
       } else {
-        console.log('Synchronization succeeded');
+        console.log("Synchronization succeeded");
         reply(200);
       }
     };
@@ -117,15 +117,15 @@ module.exports = {
         console.error(error);
       } else {
         userProfile.update({
-         'phoneNumber' : profileObject.phoneNumber,
-         'phoneCC': profileObject.phoneCC,
-         'anythingElse': profileObject.anythingElse,
-         'skillsNeeded': profileObject.skillsNeeded,
-         'hasSkills': profileObject.hasSkills,
-         'locationCity': profileObject.locationCity,
-         'locationCountry': profileObject.locationCountry,
-         'shareSkills': profileObject.shareSkills,
-         'profileComplete': profileObject.profileComplete
+         "phoneNumber" : profileObject.phoneNumber,
+         "phoneCC": profileObject.phoneCC,
+         "anythingElse": profileObject.anythingElse,
+         "skillsNeeded": profileObject.skillsNeeded,
+         "hasSkills": profileObject.hasSkills,
+         "locationCity": profileObject.locationCity,
+         "locationCountry": profileObject.locationCountry,
+         "shareSkills": profileObject.shareSkills,
+         "profileComplete": profileObject.profileComplete
        }, onComplete);
       }
     });
@@ -134,7 +134,7 @@ module.exports = {
   login : function(req, reply) {
     var userDetails = JSON.parse(req.payload);
     var token = userDetails.token;
-    var user = new Firebase(Settings.FIREBASE_DOMAIN + '/users/' + userDetails.uid);
+    var user = new Firebase(Settings.FIREBASE_DOMAIN + "/users/" + userDetails.uid);
     user.authWithCustomToken(token, function(error) {
       if (error) {
         console.error(error);
@@ -159,28 +159,28 @@ module.exports = {
 
   getLocation: function(req, reply) {
     var coords = req.payload;
-    var google_maps_url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' +
-        coords.latitude + ',' + coords.longitude + '&result_type=country|locality&key=' + Settings.GOOGLE_MAPS_API_KEY;
+    var google_maps_url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" +
+        coords.latitude + "," + coords.longitude + "&result_type=country|locality&key=" + Settings.GOOGLE_MAPS_API_KEY;
     request(google_maps_url, function(error, response, body) {
       var data = JSON.parse(body);
-      if (data.status === 'OK') {
+      if (data.status === "OK") {
         var city = extractCity(data.results);
         var country = extractCountry(data.results);
         reply({city: city, country: country});
       } else {
-        reply('error: ', data.status);
+        reply("error: ", data.status);
       }
     });
   },
 
   getProfileDetails: function(req, reply) {
     var id = req.payload.id;
-    var user = new Firebase(Settings.FIREBASE_DOMAIN + '/users/' + id);
+    var user = new Firebase(Settings.FIREBASE_DOMAIN + "/users/" + id);
     user.authWithCustomToken(adminToken, function(error) {
       if (error) {
         console.error(error);
       } else {
-        user.once('value', function(snapshot){
+        user.once("value", function(snapshot){
           var profile = snapshot.val();
           var responseObject = {
             first_name: profile.first_name,
@@ -207,12 +207,12 @@ module.exports = {
       FIREBASE_DOMAIN: Settings.FIREBASE_DOMAIN,
       FIREBASE_STORAGE_KEY: Settings.FIREBASE_STORAGE_KEY
     };
-    reply('var Settings = ' + JSON.stringify(s) + ';').type('application/javascript');
+    reply("var Settings = " + JSON.stringify(s) + ";").type("application/javascript");
   }
 };
 
 function createUser(user, callback) {
-  var users = new Firebase(Settings.FIREBASE_DOMAIN + '/users/');
+  var users = new Firebase(Settings.FIREBASE_DOMAIN + "/users/");
   var newUser = {};
   newUser[user.uid] = {first_name: user.facebook.cachedUserProfile.first_name, last_name: user.facebook.cachedUserProfile.last_name, display_name: user.facebook.displayName, star_count: 0};
   users.update(newUser);
@@ -221,7 +221,7 @@ function createUser(user, callback) {
 
 
 function searchFunction(searchObject, callback) {
-  var users = new Firebase(Settings.FIREBASE_DOMAIN + '/users/');
+  var users = new Firebase(Settings.FIREBASE_DOMAIN + "/users/");
   var searchTerms = searchObject;
 
   users.authWithCustomToken(adminToken, function(error) {
@@ -283,7 +283,7 @@ function searchUsers(data, terms) {
       }
     });
   } else {
-    console.log('error');
+    console.log("error");
   }
 
   var fullResults = searchLocationMatch.concat(searchResults);
@@ -312,7 +312,7 @@ function extractCountry(data) {
 }
 
 function getMessageDetails(messageInfo, callback) {
-  var users = new Firebase(Settings.FIREBASE_DOMAIN + '/users/');
+  var users = new Firebase(Settings.FIREBASE_DOMAIN + "/users/");
   var messageDetails = {};
 
   users.authWithCustomToken(adminToken, function(error) {
@@ -370,7 +370,7 @@ function twilio(messageDetails, reply) {
   var twilioPhoneNumber = Settings.TWILIO_PHONE_NUMBER;
   var inshallahPhoneNumber = Settings.INSHALLAH_PHONE_NUMBER;
 
-  var client = require('twilio')(accountSid, authToken);
+  var client = require("twilio")(accountSid, authToken);
 
   client.messages.create({
       to: inshallahPhoneNumber,
@@ -379,14 +379,14 @@ function twilio(messageDetails, reply) {
   }, function(err, message) {
     if (err) {
       console.error(err);
-      reply({success: false, message: 'Something went wrong, please try again later', arabicMessage: ''});
+      reply({success: false, message: "Something went wrong, please try again later", arabicMessage: ""});
     } else {
       //addContact('contact_sent', messageDetails.sender.uid, {uid: messageDetails.reciever.uid, name: messageDetails.reciever.display_name, star_status: 'unstarred'});
       //addContact('contact_recieved', messageDetails.reciever.uid, {uid: messageDetails.sender.uid, name: messageDetails.sender.display_name, tel: messageDetails.sender.phoneCC + messageDetails.sender.phoneNumber, star_status: 'unstarred'});
 
       incrementTextCount(messageDetails.sender);
       //incrementContactedCount(messageDetails.reciever);
-      reply({success: true, message: 'Message Sent!', arabicMessage: ''});
+      reply({success: true, message: "Message Sent!", arabicMessage: ""});
       console.log("message sent");
       //contact: {name: messageDetails.reciever.display_name, uid: messageDetails.reciever.uid};
     }
@@ -395,7 +395,7 @@ function twilio(messageDetails, reply) {
 
 
 function checkContacts(sender, reciever, callback) {
-  var user = new Firebase(Settings.FIREBASE_DOMAIN + '/users/' + sender.uid + '/' + 'contact_sent');
+  var user = new Firebase(Settings.FIREBASE_DOMAIN + "/users/" + sender.uid + "/" + "contact_sent");
 
   user.once("value", function(snapshot){
     var contacts = snapshot.val();
@@ -410,7 +410,7 @@ function checkContacts(sender, reciever, callback) {
 
 function checkTextCount(sender, callback) {
   var newObj = {};
-  var user = new Firebase(Settings.FIREBASE_DOMAIN + '/users/' + sender.uid + '/text_count');
+  var user = new Firebase(Settings.FIREBASE_DOMAIN + "/users/" + sender.uid + "/text_count");
 
   var dateString = getCurrentDate();
 
@@ -433,7 +433,7 @@ function checkTextCount(sender, callback) {
 }
 
 function incrementTextCount(sender) {
-  var user = new Firebase(Settings.FIREBASE_DOMAIN + '/users/' + sender.uid + '/text_count');
+  var user = new Firebase(Settings.FIREBASE_DOMAIN + "/users/" + sender.uid + "/text_count");
   var newObj = {};
   var dateString = getCurrentDate();
 
@@ -445,7 +445,7 @@ function incrementTextCount(sender) {
 }
 
 function addContact(contactKey, userid, contactObject) {
-  var user = new Firebase(Settings.FIREBASE_DOMAIN + '/users/' + userid + '/' + contactKey + '/' + contactObject.uid);
+  var user = new Firebase(Settings.FIREBASE_DOMAIN + "/users/" + userid + "/" + contactKey + "/" + contactObject.uid);
 
   user.authWithCustomToken(adminToken, function(error) {
     if (error) {
@@ -457,7 +457,7 @@ function addContact(contactKey, userid, contactObject) {
 }
 
 function incrementContactedCount(reciever) {
-  var user = new Firebase(Settings.FIREBASE_DOMAIN + '/users/' + reciever.uid);
+  var user = new Firebase(Settings.FIREBASE_DOMAIN + "/users/" + reciever.uid);
 
   user.once("value", function(snapshot){
     var contacted_count = snapshot.val().contacted_count;
@@ -482,13 +482,13 @@ function getCurrentDate(){
   var month = today.getMonth();
   var year = today.getFullYear();
 
-  var dateString = year + '-' + month + '-' + day;
+  var dateString = year + "-" + month + "-" + day;
 
   return dateString;
 }
 
 function incrementStar(userid, increment) {
-  var user = new Firebase(Settings.FIREBASE_DOMAIN + '/users/' + userid);
+  var user = new Firebase(Settings.FIREBASE_DOMAIN + "/users/" + userid);
 
   user.authWithCustomToken(adminToken, function(error) {
     if (error) {

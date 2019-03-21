@@ -1,86 +1,86 @@
-var handlers = require('./handlers.js');
+var handlers = require("./handlers.js");
 
-var public_dir = __dirname + '/../public';
+var public_dir = __dirname + "/../public";
 
 var routes = [
   {
-    method: 'GET',
-    path: '/',
+    method: "GET",
+    path: "/",
     handler: function(req, reply){
-      reply.file(public_dir + '/login.html');
+      reply.file(public_dir + "/login.html");
     }
   },
   {
-    method: 'GET',
-    path: '/{path*}',
+    method: "GET",
+    path: "/{path*}",
     handler: function(req, reply){
-      reply.file(public_dir + '/' + req.params.path);
+      reply.file(public_dir + "/" + req.params.path);
     }
   },
   {
-    method: 'POST',
-    path: '/login',
+    method: "POST",
+    path: "/login",
     handler: handlers.login
   },
   {
-    method: 'GET',
-    path: '/main',
+    method: "GET",
+    path: "/main",
     handler: function(req, reply){
-      reply.file(public_dir + '/index.html');
+      reply.file(public_dir + "/index.html");
     }
   },
   {
-    method: 'GET',
-    path: '/about',
+    method: "GET",
+    path: "/about",
     handler: function(req, reply){
-      reply.file(public_dir + '/about.html');
+      reply.file(public_dir + "/about.html");
     }
   },
   {
-    method: 'GET',
-    path: '/search',
+    method: "GET",
+    path: "/search",
     handler: function(req, reply){
-      reply.file(public_dir + '/index.html');
+      reply.file(public_dir + "/index.html");
     }
   },
   {
-    method: 'POST',
-    path: '/saveProfile',
+    method: "POST",
+    path: "/saveProfile",
     handler: handlers.saveProfile
   },
   {
-    method: 'POST',
-    path: '/returnSearch',
+    method: "POST",
+    path: "/returnSearch",
     handler: handlers.returnSearch
   },
   {
-    method: 'POST',
-    path: '/location',
+    method: "POST",
+    path: "/location",
     handler: handlers.getLocation
   },
   {
-    method: 'POST',
-    path: '/sendMessage',
+    method: "POST",
+    path: "/sendMessage",
     handler: handlers.sendMessage
   },
   {
-    method: 'POST',
-    path: '/getProfileDetails',
+    method: "POST",
+    path: "/getProfileDetails",
     handler: handlers.getProfileDetails
   },
   {
-    method: 'POST',
-    path: '/addStar',
+    method: "POST",
+    path: "/addStar",
     handler: handlers.addStar
   },
   {
-    method: 'POST',
-    path: '/removeStar',
+    method: "POST",
+    path: "/removeStar",
     handler: handlers.removeStar
   },
   {
-    method: 'GET',
-    path: '/settings.js',
+    method: "GET",
+    path: "/settings.js",
     handler: handlers.getSettings
   }
 ];

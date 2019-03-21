@@ -1,4 +1,10 @@
-var ref = new Firebase(Settings.FIREBASE_DOMAIN);
+let config = {
+  databaseURL: Settings.FIREBASE_DOMAIN,
+  apiKey: Settings.API_KEY,
+  authDomain: Settings.AUTH_DOMAIN
+};
+
+firebase.initializeApp(config)
 
 if (document.getElementById('login-button')){
   document.getElementById("login-button").addEventListener('click', function(){

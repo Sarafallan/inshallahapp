@@ -28,7 +28,6 @@ function callAuth() {
         request.onreadystatechange = function() {
           if (request.readyState === 4) {
             if (request.status === 200) {
-              console.log("object")
               var response = JSON.parse(request.responseText);
               state.userProfile = buildProfile(response.userProfile);
               localStorage.setItem("state", JSON.stringify(state));

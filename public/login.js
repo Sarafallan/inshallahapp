@@ -15,40 +15,41 @@ if (document.getElementById('login-button')){
   });
 }
 
-ref.onAuth(function(authData){
-  if(authData) {
-    var request = new XMLHttpRequest();
-    request.open('POST', '/login');
-    request.send(JSON.stringify(authData));
-
-    request.onreadystatechange = function(){
-      if (request.readyState === 4) {
-        if (request.status === 200) {
-          var response = JSON.parse(request.responseText);
-          state.userProfile = buildProfile(response.userProfile);
-          state.authData = authData;
-          localStorage.setItem('state', JSON.stringify(state));
-          if (response.userSetupComplete){
-            if(window.location.pathname === '/'){
-              window.location.href = '/main#search';
+function callAuth() {
+  var provider = new firebase.auth.FacebookAuthProvider();
+  firebase
+    .auth()
+    .signInWithPopup(provider)
+    .then((result) =>{
+      if (result.credential) {
+        var request = new XMLHttpRequest();
+        request.open("POST", "/login");
+        request.send(JSON.stringify(result));
+        request.onreadystatechange = function() {
+          if (request.readyState === 4) {
+            if (request.status === 200) {
+              console.log("object")
+              var response = JSON.parse(request.responseText);
+              state.userProfile = buildProfile(response.userProfile);
+              localStorage.setItem("state", JSON.stringify(state));
+              localStorage.setItem("result", JSON.stringify(result));
+              if (response.userSetupComplete) {
+                if (window.location.pathname === "/") {
+                  window.location.href = "/main#search";
+                }
+              } else {                                
+                window.location.href = "/about";
+              }
+            } else {
+              console.log(request.status);
             }
-          } else {
-            window.location.href = '/about';
           }
-        } else {
-          console.log(request.status);
-        }
+        };
       }
-    };
-  }
-});
-
-function callAuth(){
-  ref.authWithOAuthRedirect("facebook", function(error, authData) {
-    if (error) {
+    })
+    .catch((error) =>{
       console.log(error);
-    }
-  });
+    });
 }
 
 function buildProfile(databaseProfile) {

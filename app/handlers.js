@@ -131,27 +131,31 @@ module.exports = {
     });
   },
 
-  login : function(req, reply) {
-    var userDetails = JSON.parse(req.payload);
-    var token = userDetails.token;
-    var user = new Firebase(Settings.FIREBASE_DOMAIN + "/users/" + userDetails.uid);
-    user.authWithCustomToken(token, function(error) {
-      if (error) {
+  login: function(req, reply) {
+    var userDetails = JSON.parse(req.payload);    
+    var user = new Firebase(
+      Settings.FIREBASE_DOMAIN + "/users/" + userDetails.user.uid
+    );    
+    let token = tokenGenerator.createToken({uid: userDetails.user.uid});    
+    user.authWithCustomToken(token, function(error) {      
+      if (error) {        
         console.error(error);
       }
     });
-
     user.once("value", function(snapshot) {
-      if (snapshot.exists() && snapshot.val().phoneNumber && snapshot.val().phoneCC) {
-        reply({userProfile: snapshot.val(), userSetupComplete: true});
+      if (
+        snapshot.exists() &&
+        snapshot.val().phoneNumber &&
+        snapshot.val().phoneCC
+      ) {
+        reply({ userProfile: snapshot.val(), userSetupComplete: true });
       } else {
         if (!snapshot.exists()) {
-          createUser(userDetails, function(profile){
-            reply({userProfile: profile, userSetupComplete: false});
+          createUser(userDetails, function(profile) {
+            reply({ userProfile: profile, userSetupComplete: false });
           });
-
         } else {
-          reply({userProfile: snapshot.val(), userSetupComplete: false});
+          reply({ userProfile: snapshot.val(), userSetupComplete: false });
         }
       }
     });

@@ -5,10 +5,10 @@ $('#search-button').bind('click', function(e){
   var searchChoice = $('#search-choice').val();
   var searchTopic = $('#search-topic').val();
   var searchLocation = state.userProfile.locationCountry;
-  var profile = JSON.parse(localStorage.getItem(Settings.FIREBASE_STORAGE_KEY));
+  var profile = JSON.parse(localStorage.getItem('result'));
 
   searchQuery = {
-    'uid' : profile.uid,
+    'uid' : profile.user.uid,
     'searchLocation' : searchLocation,
     'searchChoice' : searchChoice,
     'searchTopic' : searchTopic
@@ -165,8 +165,8 @@ $('.profile').on('click', '.send-message', function(e){
 });
 
 function sendMessage(recieverVar) {
-  var authData = JSON.parse(localStorage.getItem(Settings.FIREBASE_STORAGE_KEY));
-  var currentUid = authData.uid;
+  var authData = JSON.parse(localStorage.getItem('result'));
+  var currentUid = authData.user.uid;
   var reciever = recieverVar;
 
   var sendObject = {

@@ -22,6 +22,7 @@
     "jshint": "latest"
   },
   "dependencies": {
+    "env2": "^2.2.2",
     "firebase": "^5.9.0",
     "firebase-token-generator": "^2.0.0",
     "hapi": "^13.3.0",

@@ -216,12 +216,17 @@ module.exports = {
   }
 };
 
-function createUser(user, callback) {
+function createUser(user, callback) {  
   var users = new Firebase(Settings.FIREBASE_DOMAIN + "/users/");
   var newUser = {};
-  newUser[user.uid] = {first_name: user.facebook.cachedUserProfile.first_name, last_name: user.facebook.cachedUserProfile.last_name, display_name: user.facebook.displayName, star_count: 0};
+  newUser[user.user.uid] = {
+    first_name: user.additionalUserInfo.profile.first_name,
+    last_name: user.additionalUserInfo.profile.last_name,
+    display_name: user.user.displayName,
+    star_count: 0
+  };
   users.update(newUser);
-  callback(newUser[user.uid]);
+  callback(newUser[user.user.uid]);
 }
 
 

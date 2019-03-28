@@ -64,7 +64,6 @@ module.exports = {
 
   sendMessage : function(req, reply) {
     var messageInfo = req.payload;
-    console.log(req.payload);
 
     var details = getMessageDetails(messageInfo, function(data){
       checkTextCount(data.sender, function(boolean){
@@ -133,7 +132,6 @@ module.exports = {
   login: function(req, reply) {
    
     var userDetails = JSON.parse(req.payload);    
-    console.log(userDetails);
     var user = new Firebase(
       Settings.FIREBASE_DOMAIN + "/users/" + userDetails.user.uid
     );    
@@ -164,14 +162,11 @@ module.exports = {
 
   getLocation: function(req, reply) {
     var coords = req.payload;
-    console.log(coords);
 
     const api =`https://api.opencagedata.com/geocode/v1/json?q=${coords.latitude},${coords.longitude}&key=${ Settings.API}`
     
     request(api, function(error, response, body) {
       var data = JSON.parse(body);
-      console.log(data.results[0].components.country);
-      console.log(data.results[0].components.region);
 
       if (data.status.message === "OK") {
         var city = data.results[0].components.region;

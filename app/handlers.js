@@ -131,7 +131,9 @@ module.exports = {
   },
 
   login: function(req, reply) {
+   
     var userDetails = JSON.parse(req.payload);    
+    console.log(userDetails);
     var user = new Firebase(
       Settings.FIREBASE_DOMAIN + "/users/" + userDetails.user.uid
     );    
@@ -162,15 +164,20 @@ module.exports = {
 
   getLocation: function(req, reply) {
     var coords = req.payload;
-    var google_maps_url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" +
-        coords.latitude + "," + coords.longitude + "&result_type=country|locality&key=" + Settings.GOOGLE_MAPS_API_KEY;
-    request(google_maps_url, function(error, response, body) {
+    console.log(coords);
+
+    const api =`https://api.opencagedata.com/geocode/v1/json?q=${coords.latitude},${coords.longitude}&key=${ Settings.API}`
+    
+    request(api, function(error, response, body) {
       var data = JSON.parse(body);
-      if (data.status === "OK") {
-        var city = extractCity(data.results);
-        var country = extractCountry(data.results);
+      console.log(data.results[0].components.country);
+      console.log(data.results[0].components.region);
+
+      if (data.status.message === "OK") {
+        var city = data.results[0].components.region;
+        var country = data.results[0].components.country;
         reply({city: city, country: country});
-      } else {
+      } else {        
         reply("error: ", data.status);
       }
     });

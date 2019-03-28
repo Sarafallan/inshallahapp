@@ -18,9 +18,9 @@ if (document.getElementById('login-button')){
 function callAuth() {
   var provider = new firebase.auth.FacebookAuthProvider();
   firebase
-    .auth()
-    .signInWithPopup(provider)
-    .then((result) =>{
+  .auth()
+  .signInWithPopup(provider)
+  .then((result) =>{
       if (result.credential) {
         var request = new XMLHttpRequest();
         request.open("POST", "/login");
